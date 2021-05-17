@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.workerholic.mapper.LiveBoardMapper">
+
+	<resultMap type="com.workerholic.vo.LiveBoardVO" id="liveMap">
+		<id property="live_bno" column="live_bno"></id>
+		<result property="live_type" column="live_type"/>
+		<result property="live_title" column="live_title"/>
+		<result property="live_content" column="live_content"/>
+		<result property="live_cnt" column="live_cnt"/>
+		<result property="live_user" column="live_user"/>
+		<result property="live_regdate" column="live_regdate"/>
+	</resultMap>
+	
+	<select id="getList" resultMap="liveMap">
+		SELECT * FROM LIVE_BOARD
+	</select>
+	
+	<!-- <insert id="insert">
+		INSERT INTO LIVE_BOARD
+			(LIVE_TYPE, LIVE_TITLE, LIVE_CONTENT, LIVE_CNT, LIVE_USER)
+			VALUES (#{live_type}, #{live_title}, #{live_content}, #{live_cnt}, #{live_user})
+	</insert>
+	
+	<update id="update">
+		UPDATE LIVE_BOARD SET
+			LIVE_TYPE = #{live_type},
+			LIVE_TITLE = #{live_title},
+			LIVE_CONTENT = #{live_content},
+			LIVE_CNT = #{live_cnt},
+			LIVE_USER =  #{live_user}
+		WHERE LIVE_BNO = #{live_bno}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM LIVE_BOARD WHERE LIVE_BNO = #{live_bno}
+	</delete> -->
+
+</mapper>

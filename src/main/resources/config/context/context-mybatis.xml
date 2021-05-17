@@ -7,10 +7,10 @@
 		
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:config/spring/context/mybatis-config-base.xml" />
+		<property name="configLocation" value="classpath:config/context/mybatis-config-base.xml" />
  		<property name="mapperLocations">
  			<list>
- 				<value>classpath*:com/workerholic/**/dao/*Mapper.xml</value>
+ 				<value>classpath*:com/workerholic/**/mapper/*Mapper.xml</value>
  			</list>
  		</property>
 	</bean>
