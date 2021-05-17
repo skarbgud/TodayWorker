@@ -23,7 +23,7 @@ public class LiveBoardService {
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			LiveBoardMapper mapper = session.getMapper(LiveBoardMapper.class);
 
-			liveBoardList = mapper.getList();
+			liveBoardList = mapper.getLiveBoardList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

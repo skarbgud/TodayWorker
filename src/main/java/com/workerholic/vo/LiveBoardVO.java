@@ -13,11 +13,11 @@ public class LiveBoardVO {
 //    LIVE_CNT            INT DEFAULT 0,
 //    LIVE_USER            VARCHAR(20) NOT NULL,
 //    LIVE_REGDATE             TIMESTAMP DEFAULT NOW(),
-	int bno;
-	String type;
-	String title;
-	String content;
-	String cnt;
-	String user;
-	Date regdate;
+	int live_bno;
+	String live_type;
+	String live_title;
+	String live_content;
+	String live_cnt;
+	String live_user;
+	Date live_regdate;
 }

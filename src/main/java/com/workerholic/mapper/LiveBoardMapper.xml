@@ -12,7 +12,7 @@
 		<result property="live_regdate" column="live_regdate"/>
 	</resultMap>
 	
-	<select id="getList" resultMap="liveMap">
+	<select id="getLiveBoardList" resultMap="liveMap">
 		SELECT * FROM LIVE_BOARD
 	</select>
 	

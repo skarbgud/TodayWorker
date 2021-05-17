@@ -21,16 +21,16 @@ public class LiveBoardController {
 
 	@RequestMapping(value="/get-live-board-list.do",method=RequestMethod.GET)
 	@ResponseBody
-	public ResultVO getBoardList()
+	public ResultVO getLiveBoardList()
 	{
-		logger.info("Get Live Board");
+		logger.info("GetLiveBoardList");
 		ResultVO vo = new ResultVO();
 		
 		try {
 			vo.setResult(service.getLiveBoardList());
-			vo.setResult(true);
+			vo.setSuccess(true);
 		} catch (Exception e) {
-			vo.setSuccess(false);
+			e.printStackTrace();
 		}
 		
 		return vo; 

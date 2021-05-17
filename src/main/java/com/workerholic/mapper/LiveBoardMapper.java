@@ -9,7 +9,7 @@ import com.workerholic.vo.LiveBoardVO;
 @Mapper
 public interface LiveBoardMapper {
 	
-	public List<LiveBoardVO> getList();
+	public List<LiveBoardVO> getLiveBoardList();
 	public void insert(LiveBoardVO vo);
 	public void update(LiveBoardVO vo);
 	public void delete(int bno);
