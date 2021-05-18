@@ -1,0 +1,135 @@
+nav {
+  position: fixed;
+  float: left;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  width: 50px;
+  transition: all 0.15s ease-in-out;
+  font-weight: lighter;
+  background: #343f52;
+  color: #8c8c8c;
+  // border-right: 1px solid #e2e2e2;
+  $active-color: #C62917;
+  $normal-color: #8d9aa8;
+
+  &:hover {
+    width: 250px;
+    ul {
+      width: 100%;
+    }
+    ul li div span {
+      opacity: 1;
+      transition: opacity 0.25s ease-in-out;
+      position: absolute;
+    }
+  }
+
+  ul {
+    overflow: hidden;
+    display: block;
+    width: 50px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      border-bottom: 1px solid #424d60;
+      position: relative;
+      cursor: pointer;
+      height: 50px;
+
+      div {
+        position: relative;
+        display: block;
+        white-space: nowrap;
+        text-decoration: none;
+        color: $normal-color;
+        height: 50px;
+        width: 100%;
+        font-weight: 400;
+        transition: all 0.15s ease-in-out;
+        text-align: left;
+
+        * {
+          height: 100%;
+          display: inline-block;
+        }
+
+        span {
+          padding-left: 10px;
+          opacity: 0;
+          line-height: 50px;
+          transition: opacity 0.1s ease-in-out;
+          font-weight: 500;
+          font-size: 14px;
+        }
+
+        &:hover {
+          background: $active-color;
+          color: #fff;
+          i {
+            color: #fff;
+          }
+        }
+      }
+
+      i {
+        text-align: center;
+        width: 50px;
+        font-size: 16px !important;
+        color: $normal-color;
+        &.fa, &.fas {
+          line-height: 50px;
+        }
+        // z-index: 999999;
+      }
+
+      &.active {
+        background: $active-color;
+        div, i {
+          color: #fff;
+        }
+      }
+
+      &.logo-wrapper {
+        div:hover {
+          color: $active-color;
+          background: none;
+        }
+        span {
+          font-size: 17px;
+          font-weight: 800;
+          color: $active-color;
+        }
+      }
+    }
+
+    &.fix-menu {
+      li {
+        border-top: 1px solid #424d60;
+        border-bottom: none;
+        div {
+          background: #424d60;
+          color: #abb5c9;
+
+          &:hover {
+            background: #5d697e;
+            color: #fff;
+            i {
+              color: #fff;
+            }
+          }
+        }
+
+        &.active {
+          div {
+            background: #5d697e;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
