@@ -1,7 +1,7 @@
 <template>
   <el-header class="main-header">
     <el-row class="nav-wrapper" type="flex" justify="space-between">
-      <h1>WorkerHolic</h1>
+      <h1 v-on:click="goMain">WorkerHolic</h1>
       <div>
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
           <el-menu-item index="1">게시판</el-menu-item>
@@ -30,6 +30,11 @@ export default {
     handleSelect(key, keyPath) 
     {
       console.log(key, keyPath);
+    },
+    goMain()
+    {
+      let router = this.$router;
+      router.push('/');
     }
   }
 };

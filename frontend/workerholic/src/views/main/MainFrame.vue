@@ -20,7 +20,10 @@
       <el-col :span="12" class="bg-purple">
         <div class="grid-content ">
           <i class="fas fa-comments"></i> 사는얘기
-          <span class="grid-more">더보기></span>
+            <span class="grid-more">
+              <el-button size="mini" v-on:click="MoreLive"> 더보기>
+              </el-button>
+            </span>
         </div>
         <el-col>목록내용</el-col>
       </el-col>
@@ -52,23 +55,19 @@
 </template>
 
 <script>
-import BreadCrumb from '@/views/layout/BreadCrumb';
-import SearchService from '@/views/layout/SearchService';
-import TreeLabel from '@/views/layout/TreeLabel';
-
 export default {
   name: 'MainFrame',
   components: {
-    BreadCrumb,
-    SearchService,
-    TreeLabel,
   },
   data() {
     return {
-      // rootNode: ' ',
     };
   },
   methods: {
+    MoreLive() {
+      let router = this.$router;
+      router.push('/live');
+    }
   },
   created() {
   },
@@ -109,5 +108,6 @@ export default {
 }
 .grid-more {
   float: right;
+  margin: -4px;
 }
 </style>
