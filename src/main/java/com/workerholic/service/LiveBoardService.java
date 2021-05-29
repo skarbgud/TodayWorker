@@ -12,7 +12,7 @@ import com.workerholic.mapper.LiveBoardMapper;
 import com.workerholic.vo.LiveBoardVO;
 
 @Service
-public class LiveBoardService {
+public class LiveBoardService implements LiveBoardServiceIF{
 
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
