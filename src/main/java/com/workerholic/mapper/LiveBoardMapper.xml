@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workerholic.mapper.LiveBoardMapper">
 
-	<resultMap type="com.workerholic.vo.LiveBoardVO" id="liveMap">
+	<resultMap type="HashMap" id="liveMap">
 		<id property="live_bno" column="live_bno"></id>
 		<result property="live_type" column="live_type"/>
 		<result property="live_title" column="live_title"/>
