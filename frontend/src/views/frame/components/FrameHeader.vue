@@ -5,13 +5,16 @@
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-    <b-collapse id="nav-collapse" is-nav>
-      <b-nav>
-        <b-nav-item active>게시판</b-nav-item>
-        <b-nav-item>시간표</b-nav-item>
-        <b-nav-item>연봉 계산기</b-nav-item>
-        <b-nav-item>친구</b-nav-item>
-      </b-nav>
+    <b-collapse  id="nav-collapse" is-nav>
+      <!-- 중앙 메뉴 -->
+      <b-navbar-nav class="ml-auto">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+          <el-menu-item index="board">게시판</el-menu-item>
+          <el-menu-item index="calendar">일정</el-menu-item>
+          <el-menu-item index="salary">연봉 계산기</el-menu-item>
+          <el-menu-item index="friend">친구</el-menu-item>
+        </el-menu>
+      </b-navbar-nav>
 
       <!-- nav 오른쪽 검색  회원가입/로그인-->
       <b-navbar-nav class="ml-auto">
@@ -31,16 +34,26 @@
 export default {
   name: 'FrameHeader',
   data() {
-    return {};
+    return {
+      activeIndex: 'board',
+    };
   },
   methods: {
   }
 };
 </script>
 
-<style>
+<style scoped>
 #search-form
 {
   display: contents;
+}
+.navbar
+{
+  padding: .025rem 1rem;
+}
+.form-control
+{
+  width: 90%;
 }
 </style>
