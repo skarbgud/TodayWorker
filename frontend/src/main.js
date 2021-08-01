@@ -6,6 +6,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import { IconsPlugin } from 'bootstrap-vue'
+import '@fortawesome/fontawesome-free/js/all.js'
 
 Vue.use(IconsPlugin);
 Vue.use(BootstrapVue);
