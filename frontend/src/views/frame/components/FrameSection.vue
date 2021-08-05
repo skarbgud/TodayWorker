@@ -1,123 +1,28 @@
 <template>
   <div>
     <b-container fluid>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="1"
-        cols-lg="2"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[0]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[1]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[2]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[3]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[4]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[5]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[6]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[7]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[8]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[9]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[10]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[11]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[12]"></card-group>
-        </b-col>
-      </b-row>
-      <b-row
-        align-h="center"
-        class="mt-5 mb-5"
-        cols="1"
-        cols-sm="1"
-        cols-md="2"
-        cols-lg="3"
-      >
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[13]"></card-group>
-        </b-col>
-        <b-col class="mb-5">
-          <card-group :cardTitle="cardTitles[14]"></card-group>
-        </b-col>
-      </b-row>
+      <div style="display:flex; flex-wrap:wrap;">
+        <b-row
+          align-h="center"
+          class="mt-5 justify-content-center"
+          cols="1"
+          cols-sm="1"
+          cols-md="2"
+          cols-lg="2"
+        >
+          <b-col class="mb-5 mr-1" lg="8">
+            <card-group :cardTitle="hotTitle"></card-group>
+          </b-col>
+          <b-col
+            class="mb-5 mr-1"
+            v-for="title in cardTitles"
+            lg="4"
+            :key="title"
+          >
+            <card-group :cardTitle="title"></card-group>
+          </b-col>
+        </b-row>
+      </div>
     </b-container>
   </div>
 </template>
@@ -132,8 +37,8 @@ export default {
   },
   data() {
     return {
+      hotTitle: '인기게시글',
       cardTitles: [
-        '인기게시글',
         '자유게시판',
         '비밀게시판',
         '사는얘기',
