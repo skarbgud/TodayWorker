@@ -50,7 +50,9 @@ export default {
     };
   },
   methods: {
-    handleSelect() {},
+    handleSelect(activeIndex) {
+      this.activeIndex = activeIndex;
+    },
     hoverHandler(hovered) {
       this.isHovered = hovered
     }
