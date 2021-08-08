@@ -1,7 +1,9 @@
 <template>
 <div>
   <b-navbar toggleable="lg" class="border-bottom border-secondary">
+    <router-link to="/">
     <b-navbar-brand tag="h1" class="mb-0">WorkerHolic</b-navbar-brand>
+    </router-link>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -9,7 +11,7 @@
       <!-- 중앙 메뉴 -->
       <b-navbar-nav class="ml-auto">
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="board">게시판</el-menu-item>
+          <el-menu-item index="board" v-b-hover="hoverHandler">게시판</el-menu-item>
           <el-menu-item index="calendar">일정</el-menu-item>
           <el-menu-item index="salary">연봉 계산기</el-menu-item>
           <el-menu-item index="friend">친구</el-menu-item>
@@ -27,6 +29,16 @@
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
+  <b-card
+    class="mb-2"
+    v-if="isHovered"
+  >
+    <b-card-text>
+      메뉴들을 나열
+    </b-card-text>
+
+    <b-button href="#" variant="primary">메뉴</b-button>
+  </b-card>
 </div>
 </template>
 
@@ -35,11 +47,17 @@ export default {
   name: 'FrameHeader',
   data() {
     return {
-      activeIndex: 'board',
+      activeIndex: '',
+      isHovered: false,
     };
   },
   methods: {
-    handleSelect() {},
+    handleSelect(activeIndex) {
+      this.activeIndex = activeIndex;
+    },
+    hoverHandler(hovered) {
+      this.isHovered = hovered
+    }
   }
 };
 </script>
@@ -51,7 +69,7 @@ export default {
 }
 .navbar
 {
-  padding: .025rem 1rem;
+  padding: 0 1rem;
 }
 .form-control
 {
