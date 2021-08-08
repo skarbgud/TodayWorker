@@ -4,7 +4,7 @@
       <el-col :span="12" class="bg-purple">
         <div class="grid-content ">
           <i class="fas fa-align-justify"></i> 자유게시판
-          <span class="grid-more">더보기></span>
+          <router-link to="/live"><span class="grid-more">더보기></span></router-link>
         </div>
         <el-col>목록내용</el-col>
       </el-col>

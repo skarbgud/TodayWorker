@@ -1,10 +1,10 @@
 <template>
   <b-card-group deck>
-    <b-card no-body header-tag="header">
+    <b-card no-body header-tag="header" border-variant="light">
       <template #header>
         <div class="d-flex justify-content-between align-items-center py-1">
           {{ cardTitle }}
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" @click="golive()">
             더보기 <i class="fas fa-angle-right"></i>
           </div>
         </div>
@@ -54,9 +54,17 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      golive() {
+        this.$router.push('/live');
+      },
+    };
   },
 };
 </script>
 
-<style></style>
+<style>
+.card-header {
+  background-color: white;
+}
+</style>

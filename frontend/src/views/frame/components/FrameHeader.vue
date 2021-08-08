@@ -1,9 +1,7 @@
 <template>
 <div>
   <b-navbar toggleable="lg" class="border-bottom border-secondary">
-    <router-link to="/">
-    <b-navbar-brand tag="h1" class="mb-0">WorkerHolic</b-navbar-brand>
-    </router-link>
+    <router-link to="/"><b-navbar-brand tag="h1" class="mb-0">WorkerHolic</b-navbar-brand></router-link>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -34,7 +32,7 @@
     v-if="isHovered"
   >
     <b-card-text>
-      메뉴들을 나열
+      메뉴들
     </b-card-text>
 
     <b-button href="#" variant="primary">메뉴</b-button>
@@ -52,9 +50,7 @@ export default {
     };
   },
   methods: {
-    handleSelect(activeIndex) {
-      this.activeIndex = activeIndex;
-    },
+    handleSelect() {},
     hoverHandler(hovered) {
       this.isHovered = hovered
     }
