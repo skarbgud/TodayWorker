@@ -10,16 +10,18 @@
           cols-md="2"
           cols-lg="2"
         >
+          <!-- 인기게시글 카드 -->
           <b-col class="mb-5 mr-1" lg="8">
             <card-group :cardTitle="hotTitle"></card-group>
           </b-col>
+          <!-- 나머지 카드 영역 -->
           <b-col
             class="mb-5 mr-1"
-            v-for="title in cardTitles"
+            v-for="(title, index) in cardTitles"
             lg="4"
-            :key="title"
+            :key="index"
           >
-            <card-group :cardTitle="title"></card-group>
+            <card-group :cardTitle="cardTitles[index]"></card-group>
           </b-col>
         </b-row>
       </div>
@@ -28,7 +30,8 @@
 </template>
 
 <script>
-import CardGroup from '../card';
+import CardGroup from '@/views/components/cards/CardGroup';
+import cardTitles from '@/constant/index';
 
 export default {
   name: 'FrameSection',
@@ -38,22 +41,7 @@ export default {
   data() {
     return {
       hotTitle: '인기게시글',
-      cardTitles: [
-        '자유게시판',
-        '비밀게시판',
-        '사는얘기',
-        '이직·커리어',
-        '회사생활',
-        '취미생활',
-        '시사·이슈',
-        '정보게시판',
-        '커피타임',
-        '홍보게시판',
-        '맛집노트',
-        '중고거래',
-        '동호회',
-        '유머',
-      ],
+      cardTitles,
     };
   },
 };
