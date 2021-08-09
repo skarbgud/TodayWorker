@@ -28,21 +28,7 @@
         <!-- nav 오른쪽 검색  회원가입/로그인-->
         <b-navbar-nav class="ml-auto">
           <b-nav-form class="mr-2 my-2" v-on:submit.prevent>
-            <el-input
-              v-model="search"
-              placeholder="검색"
-              prefix-icon="el-icon-search"
-              size="small"
-              v-on:keyup.enter.native="submit(search)"
-            >
-              <!-- 클리어 아이콘 -->
-              <i
-                slot="suffix"
-                class="el-input__icon el-icon-circle-close el-input__clear"
-                @click="reset"
-                v-if="search !== ''"
-              ></i>
-            </el-input>
+            <search-form></search-form>
           </b-nav-form>
 
           <b-button class="my-2" variant="outline-dark" size="sm"
@@ -62,8 +48,11 @@
 </template>
 
 <script>
+import SearchForm from '@/views/components/input/SearchForm.vue';
+
 export default {
   name: 'FrameHeader',
+  components: { SearchForm },
   data() {
     return {
       activeIndex: '',
@@ -77,13 +66,6 @@ export default {
     },
     hoverHandler(hovered) {
       this.isHovered = hovered;
-    },
-    submit(search) {
-      console.log(`${search}검색`);
-    },
-    reset() {
-      //검색 초기화 버튼(claerable)
-      this.search = '';
     },
   },
 };
