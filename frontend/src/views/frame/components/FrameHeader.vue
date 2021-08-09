@@ -99,4 +99,7 @@ export default {
 .form-control {
   width: 90%;
 }
+.border-secondary {
+  border-color: #dee2e6 !important;
+}
 </style>
