@@ -31,7 +31,7 @@
             <search-form></search-form>
           </b-nav-form>
 
-          <b-button class="my-2" variant="outline-dark" size="sm"
+          <b-button class="my-2" variant="outline-danger" size="sm"
             >회원가입 / 로그인</b-button
           >
         </b-navbar-nav>
@@ -83,5 +83,8 @@ export default {
 }
 .border-secondary {
   border-color: #dee2e6 !important;
+}
+.el-menu-item:hover {
+  border-bottom: 2px solid #909399 !important;
 }
 </style>
