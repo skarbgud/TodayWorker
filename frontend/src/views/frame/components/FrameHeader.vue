@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" class="border-bottom border-secondary">
-      <b-navbar-brand tag="h1" class="mb-0" to="/"
+      <b-navbar-brand tag="h1" class="mb-0" @click="goMainPage()"
         ><span style="color:red;">WorkerHolic</span></b-navbar-brand
       >
 
@@ -61,6 +61,10 @@ export default {
     };
   },
   methods: {
+    goMainPage() {
+      // 중복 url 이동때문에 오류 catch
+      this.$router.push('/').catch(() => {});
+    },
     handleSelect(activeIndex) {
       this.activeIndex = activeIndex;
     },
