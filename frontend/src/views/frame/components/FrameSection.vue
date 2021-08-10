@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      hotTitle: {title: '인기게시글', path: 'hot'},
+      hotTitle: '인기게시글',
       cardTitles,
     };
   },

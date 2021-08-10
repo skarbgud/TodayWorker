@@ -3,7 +3,7 @@
     <b-card no-body header-tag="header" border-variant="light">
       <template #header>
         <div class="d-flex justify-content-between align-items-center py-1">
-          {{ cardTitle.title }}
+          {{ cardTitle }}
           <div class="d-flex align-items-center" @click="golive()">
             더보기 <i class="fas fa-angle-right"></i>
           </div>
@@ -50,14 +50,13 @@ export default {
   name: 'CardGroup',
   props: {
     cardTitle: {
-      type: Object,
+      type: String,
     },
   },
   data() {
     return {
       golive() {
-        console.log(this.cardTitle.path);
-        this.$router.push(this.cardTitle.path);
+        this.$router.push('/live');
       },
     };
   },
