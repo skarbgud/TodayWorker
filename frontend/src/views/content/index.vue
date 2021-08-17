@@ -20,6 +20,7 @@ export default {
     },
   },
   mounted() {
+    console.log('pull reqest test');
     this.loader()
       .then(() => {
         this.component = () => this.loader();
