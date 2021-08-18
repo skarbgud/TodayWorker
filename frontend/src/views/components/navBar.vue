@@ -2,24 +2,17 @@
   <div>
     <b-row class="mb-4">
       <swiper class="swiper" :options="swiperOption">
-        <div class="swiper-pagination" slot="pagination"></div>
+        <div class="swiper-pagination" slot="pagination" />
         <swiper-slide
           v-for="(title, index) in cardTitles"
           :key="index"
           class="item"
-          @click="golive(index)"
         >
-          {{ cardTitles[index].title }}
-          <!-- <b-nav>
-          <b-nav-item
-            v-for="(title, index) in cardTitles"
-            :key="index"
-            class="item"
-            @click="golive(index)"
-          >
-            {{ cardTitles[index].title }}
-          </b-nav-item>
-        </b-nav> -->
+          <b-nav>
+            <b-nav-item @click="golive(index)">
+              {{ cardTitles[index].title }}
+            </b-nav-item>
+          </b-nav>
         </swiper-slide>
       </swiper>
     </b-row>
@@ -53,8 +46,8 @@ export default {
             spaceBetween: 20,
           },
           768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
+            slidesPerView: 4,
+            spaceBetween: 20,
           },
           640: {
             slidesPerView: 2,
@@ -78,10 +71,13 @@ export default {
 </script>
 
 <style>
-.item:hover {
-  border-bottom: 2px solid #0b0c0c;
+ .item:hover {
+  /* border-bottom: 1px solid #0b0c0c; */
+} 
+.swiper-pagination {
+  margin-bottom: 40px;
 }
-.swiper-pagination{
-    /* clear: both; */
+.swiper-container {
+  padding-top: 40px;
 }
 </style>
