@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" class="border-bottom border-secondary">
       <b-navbar-brand tag="h1" class="mb-0" @click="goMainPage()"
-        ><span style="color:red;">WorkerHolic</span></b-navbar-brand
+        ><span style="color: red">WorkerHolic</span></b-navbar-brand
       >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -31,13 +31,24 @@
           </el-menu>
         </b-navbar-nav>
 
-        <!-- nav 오른쪽 검색  회원가입/로그인-->
+        <!-- nav 오른쪽 글쓰기 검색  회원가입/로그인-->
         <b-navbar-nav class="ml-auto">
+          <b-button
+            size="sm"
+            squared
+            class="my-2 mr-2 px-3"
+            variant="outline-danger"
+            >글쓰기</b-button
+          >
+
           <b-nav-form class="mr-2 my-2" v-on:submit.prevent>
             <search-form></search-form>
           </b-nav-form>
 
-          <b-button class="my-2" variant="outline-danger" size="sm"
+          <!-- <b-button class="my-2" variant="outline-danger" size="sm"
+            >회원가입 / 로그인</b-button
+          > -->
+          <b-button size="sm" squared class="my-2" variant="light"
             >회원가입 / 로그인</b-button
           >
         </b-navbar-nav>
@@ -62,11 +73,61 @@
         </b-list-group>
       </b-card-group>
     </b-card>
+
+    <!-- Navbar 하단 이미지 -->
+    <div class="d-none d-xl-block">
+      <b-carousel
+        id="carousel-1"
+        v-model="slide"
+        :interval="4000"
+        controls
+        indicators
+        background="#ababab"
+        img-width="1024"
+        img-height="180"
+        style="text-shadow: 1px 1px 2px #333"
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+        v-show="showMainImage"
+      >
+        <!-- Text slides with image -->
+        <b-carousel-slide
+          caption="First slide"
+          text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+          img-src="https://picsum.photos/1024/180/?image=52"
+        ></b-carousel-slide>
+
+        <!-- Slides with custom text -->
+        <b-carousel-slide img-src="https://picsum.photos/1024/180/?image=54">
+          <h1>Hello world!</h1>
+        </b-carousel-slide>
+
+        <!-- Slides with image only -->
+        <b-carousel-slide
+          img-src="https://picsum.photos/1024/180/?image=58"
+        ></b-carousel-slide>
+
+        <!-- Slides with img slot -->
+        <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+        <b-carousel-slide>
+          <template #img>
+            <img
+              class="d-block img-fluid w-100"
+              width="1024"
+              height="180"
+              src="https://picsum.photos/1024/180/?image=55"
+              alt="image slot"
+            />
+          </template>
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
   </div>
 </template>
 
 <script>
 import SearchForm from '@/views/components/input/SearchForm.vue';
+import cardTitles from '@/constant/index';
 
 export default {
   name: 'FrameHeader',
@@ -77,7 +138,26 @@ export default {
       isHoveredTab: false,
       isHoveredMenu: false,
       search: '',
+      cardTitles,
+      slide: 0,
+      sliding: null,
+      showMainImage: false,
     };
+  },
+  mounted() {
+    if (this.$route.path === '/') {
+      this.showMainImage = true;
+    }
+  },
+  watch: {
+    $route() {
+      // 라우터 감지로 메인페이지일때만 Navbar하단 이미지 출력
+      if (this.$route.path === '/') {
+        this.showMainImage = true;
+      } else {
+        this.showMainImage = false;
+      }
+    },
   },
   methods: {
     goMainPage() {
@@ -98,6 +178,13 @@ export default {
     },
     hoverMenuBar(hovered) {
       this.isHoveredMenu = hovered;
+    },
+    // 슬라이딩 method
+    onSlideStart() {
+      this.sliding = true;
+    },
+    onSlideEnd() {
+      this.sliding = false;
     },
   },
 };
