@@ -48,9 +48,7 @@
           <!-- <b-button class="my-2" variant="outline-danger" size="sm"
             >회원가입 / 로그인</b-button
           > -->
-          <b-button size="sm" squared class="my-2" variant="light"
-            >회원가입 / 로그인</b-button
-          >
+          <login-button></login-button>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -128,10 +126,11 @@
 <script>
 import SearchForm from '@/views/components/input/SearchForm.vue';
 import cardTitles from '@/constant/index';
+import LoginButton from '@/views/components/button/LoginButton';
 
 export default {
   name: 'FrameHeader',
-  components: { SearchForm },
+  components: { SearchForm, LoginButton },
   data() {
     return {
       activeIndex: '',
