@@ -31,9 +31,6 @@ export default {
       type: Object,
     },
   },
-  created: {
-    
-  },
   data() {
     return {};
   },

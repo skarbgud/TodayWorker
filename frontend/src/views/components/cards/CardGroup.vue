@@ -3,7 +3,7 @@
     <b-card no-body header-tag="header" border-variant="light">
       <template #header>
         <div class="d-flex justify-content-between align-items-center py-1">
-          {{ cardTitle.title }}
+          {{ cardTitle.emoticon }} {{ cardTitle.title }}
           <div class="d-flex align-items-center" @click="golive()">
             더보기 <i class="fas fa-angle-right"></i>
           </div>

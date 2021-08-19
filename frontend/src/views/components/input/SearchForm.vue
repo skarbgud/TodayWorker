@@ -11,7 +11,7 @@
       slot="suffix"
       class="el-input__icon el-icon-circle-close el-input__clear"
       @click="reset"
-      v-if="search !== ''"
+      v-show="search !== ''"
     ></i>
   </el-input>
 </template>
