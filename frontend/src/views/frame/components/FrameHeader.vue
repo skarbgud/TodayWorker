@@ -16,12 +16,18 @@
             mode="horizontal"
             @select="handleSelect"
           >
-            <el-menu-item index="board" v-b-hover="hoverHandler"
+            <el-menu-item index="board" v-b-hover="hoverBoardTab"
               >게시판</el-menu-item
             >
-            <el-menu-item index="calendar">일정</el-menu-item>
-            <el-menu-item index="salary">연봉 계산기</el-menu-item>
-            <el-menu-item index="friend">친구</el-menu-item>
+            <el-menu-item index="calendar" v-b-hover="disableHoverTab"
+              >일정</el-menu-item
+            >
+            <el-menu-item index="salary" v-b-hover="disableHoverTab"
+              >연봉 계산기</el-menu-item
+            >
+            <el-menu-item index="friend" v-b-hover="disableHoverTab"
+              >친구</el-menu-item
+            >
           </el-menu>
         </b-navbar-nav>
 
@@ -37,12 +43,24 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <b-card class="mb-2" v-if="isHovered">
-      <b-card-text>
-        메뉴들
-      </b-card-text>
 
-      <b-button href="#" variant="primary">메뉴</b-button>
+    <!-- 게시판 hover시 나오는 메뉴 -->
+    <b-card v-b-hover="hoverMenuBar" v-show="isHoveredMenu || isHoveredTab">
+      <b-card-group>
+        <b-list-group
+          class="mr-4 mt-1"
+          v-for="(name, index) in cardTitles"
+          :key="index"
+        >
+          <b-list-group-item
+            href="#"
+            disabled
+            class="flex-column align-items-start"
+          >
+            <small class="text-muted">{{ name.title }}</small>
+          </b-list-group-item>
+        </b-list-group>
+      </b-card-group>
     </b-card>
   </div>
 </template>
@@ -56,7 +74,8 @@ export default {
   data() {
     return {
       activeIndex: '',
-      isHovered: false,
+      isHoveredTab: false,
+      isHoveredMenu: false,
       search: '',
     };
   },
@@ -68,8 +87,17 @@ export default {
     handleSelect(activeIndex) {
       this.activeIndex = activeIndex;
     },
-    hoverHandler(hovered) {
-      this.isHovered = hovered;
+    // hoverHandling Method
+    hoverBoardTab(hovered) {
+      this.isHoveredTab = hovered;
+      this.isHoveredMenu = true;
+    },
+    disableHoverTab() {
+      this.isHoveredTab = false;
+      this.isHoveredMenu = false;
+    },
+    hoverMenuBar(hovered) {
+      this.isHoveredMenu = hovered;
     },
   },
 };
@@ -81,9 +109,6 @@ export default {
 }
 .navbar {
   padding: 0 1rem;
-}
-.form-control {
-  width: 90%;
 }
 .border-secondary {
   border-color: #dee2e6 !important;
