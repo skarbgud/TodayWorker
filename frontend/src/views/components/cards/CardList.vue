@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-card :title="post.title" class="card-link">
+    <b-card :title="post.title" class="card-link pt-3 pb-2">
       <b-card-text class="mt-4 mb-4">
-        <b-link class="card-link">
+        <b-link class="card-link overtext">
           {{ post.content }}
         </b-link>
       </b-card-text>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'CardList',
+  name: "CardList",
   props: {
     post: {
       type: Object,
@@ -34,6 +34,8 @@ export default {
   data() {
     return {};
   },
+  computed: {},
+  methods: {},
 };
 </script>
 
@@ -47,5 +49,14 @@ a {
 }
 .user-info {
   font-size: 14px;
+}
+.overtext {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 40px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
