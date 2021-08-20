@@ -8,7 +8,7 @@
       @click="clickMemberLoginButton()"
       >회원가입 / 로그인</b-button
     >
-    <b-modal ref="login-modal" hide-footer title="Worker Holic">
+    <b-modal ref="login-modal" centered hide-footer title="Worker Holic">
       <div class="d-block text-center">
         <h3>직장인들을 위한</h3>
         <h3>커뮤니티 플랫폼, WorkerHolic!</h3>
@@ -52,4 +52,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#__BVID__19___BV_modal_header_ {
+  border-bottom: 2px black;
+}
+</style>

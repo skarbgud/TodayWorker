@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-container fluid>
-      <div style="display:flex; flex-wrap:wrap;">
+      <div style="flex-wrap:wrap;">
         <b-row
           align-h="center"
           class="mt-5 justify-content-center"

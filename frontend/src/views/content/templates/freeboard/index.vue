@@ -28,6 +28,7 @@
 <script>
 import CardList from '../../../components/cards/CardList.vue';
 import NavBar from '../../../components/navBar.vue';
+
 export default {
   components: { CardList, NavBar },
   name: 'FreeBoard',
