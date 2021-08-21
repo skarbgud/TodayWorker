@@ -1,22 +1,23 @@
 <template>
-  <b-modal id="login-modal" centered hide-header hide-footer>
-    <!-- 모달 최상단 Title -->
-    <h5 class="modal-title text-center">
-      WorkerHolic
+  <b-modal id="write-modal" size="xl" centered>
+    <template #modal-header="{ close }">
+      <h5 class="modal-title text-center">
+        WorkerHolic
+      </h5>
       <button
-        type="button"
-        aria-label="Close"
-        class="close"
-        @click="$bvModal.hide('login-modal')"
-      >
-        ×
-      </button>
-    </h5>
+          type="button"
+          aria-label="Close"
+          class="close"
+          @click="close()"
+        >
+          ×
+        </button>
+    </template>
 
     <!-- 모달 소개  -->
     <div class="text-center m-5">
       <h1 class="content-expain">
-        당신 근처의 직장인들을 위한<br />커뮤니티 플랫폼, WorkerHolic!
+        당신 근처의 직장인들을 위한
       </h1>
     </div>
     <h2 class="content-intro">

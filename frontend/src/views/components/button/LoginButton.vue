@@ -3,7 +3,7 @@
     <b-button
       size="sm"
       squared
-      class="my-2"
+      class="my-2 col-sm-12"
       variant="light"
       v-b-modal.login-modal
       >회원가입 / 로그인

@@ -33,21 +33,13 @@
 
         <!-- nav 오른쪽 글쓰기 검색  회원가입/로그인-->
         <b-navbar-nav class="ml-auto">
-          <b-button
-            size="sm"
-            squared
-            class="my-2 mr-2 px-3"
-            variant="outline-danger"
-            >글쓰기</b-button
-          >
-
+          <!-- 글쓰기 -->
+          <write-button></write-button>
+          <!-- 검색 -->
           <b-nav-form class="mr-2 my-2" v-on:submit.prevent>
             <search-form></search-form>
           </b-nav-form>
-
-          <!-- <b-button class="my-2" variant="outline-danger" size="sm"
-            >회원가입 / 로그인</b-button
-          > -->
+          <!-- 회원가입 / 로그인 -->
           <login-button></login-button>
         </b-navbar-nav>
       </b-collapse>
@@ -81,11 +73,12 @@
 import SearchForm from '@/views/components/input/SearchForm';
 import cardTitles from '@/constant/index';
 import LoginButton from '@/views/components/button/LoginButton';
-import MainCarousel from '../../components/carousel/MainCarousel';
+import MainCarousel from '@/views/components/carousel/MainCarousel';
+import WriteButton from '@/views/components/button/WriteButton';
 
 export default {
   name: 'FrameHeader',
-  components: { SearchForm, LoginButton, MainCarousel },
+  components: { SearchForm, LoginButton, MainCarousel, WriteButton },
   data() {
     return {
       activeIndex: '',
@@ -120,17 +113,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.form-inline {
-  display: block;
-}
-.navbar {
-  padding: 0 1rem;
-}
-.border-secondary {
-  border-color: #dee2e6 !important;
-}
-.el-menu-item:hover {
-  border-bottom: 2px solid #909399 !important;
-}
+<style lang="scss">
+@import '@/assets/scss/layouts/index.scss';
 </style>
