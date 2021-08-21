@@ -73,72 +73,19 @@
     </b-card>
 
     <!-- Navbar 하단 이미지 -->
-    <div class="d-none d-xl-block">
-      <b-carousel
-        id="carousel-1"
-        v-model="slide"
-        :interval="4000"
-        controls
-        indicators
-        background="white"
-        img-width="1024"
-        img-height="180"
-        style="text-shadow: 1px 1px 2px #333"
-        @sliding-start="onSlideStart"
-        @sliding-end="onSlideEnd"
-        v-show="showMainImage"
-      >
-        <!-- Text slides with image -->
-        <b-carousel-slide caption="Worker Holic" text="지금 시작하세요">
-          <template #img>
-            <img
-              class="d-block img-fluid w-100"
-              width="1024"
-              height="180"
-              src="../../../assets/image/main1.png"
-              alt="image slot"
-            />
-          </template>
-        </b-carousel-slide>
-
-        <!-- Slides with custom text -->
-        <b-carousel-slide>
-          <template #img>
-            <img
-              class="d-block img-fluid w-100"
-              width="1024"
-              height="180"
-              src="../../../assets/image/main2.png"
-              alt="image slot"
-            />
-          </template>
-        </b-carousel-slide>
-
-        <!-- Slides with custom text -->
-        <b-carousel-slide>
-          <template #img>
-            <img
-              class="d-block img-fluid w-100"
-              width="1024"
-              height="180"
-              src="../../../assets/image/main3.png"
-              alt="image slot"
-            />
-          </template>
-        </b-carousel-slide>
-      </b-carousel>
-    </div>
+    <main-carousel></main-carousel>
   </div>
 </template>
 
 <script>
-import SearchForm from '@/views/components/input/SearchForm.vue';
+import SearchForm from '@/views/components/input/SearchForm';
 import cardTitles from '@/constant/index';
 import LoginButton from '@/views/components/button/LoginButton';
+import MainCarousel from '../../components/carousel/MainCarousel';
 
 export default {
   name: 'FrameHeader',
-  components: { SearchForm, LoginButton },
+  components: { SearchForm, LoginButton, MainCarousel },
   data() {
     return {
       activeIndex: '',
@@ -146,26 +93,9 @@ export default {
       isHoveredMenu: false,
       search: '',
       cardTitles,
-      slide: 0,
-      sliding: null,
-      showMainImage: false,
     };
   },
-  mounted() {
-    if (this.$route.path === '/') {
-      this.showMainImage = true;
-    }
-  },
-  watch: {
-    $route() {
-      // 라우터 감지로 메인페이지일때만 Navbar하단 이미지 출력
-      if (this.$route.path === '/') {
-        this.showMainImage = true;
-      } else {
-        this.showMainImage = false;
-      }
-    },
-  },
+
   methods: {
     goMainPage() {
       // 중복 url 이동때문에 오류 catch
@@ -186,13 +116,6 @@ export default {
     hoverMenuBar(hovered) {
       this.isHoveredMenu = hovered;
     },
-    // 슬라이딩 method
-    onSlideStart() {
-      this.sliding = true;
-    },
-    onSlideEnd() {
-      this.sliding = false;
-    },
   },
 };
 </script>
@@ -209,11 +132,5 @@ export default {
 }
 .el-menu-item:hover {
   border-bottom: 2px solid #909399 !important;
-}
-img {
-  height: 400px;
-}
-.carousel-item {
-  height: 400px;
 }
 </style>

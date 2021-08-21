@@ -132,10 +132,6 @@ export default {
       },
     };
   },
-  mounted() {
-    var test1 = document.getElementById('email-button');
-    console.log(test1);
-  },
   methods: {
     onSubmit(event) {
       event.preventDefault();
