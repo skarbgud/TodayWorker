@@ -1,5 +1,6 @@
 <template>
   <b-modal id="login-modal" centered hide-header hide-footer>
+    <!-- 모달 최상단 Title -->
     <h5 class="modal-title text-center">
       WorkerHolic
       <button
@@ -12,6 +13,7 @@
       </button>
     </h5>
 
+    <!-- 모달 소개  -->
     <div class="text-center m-5">
       <h1 class="content-expain">
         직장인들을 위한<br />커뮤니티 플랫폼, WorkerHolic!
@@ -21,6 +23,7 @@
       당신의 근처에 사는 직장인과 교류해보세요.
     </h2>
 
+    <!-- 로그인 버튼 시작 -->
     <div class="login-button">
       <div class="email-text">
         이메일
@@ -112,112 +115,6 @@ export default {
 };
 </script>
 
-<style>
-.content-expain {
-  line-height: 1.54;
-  font-size: 26px;
-  font-weight: 600;
-  color: #333;
-}
-.content-intro {
-  margin-top: 16px;
-  line-height: 1.5;
-  font-size: 16px;
-  font-weight: 400;
-  color: #666;
-  text-align: center;
-  word-break: break-word;
-  margin-top: 24px;
-  margin-bottom: 40px;
-}
-.login-button {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  margin-bottom: 20px;
-}
-.email-text {
-  display: block;
-  content: 'or';
-  color: #969696;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1;
-  text-align: left;
-  margin: 10px auto;
-}
-.input-email {
-  margin-top: 11px;
-}
-.input-email > input {
-  width: 100%;
-  height: 50px;
-  padding-right: 15px;
-  padding-left: 15px;
-  border-radius: 5px;
-  border: 1px solid #e1e2e3;
-  background-color: #fff;
-  font-size: 15px;
-  color: #333;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  outline: none;
-  resize: none;
-}
-.email-login-button {
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 100%;
-  height: 54px;
-  border: 0;
-  border-radius: 27px;
-  background-color: #36f;
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-}
-.or-text {
-  display: block;
-  content: 'or';
-  color: #969696;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1;
-  text-align: center;
-  margin: 10px auto;
-}
-.social-login-button {
-  margin-bottom: 10px;
-  color: #737373;
-  border-radius: 27px;
-  border: 1px solid #e1e2e3;
-  background-color: #fff;
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 100%;
-  height: 54px;
-  font-size: 16px;
-  font-weight: 600;
-  background: none;
-}
-.icon-image {
-  margin-right: 10px;
-}
-.footer-info {
-  margin-top: 26px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 18px;
-  color: #999;
-}
+<style lang="scss">
+@import '@/assets/scss/components/index.scss';
 </style>
