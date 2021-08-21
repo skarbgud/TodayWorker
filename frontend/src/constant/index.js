@@ -4,6 +4,7 @@ const cardTitles = [
   {title: '사는얘기', path: 'live', emoticon: '🕺'},
   {title: '이직·커리어', path: 'career', emoticon: '🏃‍♀️'},
   {title: '회사생활', path: 'company', emoticon: '🏢'},
+  {title: '질문게시판', path: 'humor', emoticon: '💬'},
   {title: '취미생활', path: 'hobby', emoticon: '💬'},
   {title: '시사·이슈', path: 'issue', emoticon: '💬'},
   {title: '정보게시판', path: 'information', emoticon: '💬'},
