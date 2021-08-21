@@ -80,7 +80,7 @@
         :interval="4000"
         controls
         indicators
-        background="#ababab"
+        background="white"
         img-width="1024"
         img-height="180"
         style="text-shadow: 1px 1px 2px #333"
@@ -89,31 +89,39 @@
         v-show="showMainImage"
       >
         <!-- Text slides with image -->
-        <b-carousel-slide
-          caption="First slide"
-          text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-          img-src="https://picsum.photos/1024/180/?image=52"
-        ></b-carousel-slide>
-
-        <!-- Slides with custom text -->
-        <b-carousel-slide img-src="https://picsum.photos/1024/180/?image=54">
-          <h1>Hello world!</h1>
+        <b-carousel-slide caption="Worker Holic" text="지금 시작하세요">
+          <template #img>
+            <img
+              class="d-block img-fluid w-100"
+              width="1024"
+              height="180"
+              src="../../../assets/image/main1.png"
+              alt="image slot"
+            />
+          </template>
         </b-carousel-slide>
 
-        <!-- Slides with image only -->
-        <b-carousel-slide
-          img-src="https://picsum.photos/1024/180/?image=58"
-        ></b-carousel-slide>
-
-        <!-- Slides with img slot -->
-        <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+        <!-- Slides with custom text -->
         <b-carousel-slide>
           <template #img>
             <img
               class="d-block img-fluid w-100"
               width="1024"
               height="180"
-              src="https://picsum.photos/1024/180/?image=55"
+              src="../../../assets/image/main2.png"
+              alt="image slot"
+            />
+          </template>
+        </b-carousel-slide>
+
+        <!-- Slides with custom text -->
+        <b-carousel-slide>
+          <template #img>
+            <img
+              class="d-block img-fluid w-100"
+              width="1024"
+              height="180"
+              src="../../../assets/image/main3.png"
               alt="image slot"
             />
           </template>
@@ -201,5 +209,11 @@ export default {
 }
 .el-menu-item:hover {
   border-bottom: 2px solid #909399 !important;
+}
+img {
+  height: 400px;
+}
+.carousel-item {
+  height: 400px;
 }
 </style>
