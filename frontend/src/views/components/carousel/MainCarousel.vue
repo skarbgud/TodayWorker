@@ -41,7 +41,7 @@
       </b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide>
+      <b-carousel-slide text="우리의 일상이 돌아오길 바라면서....">
         <template #img>
           <img
             class="d-block img-fluid w-100"

@@ -80,37 +80,10 @@
       <div class="or-text">
         or
       </div>
-      <button class="social-login-button">
-        <img
-          class="icon-image"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          src="@/assets/icon/naver.png"
-        />
-        네이버로 시작하기
-      </button>
-      <button class="social-login-button">
-        <img
-          class="icon-image"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          src="@/assets/icon/facebook.png"
-        />
-        페이스북으로 시작하기
-      </button>
 
-      <button class="social-login-button">
-        <img
-          class="icon-image"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          src="@/assets/icon/google.png"
-        />
-        Google로 시작하기
-      </button>
+      <social-login-button :icon="naver"></social-login-button>
+      <social-login-button :icon="facebook"></social-login-button>
+      <social-login-button :icon="google"></social-login-button>
 
       <p class="footer-info">
         걱정마세요! 여러분의 활동은 SNS에 노출되지 않습니다.
@@ -120,24 +93,24 @@
 </template>
 
 <script>
+import SocialLoginButton from '../button/SocialLoginButton.vue';
+
 export default {
+  components: { SocialLoginButton },
   name: 'LoginModal',
   data() {
     return {
-      form: {
-        email: '',
-      },
       dynamicValidateForm: {
         email: '',
       },
+      naver: 'naver',
+      facebook: 'facebook',
+      google: 'google',
     };
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      console.log(this.form.email);
-    },
     submitForm(formName) {
+      console.log(this.dynamicValidateForm.email);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           alert('submit!');
