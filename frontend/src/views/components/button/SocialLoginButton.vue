@@ -7,7 +7,7 @@
       viewBox="0 0 18 18"
       :src="logo"
     />
-    네이버로 시작하기
+    {{ expain }}
   </button>
 </template>
 
@@ -30,6 +30,16 @@ export default {
         return this.facebookPath;
       } else if (this.icon === 'google') {
         return this.googlePath;
+      }
+      return null;
+    },
+    expain() {
+      if (this.icon === 'naver') {
+        return 'Naver로 시작하기';
+      } else if (this.icon === 'facebook') {
+        return '페이스북으로 시작하기';
+      } else if (this.icon === 'google') {
+        return 'Google로 시작하기';
       }
       return null;
     },
