@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card :title="post.title" class="card-link pt-3 pb-2">
+    <b-card :title="post.title" class="card-link pt-3 pb-2" @click="goDetailPage ">
       <b-card-text class="mt-4 mb-4">
         <b-link class="card-link overtext">
           {{ post.content }}
@@ -35,7 +35,12 @@ export default {
     return {};
   },
   computed: {},
-  methods: {},
+  methods: {
+    goDetailPage(){
+      console.log(this.post)
+      this.$emit("goDetailPage", this.post)
+    }
+  },
 };
 </script>
 

@@ -16,7 +16,7 @@
             v-for="(title, index) in post"
             :key="index"
           >
-            <card-list :post="post[index]"></card-list>
+            <cards-list :post="post[index]"></card-list>
           </b-col>
         </b-row>
       </div>

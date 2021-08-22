@@ -7,6 +7,7 @@ import CoffeeBoard from '@/views/content/templates/coffee';
 import CompanyBoard from '@/views/content/templates/company';
 import DefaultBoard from '@/views/content/templates/default';
 import FreeBoard from '@/views/content/templates/freeboard';
+import FreeBoardDetail from '@/views/content/templates/freeboard/detail'
 import HobbyBoard from '@/views/content/templates/hobby';
 import HomorBoard from '@/views/content/templates/humor';
 import InformationBoard from '@/views/content/templates/information';
@@ -48,6 +49,11 @@ const router = new VueRouter({
     {
       path: "/freeboard",
       component: FreeBoard,
+    },
+    {
+      path: "/freeboardDetail",
+      name: "detail",
+      component: FreeBoardDetail,
     },
     {
       path: "/hobby",
