@@ -1,0 +1,51 @@
+
+
+.box {
+    border: 1px solid rgb(230, 229, 229);
+  }
+  .user-info {
+    font-size: 13px;
+  }
+  .userbox {
+    display: flex;
+  }
+  .info-right {
+    float: right;
+  }
+  .post-info {
+    position: relative;
+    color: rgb(145, 141, 141);
+    font-size: 12px;
+  }
+  .sharebtn_custom {
+    border-radius: 50%;
+    width: 30px;
+    margin-right: 3px;
+    float: right;
+  }
+  .info-bottom {
+    position: relative;
+  }
+  .bottom-border {
+    border: 1px solid lightgrey;
+  }
+  .comment-box {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border: 1px solid lightgrey;
+    padding-left: 18px;
+    font-size: 14px;
+  }
+  .comment {
+    margin-left: 20px;
+  }
+  .icon {
+    text-align: center;
+  }
+  a {
+    text-decoration: none !important;
+  }
+  a:hover {
+    text-decoration: none !important;
+  }
