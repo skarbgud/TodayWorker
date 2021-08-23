@@ -1,3 +1,5 @@
-.card-header {
-  background-color: white;
+::v-deep {
+  .card-header {
+    background-color: white;
+  }
 }

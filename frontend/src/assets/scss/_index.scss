@@ -1,17 +1,10 @@
 // 설명 : 각 요소에 적용될 SCSS를 한곳에 모아서 관리함
 
-
-// 공통으로 적용되는 스타일
-@import "common.scss";
-
 // 컴포넌트별 스타일
-@import "components/index.scss";
-
-// 여러 개의 Component로 구현된 곳에 특화된 CSS
-@import "templates/index.scss";
+// @import "components/";
 
 // 화면중 특별히 해당 페이지에만 적용되어야 할 경우의 스타일 정의
-@import "page/index.scss";
+// @import "page/";
 
 // 전체 레이아웃에 대한 스타일 정의
-@import "layouts/index.scss";
+// @import "layouts/";

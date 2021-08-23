@@ -1,7 +1,9 @@
-.carousel-item {
-  height: 400px;
-}
-.img-fluid {
-  max-width: 100%;
-  height: 400px;
+::v-deep {
+  .carousel-item {
+    height: 400px;
+  }
+  .img-fluid {
+    max-width: 100%;
+    height: 400px;
+  }
 }

@@ -1,7 +1,8 @@
-.card-header {
-  background-color: white;
-}
-.list-group-item
-{
-  border-bottom: 0px;
+::v-deep {
+  .card-header {
+    background-color: white;
+  }
+  .list-group-item {
+    border-bottom: 0px;
+  }
 }

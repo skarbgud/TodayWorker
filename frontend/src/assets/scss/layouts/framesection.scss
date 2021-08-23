@@ -1,3 +1,5 @@
-.cols-sm {
-  margin-top: 1;
+::v-deep {
+  .cols-sm {
+    margin-top: 1;
+  }
 }
