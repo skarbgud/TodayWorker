@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="login-modal" centered hide-header hide-footer>
+  <b-modal id="login-modal" centered hide-header hide-footer scrollable>
     <!-- 모달 최상단 Title -->
     <h5 class="modal-title text-center">
       WorkerHolic
@@ -124,6 +124,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '@/assets/scss/components/index.scss';
+<style lang="scss" scoped>
+@import '@/assets/scss/components/loginmodal.scss';
 </style>

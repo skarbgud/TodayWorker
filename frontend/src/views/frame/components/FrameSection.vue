@@ -47,8 +47,6 @@ export default {
 };
 </script>
 
-<style>
-.cols-sm {
-  margin-top: 1;
-}
+<style lang="scss" scoped>
+@import '@/assets/scss/layouts/framesection.scss';
 </style>

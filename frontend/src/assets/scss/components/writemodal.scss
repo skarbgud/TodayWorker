@@ -1,0 +1,42 @@
+.post-button {
+  position: absolute !important;
+  right: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.25em !important;
+  color: #94969b !important;
+  cursor: default !important;
+  margin-top: -1px !important;
+}
+.title-wraper {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  height: 100%;
+  width: calc(100% - 115px);
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+@media screen and (min-width: 1100px) {
+  .title-wraper {
+    width: calc(100% - 120px);
+  }
+}
+.write-modal-title {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25em;
+  color: #222;
+  margin-top: -1px;
+  vertical-align: top;
+  cursor: default;
+}
+.modal-header .close {
+  margin: -1rem -1rem -1rem 0 !important;
+}
+.modal-body {
+  padding: 0 !important;
+}

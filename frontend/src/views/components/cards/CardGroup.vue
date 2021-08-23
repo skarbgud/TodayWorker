@@ -40,6 +40,26 @@
             />12
           </div></b-list-group-item
         >
+         <b-list-group-item
+          class="d-flex justify-content-between align-items-center py-1"
+          >헬스 2년만에 다시 시작합니다.. 같이 달리실 분
+          <div class="d-flex align-items-center">
+            <b-icon class="mx-2" icon="hand-thumbs-up" />18<b-icon
+              class="mx-2 ml-3"
+              icon="chat"
+            />12
+          </div></b-list-group-item
+        >
+        <b-list-group-item
+          class="d-flex justify-content-between align-items-center py-1"
+          >나 생산직 계약직인데 다른데 붙었는데 옮기는게 낫지?
+          <div class="d-flex align-items-center">
+            <b-icon class="mx-2" icon="hand-thumbs-up" />18<b-icon
+              class="mx-2 ml-3"
+              icon="chat"
+            />12
+          </div></b-list-group-item
+        >
       </b-list-group>
     </b-card>
   </b-card-group>
@@ -64,8 +84,6 @@ export default {
 };
 </script>
 
-<style>
-.card-header {
-  background-color: white;
-}
+<style lang="scss" scoped>
+@import '@/assets/scss/components/cardgroup.scss';
 </style>

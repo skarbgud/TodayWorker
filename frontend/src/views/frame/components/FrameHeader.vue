@@ -113,6 +113,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '@/assets/scss/layouts/index.scss';
+<style lang="scss" scoped>
+@import '@/assets/scss/layouts/frameheader.scss';
 </style>

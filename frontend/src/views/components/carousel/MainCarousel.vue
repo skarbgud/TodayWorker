@@ -94,5 +94,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/pages/index.scss';
+@import '@/assets/scss/components/maincarousel.scss';
 </style>
