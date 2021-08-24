@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BoardContent from './BoardContent';
+import BoardContent from '@/views/content/board/BoardContent';
 
 export default {
   name: 'BoardDetail',
