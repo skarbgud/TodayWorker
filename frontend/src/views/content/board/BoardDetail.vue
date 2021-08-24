@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import boardContent from './boardContent.vue';
+import BoardContent from './BoardContent';
 
 export default {
   name: 'BoardDetail',
-  components: { boardContent },
+  components: { BoardContent },
   data() {
     return {
       post: {

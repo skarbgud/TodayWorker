@@ -83,7 +83,7 @@
 import hashTag from '@/views/components/item/hashTag.vue';
 
 export default {
-  name: 'BoardDetail',
+  name: 'BoardContent',
   props: ['post', 'user'],
   components: { hashTag },
   computed: {},
@@ -92,5 +92,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/pages/content/boardDetail.scss';
+@import '@/assets/scss/pages/content/boardContent.scss';
 </style>
