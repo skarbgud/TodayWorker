@@ -44,7 +44,39 @@
         </b-list-group>
       </el-collapse-item>
     </el-collapse>
-    <textarea></textarea>
+    <!-- 제목 입력 -->
+    <b-input
+      class="mt-3"
+      size="lg"
+      v-model="title"
+      placeholder="제목을 입력해주세요"
+    ></b-input>
+    <!-- 내용 입력 -->
+    <b-form-textarea
+      class="mt-3"
+      id="textarea-rows"
+      :placeholder="contentPlaceholder"
+      rows="8"
+      no-resize
+      v-model="content"
+    ></b-form-textarea>
+
+    <!-- 모달 하단 -->
+    <template #modal-footer>
+        <div class="w-100">
+          <p class="float-left">
+            <span class="">📷</span>
+          </p>
+          <b-button
+            variant="primary"
+            size="sm"
+            class="float-right"
+            @click="show=false"
+          >
+            Close
+          </b-button>
+        </div>
+      </template>
   </b-modal>
 </template>
 
@@ -60,7 +92,29 @@ export default {
       categoriName: '카테고리',
       cardTitles,
       isShowCategori: false,
+      title: '',
+      content: '',
+      contentPlaceholder:
+        '주제에 맞지 않는 글로 판단되어 다른 유저들로 부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김처리 될 수 있습니다.',
     };
+  },
+  watch: {
+    title: {
+      immediate: true,
+      handler() {
+        if (this.content !== null) {
+          this.title == '';
+        }
+      },
+    },
+    content: {
+      immediate: true,
+      handler() {
+        if (this.content !== null) {
+          this.content == '';
+        }
+      },
+    },
   },
   methods: {
     // 모달 창 닫기 => 선택된 카테고리 초기화
@@ -77,7 +131,8 @@ export default {
     clickCategori(index) {
       this.isShowCategori = false;
       this.activeNames = [];
-      this.categoriName = this.cardTitles[index].title;
+      this.categoriName =
+        this.cardTitles[index].emoticon + this.cardTitles[index].title;
     },
   },
 };

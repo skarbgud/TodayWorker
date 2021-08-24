@@ -29,10 +29,17 @@
   .modal-body {
     padding: 0 !important;
   }
-  .list-group
-  {
+  .list-group {
     height: 200px !important;
     overflow: scroll !important;
     overflow-x: hidden !important;
+  }
+  .el-collapse-item__header {
+    padding: 0.75rem 1.25rem;
+  }
+  .el-collapse-item__content {
+    padding-bottom: 0px !important;
+    border: 1px solid black;
+    border-radius: 6px;
   }
 }
