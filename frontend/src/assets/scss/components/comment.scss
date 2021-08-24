@@ -1,0 +1,17 @@
+::v-deep {
+.comment-user{
+    font-size: 13px;
+    color: grey;
+  }
+  .comment-bottom {
+    size: 14px;
+    color: grey;
+  }
+    a {
+     color: grey
+    }
+    a:hover {
+      text-decoration: none !important;
+      text-decoration-color: grey;
+    }
+}
