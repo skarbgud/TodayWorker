@@ -2,7 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import FrameSection from "../views/frame/components/FrameSection";
 import BoardList from '../views/content/board';
-import BoardDetail from '../views/content/board/BoardDetail';
+import BoardContent from '../views/content/board/BoardContent';
 import cardTitle from '@/constant/index';
 
 Vue.use(VueRouter);
@@ -21,8 +21,8 @@ const router = new VueRouter({
     },
     {
       path: `/:${cardTitle.path}/:index`,
-      component: BoardDetail,
-      name: BoardDetail,
+      component: BoardContent,
+      name: BoardContent,
     }
   ],
 })

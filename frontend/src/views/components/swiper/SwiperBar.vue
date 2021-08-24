@@ -75,7 +75,7 @@ export default {
   /* border-bottom: 1px solid #0b0c0c; */
 }
 .swiper-pagination {
-  margin-bottom: 40px;
+  margin-bottom: 75px;
 }
 .swiper-container {
   padding-top: 40px;
