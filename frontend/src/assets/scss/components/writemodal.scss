@@ -1,16 +1,4 @@
 ::v-deep {
-  .post-button {
-    position: absolute !important;
-    right: 20px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    line-height: 1.25em !important;
-    color: #94969b !important;
-    cursor: default !important;
-    margin-top: -1px !important;
-  }
   .title-wraper {
     display: block;
     text-align: center;
@@ -40,5 +28,11 @@
   }
   .modal-body {
     padding: 0 !important;
+  }
+  .list-group
+  {
+    height: 200px !important;
+    overflow: scroll !important;
+    overflow-x: hidden !important;
   }
 }
