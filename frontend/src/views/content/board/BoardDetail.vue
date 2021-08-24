@@ -1,15 +1,15 @@
 <template>
   <b-container>
-    <board-detail :post="post" :user="user"> </board-detail>
+    <board-content :post="post" :user="user"></board-content>
   </b-container>
 </template>
 
 <script>
-import boardDetail from '@/views/components/boardDetail.vue';
+import boardContent from './boardContent.vue';
 
 export default {
-  name: 'FreeBoardDetail',
-  components: { boardDetail },
+  name: 'BoardDetail',
+  components: { boardContent },
   data() {
     return {
       post: {

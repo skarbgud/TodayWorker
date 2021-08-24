@@ -12,7 +12,7 @@
           cols-lg="2"
         >
           <b-col class="pr-0 pl-0" v-for="(title, index) in post" :key="index">
-            <card-list :post="post[index]"></card-list>
+            <card-list :post="post[index]" @click="goDetailRouter(index)"></card-list>
           </b-col>
         </b-row>
       </div>
@@ -25,10 +25,11 @@ import CardList from '@/views/components/cards/CardList';
 import SwiperBar from '@/views/components/swiper/SwiperBar';
 
 export default {
-  name: 'FreeBoard',
+  name: 'BoardList',
   components: { CardList, SwiperBar },
   data() {
     return {
+      boardPath: '',
       post: [
         {
           index: 1,
@@ -54,7 +55,8 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+  },
 };
 </script>
 
