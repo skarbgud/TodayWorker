@@ -1,6 +1,5 @@
-
-
-.box {
+::v-deep {
+  .box {
     border: 1px solid rgb(230, 229, 229);
   }
   .user-info {
@@ -49,3 +48,4 @@
   a:hover {
     text-decoration: none !important;
   }
+}

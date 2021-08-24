@@ -1,5 +1,5 @@
-
-.tag-box {
+::v-deep {
+  .tag-box {
     width: auto;
     float: left;
     padding-right: 5px;
@@ -14,3 +14,4 @@
   a:hover {
     text-decoration: none !important;
   }
+}

@@ -65,10 +65,10 @@
             <div class="article-comments pt-2">
               <h6>댓글 127</h6>
               <b-link>
-              <div class="comment-box mt-2">
-               <b-icon icon="camera" font-scale="2"></b-icon >
-                <span class="comment">댓글을 입력하세요</span>
-              </div>
+                <div class="comment-box mt-2">
+                  <b-icon icon="camera" font-scale="2"></b-icon>
+                  <span class="comment">댓글을 입력하세요</span>
+                </div>
               </b-link>
             </div>
           </b-col>
@@ -80,17 +80,17 @@
 </template>
 
 <script>
-import hashTag from "./item/hashTag.vue";
+import hashTag from '@/views/components/item/hashTag.vue';
 
 export default {
-  name: "BoardDetail",
-  props: ["post", "user"],
+  name: 'BoardDetail',
+  props: ['post', 'user'],
   components: { hashTag },
   computed: {},
   methods: {},
 };
 </script>
 
-<style lang="scss">
-@import '@/assets/scss/components/boardDetail.scss';
+<style lang="scss" scoped>
+@import '@/assets/scss/pages/content/boardDetail.scss';
 </style>

@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import cardTitles from "@/constant/index";
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
-import "swiper/css/swiper.css";
+import cardTitles from '@/constant/index';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import 'swiper/css/swiper.css';
 
 export default {
-  name: "NavBar",
+  name: 'SwiperBar',
   components: {
     Swiper,
     SwiperSlide,
@@ -37,7 +37,7 @@ export default {
         slidesPerView: 5,
         spaceBetween: 50,
         pagination: {
-          el: ".swiper-pagination",
+          el: '.swiper-pagination',
           clickable: true,
         },
         breakpoints: {
@@ -71,9 +71,9 @@ export default {
 </script>
 
 <style>
- .item:hover {
+.item:hover {
   /* border-bottom: 1px solid #0b0c0c; */
-} 
+}
 .swiper-pagination {
   margin-bottom: 40px;
 }
