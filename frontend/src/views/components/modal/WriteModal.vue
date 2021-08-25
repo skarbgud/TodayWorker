@@ -44,39 +44,61 @@
         </b-list-group>
       </el-collapse-item>
     </el-collapse>
-    <!-- 제목 입력 -->
-    <b-input
-      class="mt-3"
-      size="lg"
-      v-model="title"
-      placeholder="제목을 입력해주세요"
-    ></b-input>
-    <!-- 내용 입력 -->
-    <b-form-textarea
-      class="mt-3"
-      id="textarea-rows"
-      :placeholder="contentPlaceholder"
-      rows="8"
-      no-resize
-      v-model="content"
-    ></b-form-textarea>
-
+    <div class="input-control">
+      <!-- 제목 입력 -->
+      <b-input
+        class="mt-3 input-area"
+        v-model="title"
+        autocomplete="off"
+        placeholder="제목을 입력해주세요"
+      ></b-input>
+      <!-- 내용 입력 -->
+      <b-form-textarea
+        class="mt-3 mb-3 input-area"
+        id="textarea-rows"
+        :placeholder="contentPlaceholder"
+        rows="8"
+        no-resize
+        v-model="content"
+      ></b-form-textarea>
+    </div>
     <!-- 모달 하단 -->
     <template #modal-footer>
-        <div class="w-100">
-          <p class="float-left">
-            <span class="">📷</span>
-          </p>
-          <b-button
-            variant="primary"
-            size="sm"
-            class="float-right"
-            @click="show=false"
-          >
-            Close
-          </b-button>
-        </div>
-      </template>
+      <div class="w-100">
+        <p class="float-left">
+          <span class="mr-3"
+            ><label class="input-file-button" for="input-file">
+              📷
+            </label>
+            <input
+              type="file"
+              id="input-file"
+              style="display:none;"
+              accept="image/jiff, image/pjpeg, image/jpeg, image/pjp, image/jpg, image/png, image/gif, image/tiff, image/tif"
+            />
+          </span>
+          <span class="mr-3"
+            ><label class="input-file-button">
+              🗳️
+            </label>
+          </span>
+          <span class="mr-3 input-file-button">
+            <i class="fas fa-map-marker-alt"></i>
+          </span>
+          <!-- 위치모양 -->
+          <!-- <span class="mr-3"
+            ><label class="input-file-button">
+              🌏
+            </label>
+          </span>
+          <span class="mr-3"
+            ><label class="input-file-button">
+              🧭
+            </label>
+          </span> -->
+        </p>
+      </div>
+    </template>
   </b-modal>
 </template>
 
@@ -84,7 +106,7 @@
 import cardTitles from '@/constant/index';
 
 export default {
-  name: 'LoginModal',
+  name: 'WriteModal',
   data() {
     return {
       modalShow: false,
@@ -95,7 +117,7 @@ export default {
       title: '',
       content: '',
       contentPlaceholder:
-        '주제에 맞지 않는 글로 판단되어 다른 유저들로 부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김처리 될 수 있습니다.',
+        '주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다.',
     };
   },
   watch: {
