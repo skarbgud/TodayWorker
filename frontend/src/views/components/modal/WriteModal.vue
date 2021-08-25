@@ -66,6 +66,7 @@
     <template #modal-footer>
       <div class="w-100">
         <p class="float-left">
+          <!-- 사진 업로드 -->
           <span class="mr-3"
             ><label class="input-file-button" for="input-file">
               📷
@@ -77,25 +78,19 @@
               accept="image/jiff, image/pjpeg, image/jpeg, image/pjp, image/jpg, image/png, image/gif, image/tiff, image/tif"
             />
           </span>
+          <!-- 투표기능 -->
           <span class="mr-3"
             ><label class="input-file-button">
               🗳️
             </label>
           </span>
-          <span class="mr-3 input-file-button">
-            <i class="fas fa-map-marker-alt"></i>
-          </span>
-          <!-- 위치모양 -->
-          <!-- <span class="mr-3"
-            ><label class="input-file-button">
-              🌏
+          <!-- 위치태그 -->
+          <span class="mr-3">
+            <label class="input-file-button" for="input-file">
+              <i class="fas fa-map-marker-alt"></i>
             </label>
           </span>
-          <span class="mr-3"
-            ><label class="input-file-button">
-              🧭
-            </label>
-          </span> -->
+          <!-- 해시태그 기능(추가예정) -->
         </p>
       </div>
     </template>
