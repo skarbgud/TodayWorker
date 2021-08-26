@@ -58,6 +58,7 @@
         id="textarea-rows"
         :placeholder="contentPlaceholder"
         rows="14"
+        max-rows="1000000"
         no-resize
         v-model="content"
       ></b-form-textarea>
