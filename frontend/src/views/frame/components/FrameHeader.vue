@@ -16,13 +16,7 @@
             mode="horizontal"
             @select="handleSelect"
           >
-            <el-menu-item
-              v-for="(menu, index) in functionMenu"
-              :index="menu.index"
-              :key="index"
-              >{{ menu.name }}</el-menu-item
-            >
-            <!-- <el-menu-item index="board" v-b-hover="hoverBoardTab"
+            <el-menu-item index="board" v-b-hover="hoverBoardTab"
               >📌게시판</el-menu-item
             >
             <el-menu-item index="calendar" v-b-hover="disableHoverTab"
@@ -36,7 +30,7 @@
             >
             <el-menu-item index="friend" v-b-hover="disableHoverTab"
               >👨🏻‍🤝‍👨🏼친구</el-menu-item
-            > -->
+            >
           </el-menu>
         </b-navbar-nav>
 
@@ -67,7 +61,7 @@
             disabled
             class="flex-column align-items-start"
           >
-            <small class="text-muted">{{ boardCategori.title }}</small>
+            <small class="text-muted">{{categori.emoticon}} {{ categori.title }}</small>
           </b-list-group-item>
         </b-list-group>
       </b-card-group>
