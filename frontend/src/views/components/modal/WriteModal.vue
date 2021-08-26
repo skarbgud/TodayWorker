@@ -57,7 +57,7 @@
         class="mt-3 mb-3 input-area"
         id="textarea-rows"
         :placeholder="contentPlaceholder"
-        rows="8"
+        rows="14"
         no-resize
         v-model="content"
       ></b-form-textarea>
@@ -67,8 +67,8 @@
       <div class="w-100">
         <p class="float-left">
           <!-- 사진 업로드 -->
-          <span class="mr-3"
-            ><label class="input-file-button" for="input-file">
+          <span class="mr-3">
+            <label class="input-file-button" for="input-file">
               📷
             </label>
             <input
@@ -79,18 +79,23 @@
             />
           </span>
           <!-- 투표기능 -->
-          <span class="mr-3"
-            ><label class="input-file-button">
+          <span class="mr-3">
+            <label class="input-file-button">
               🗳️
             </label>
           </span>
           <!-- 위치태그 -->
           <span class="mr-3">
-            <label class="input-file-button" for="input-file">
+            <label class="input-file-button">
               <i class="fas fa-map-marker-alt"></i>
             </label>
           </span>
-          <!-- 해시태그 기능(추가예정) -->
+          <!-- 해시태그 기능 -->
+          <span class="mr-3">
+            <label class="input-file-button">
+              <i class="fas fa-hashtag"></i>
+            </label>
+          </span>
         </p>
       </div>
     </template>
