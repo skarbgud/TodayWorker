@@ -57,8 +57,7 @@
           :key="index"
         >
           <b-list-group-item
-            href="#"
-            disabled
+            @click="golive(index)"
             class="flex-column align-items-start"
           >
             <small class="text-muted">{{categori.emoticon}} {{ categori.title }}</small>
@@ -114,6 +113,11 @@ export default {
     hoverMenuBar(hovered) {
       this.isHoveredMenu = hovered;
     },
+    golive(index) {
+
+      console.log("index" , index)
+         this.$router.push(this.boardCategori[index].path).catch(() => {});
+    }
   },
 };
 </script>
