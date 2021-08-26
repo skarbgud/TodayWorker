@@ -1,0 +1,17 @@
+::v-deep{
+    .title{
+        font-size: 18px;
+        font-weight: 600;
+      }
+      ul {
+        list-style-type: square;
+        list-style-type: style color;
+      }
+       li::marker {
+        color: red;
+      }
+      .list-item{
+          font-size: 14px;
+          font-weight: 500;
+      }
+}

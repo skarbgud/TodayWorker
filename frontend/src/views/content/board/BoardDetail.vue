@@ -72,7 +72,10 @@
               </b-link>
             </div>
           </b-col>
-          <b-col cols="4" class="mt-4 box"> </b-col>
+           <div class="ml-5"/>
+          <b-col class="mt-4 box">
+            <slot name="recommendedPost"></slot>
+          </b-col>
         </b-row>
       </div>
     </b-container>
@@ -80,7 +83,7 @@
 </template>
 
 <script>
-import hashTag from '@/views/components/item/hashTag.vue';
+import hashTag from '@/views/components/item/HashTag.vue';
 
 export default {
   name: 'BoardDetail',

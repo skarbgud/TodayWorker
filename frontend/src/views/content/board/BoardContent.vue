@@ -1,6 +1,10 @@
 <template>
   <b-container>
-    <board-detail :post="post" :user="user"></board-detail>
+    <board-detail :post="post" :user="user">
+      <template v-slot:recommendedPost>
+        <recommended-post :post="recommendPost" ></recommended-post>  
+      </template>
+    </board-detail>
     <comment :comments="comments"></comment>
   </b-container>
 </template>
@@ -8,12 +12,41 @@
 <script>
 import BoardDetail from "@/views/content/board/BoardDetail";
 import Comment from "@/views/components/cards/Comment";
+import RecommendedPost from '../../components/item/RecommendedPost.vue';
 
 export default {
   name: "BoardContent",
-  components: { BoardDetail, Comment },
+  components: { BoardDetail, Comment, RecommendedPost },
   data() {
-    return {
+    return { 
+      path:"",
+      recommendPost: [
+        {
+          index: 1,
+          postIndex: 1,
+          title: "지금 인기게시글이 이거다1",
+        },
+         {
+          index: 2,
+          postIndex: 2,
+          title: "지금 인기게시글이 이거다2",
+        },
+         {
+          index: 3,
+          postIndex: 3,
+          title: "지금 인기게시글이 이거다3",
+        },
+         {
+          index: 4,
+          postIndex: 4,
+          title: "지금 인기게시글이 이거다4",
+        },
+         {
+          index: 5,
+          postIndex: 5,
+          title: "지금 인기게시글이 이거다5",
+        },
+      ],
       post: {
         index: 1,
         title: "강원도여행 가려는데",
