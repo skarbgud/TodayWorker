@@ -4,13 +4,13 @@
       <swiper class="swiper" :options="swiperOption">
         <div class="swiper-pagination" slot="pagination" />
         <swiper-slide
-          v-for="(title, index) in cardTitles"
+          v-for="(title, index) in boardCategori"
           :key="index"
           class="item"
         >
           <b-nav>
             <b-nav-item @click="golive(index)">
-              {{ cardTitles[index].title }}
+              {{ boardCategori[index].title }}
             </b-nav-item>
           </b-nav>
         </swiper-slide>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import cardTitles from '@/constant/index';
+import boardCategori from '@/constant/board-categori';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      cardTitles,
+      boardCategori,
       swiperOption: {
         slidesPerView: 5,
         spaceBetween: 50,
@@ -63,8 +63,7 @@ export default {
   },
   methods: {
     golive(index) {
-      console.log(this.cardTitles[index]);
-      this.$router.push(this.cardTitles[index].path).catch(() => {});
+      this.$router.push(this.boardCategori[index].path).catch(() => {});
     },
   },
 };

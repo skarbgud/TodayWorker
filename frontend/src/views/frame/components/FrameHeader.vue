@@ -16,18 +16,27 @@
             mode="horizontal"
             @select="handleSelect"
           >
-            <el-menu-item index="board" v-b-hover="hoverBoardTab"
-              >게시판</el-menu-item
+            <el-menu-item
+              v-for="(menu, index) in functionMenu"
+              :index="menu.index"
+              :key="index"
+              >{{ menu.name }}</el-menu-item
+            >
+            <!-- <el-menu-item index="board" v-b-hover="hoverBoardTab"
+              >📌게시판</el-menu-item
             >
             <el-menu-item index="calendar" v-b-hover="disableHoverTab"
-              >일정</el-menu-item
+              >📅일정</el-menu-item
             >
-            <el-menu-item index="salary" v-b-hover="disableHoverTab"
-              >연봉 계산기</el-menu-item
+            <el-menu-item index="calc" v-b-hover="disableHoverTab"
+              >🧮연봉 계산기</el-menu-item
+            >
+            <el-menu-item index="food" v-b-hover="disableHoverTab"
+              >🍽음식 메뉴 돌림판</el-menu-item
             >
             <el-menu-item index="friend" v-b-hover="disableHoverTab"
-              >친구</el-menu-item
-            >
+              >👨🏻‍🤝‍👨🏼친구</el-menu-item
+            > -->
           </el-menu>
         </b-navbar-nav>
 
@@ -50,7 +59,7 @@
       <b-card-group>
         <b-list-group
           class="mr-4 mt-1"
-          v-for="(name, index) in cardTitles"
+          v-for="(categori, index) in boardCategori"
           :key="index"
         >
           <b-list-group-item
@@ -58,7 +67,7 @@
             disabled
             class="flex-column align-items-start"
           >
-            <small class="text-muted">{{ name.title }}</small>
+            <small class="text-muted">{{ boardCategori.title }}</small>
           </b-list-group-item>
         </b-list-group>
       </b-card-group>
@@ -71,7 +80,8 @@
 
 <script>
 import SearchForm from '@/views/components/input/SearchForm';
-import cardTitles from '@/constant/index';
+import boardCategori from '@/constant/board-categori';
+import functionMenu from '@/constant/function-menu';
 import LoginButton from '@/views/components/button/LoginButton';
 import MainCarousel from '@/views/components/carousel/MainCarousel';
 import WriteButton from '@/views/components/button/WriteButton';
@@ -85,7 +95,8 @@ export default {
       isHoveredTab: false,
       isHoveredMenu: false,
       search: '',
-      cardTitles,
+      boardCategori,
+      functionMenu,
     };
   },
 

@@ -33,13 +33,13 @@
         <!-- 카테고리 목록 -->
         <b-list-group v-if="isShowCategori">
           <b-list-group-item
-            v-for="(cardTitle, index) in cardTitles"
+            v-for="(categori, index) in boardCategori"
             :key="index"
             class="d-flex justify-content-between align-items-center"
             @click="clickCategori(index)"
           >
-            {{ cardTitle.emoticon }}
-            {{ cardTitle.title }}
+            {{ categori.emoticon }}
+            {{ categori.title }}
           </b-list-group-item>
         </b-list-group>
       </el-collapse-item>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import cardTitles from '@/constant/index';
+import boardCategori from '@/constant/board-categori';
 
 export default {
   name: 'WriteModal',
@@ -107,7 +107,7 @@ export default {
       modalShow: false,
       activeNames: [],
       categoriName: '카테고리',
-      cardTitles,
+      boardCategori,
       isShowCategori: false,
       title: '',
       content: '',
@@ -149,7 +149,7 @@ export default {
       this.isShowCategori = false;
       this.activeNames = [];
       this.categoriName =
-        this.cardTitles[index].emoticon + this.cardTitles[index].title;
+        this.boardCategori[index].emoticon + this.boardCategori[index].title;
     },
   },
 };

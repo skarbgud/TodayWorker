@@ -1,4 +1,4 @@
-const cardTitles = [
+const boardCategori = [
   {title: '자유게시판', path: 'freeboard', emoticon: '💬'},
   {title: '비밀게시판', path: 'secret', emoticon: '😷'},
   {title: '사는얘기', path: 'live', emoticon: '🕺'},
@@ -17,4 +17,4 @@ const cardTitles = [
   {title: '유머', path: 'humor', emoticon: '🤣'},
 ];
 
-export default cardTitles;
+export default boardCategori;

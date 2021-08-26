@@ -12,16 +12,16 @@
         >
           <!-- 인기게시글 카드 -->
           <b-col class="mb-5 mr-1" lg="8">
-            <card-group :cardTitle="hotTitle"></card-group>
+            <card-group :boardCategori="hotTitle"></card-group>
           </b-col>
           <!-- 나머지 카드 영역 -->
           <b-col
             class="mb-5 mr-1"
-            v-for="(title, index) in cardTitles"
+            v-for="(categori, index) in boardCategori"
             lg="4"
             :key="index"
           >
-            <card-group :cardTitle="cardTitles[index]"></card-group>
+            <card-group :boardCategori="boardCategori[index]"></card-group>
           </b-col>
         </b-row>
       </div>
@@ -31,7 +31,7 @@
 
 <script>
 import CardGroup from '@/views/components/cards/CardGroup';
-import cardTitles from '@/constant/index';
+import boardCategori from '@/constant/board-categori';
 
 export default {
   name: 'FrameSection',
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       hotTitle: { title: '인기게시글', path: 'hot', emoticon: '🔥' },
-      cardTitles,
+      boardCategori,
     };
   },
 };

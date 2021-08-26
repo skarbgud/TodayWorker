@@ -1,6 +1,10 @@
 <template>
   <div>
-    <b-card :title="post.title" class="card-link pt-3 pb-2" @click="goDetailRouter()">
+    <b-card
+      :title="post.title"
+      class="card-link pt-3 pb-2"
+      @click="goDetailRouter()"
+    >
       <b-card-text class="mt-4 mb-4">
         <b-link class="card-link overtext">
           {{ post.content }}
@@ -38,6 +42,7 @@ export default {
   methods: {
     // TODO. 상세보기 라우터 구현
     goDetailRouter() {
+      console.log(this.$route.path);
       this.$router.push(`${this.$route.path}/${this.post.index}`);
     },
   },
