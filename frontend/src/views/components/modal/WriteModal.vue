@@ -53,15 +53,13 @@
         placeholder="제목을 입력해주세요"
       ></b-input>
       <!-- 내용 입력 -->
-      <b-form-textarea
-        class="mt-3 mb-3 input-area"
-        id="textarea-rows"
-        :placeholder="contentPlaceholder"
-        rows="14"
-        max-rows="1000000"
-        no-resize
-        v-model="content"
-      ></b-form-textarea>
+      <text-area
+        :rows="14"
+        :maxRow="10000000"
+        :contentPlaceholder="
+          '주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다.'
+        "
+      ></text-area>
     </div>
     <!-- 모달 하단 -->
     <template #modal-footer>
@@ -105,8 +103,10 @@
 
 <script>
 import boardCategori from '@/constant/board-categori';
+import TextArea from '../input/TextArea.vue';
 
 export default {
+  components: { TextArea },
   name: 'WriteModal',
   data() {
     return {
@@ -117,8 +117,6 @@ export default {
       isShowCategori: false,
       title: '',
       content: '',
-      contentPlaceholder:
-        '주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다.',
     };
   },
   watch: {
