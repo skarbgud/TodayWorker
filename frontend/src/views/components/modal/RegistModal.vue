@@ -42,15 +42,14 @@
         class="input-area"
       ></el-input>
       <!-- 내용 입력 -->
-      <el-input
-        class="input-area"
-        type="textarea"
-        placeholder="주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다."
-        resize="none"
-        :autosize="{ minRows: 14, maxRows: 1000000 }"
-        v-model="content"
+      <input-textarea
+        :minRows="14"
+        :maxRows="1000000"
+        :placeHolder="
+          '주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로숨김 처리 될 수 있습니다.'
+        "
       >
-      </el-input>
+      </input-textarea>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -94,9 +93,11 @@
 
 <script>
 import boardCategori from '@/constant/board-categori';
+import InputTextarea from '@/views/components/input/InputTextarea';
 
 export default {
   name: 'registModal',
+  components: { InputTextarea },
   data() {
     return {
       dialogVisible: false,
@@ -179,5 +180,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/components/writemodal.scss';
+@import '@/assets/scss/components/registModal.scss';
 </style>
