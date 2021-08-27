@@ -27,7 +27,14 @@ export default {
       type: String,
     },
   },
+  data() {
+    return {
+      content: '',
+    };
+  },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import '@/assets/scss/components/textArea.scss';
+</style>

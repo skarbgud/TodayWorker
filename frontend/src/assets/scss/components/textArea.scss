@@ -1,0 +1,9 @@
+::v-deep {
+  .input-area {
+    padding: 20px !important;
+  }
+  //내용 입력을 height 늘리기
+  #textarea-rows {
+    overflow-y: hidden !important;
+  }
+}

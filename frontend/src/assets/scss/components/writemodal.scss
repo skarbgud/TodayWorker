@@ -73,10 +73,6 @@
   .input-control {
     margin: 5px;
   }
-  //내용 입력을 height 늘리기
-  #textarea-rows {
-    overflow-y: hidden !important;
-  }
   .input-file-button {
     padding: 10px;
     border: 1px solid #9e9e9e;
@@ -95,6 +91,6 @@
   }
   .fa-hashtag {
     width: 25px !important;
-    color: #FF3399 !important;
+    color: #ff3399 !important;
   }
 }

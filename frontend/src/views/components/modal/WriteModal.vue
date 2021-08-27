@@ -66,7 +66,7 @@
       <div class="w-100">
         <p class="float-left">
           <!-- 사진 업로드 -->
-          <span class="mr-3">
+          <span class="mr-3" @click="uploadImage()">
             <label class="input-file-button" for="input-file">
               📷
             </label>
@@ -78,13 +78,13 @@
             />
           </span>
           <!-- 투표기능 -->
-          <span class="mr-3">
+          <span class="mr-3" @click="clickVoting()">
             <label class="input-file-button">
               🗳️
             </label>
           </span>
           <!-- 위치태그 -->
-          <span class="mr-3">
+          <span class="mr-3" @click="getLocation()">
             <label class="input-file-button">
               <i class="fas fa-map-marker-alt"></i>
             </label>
@@ -154,6 +154,48 @@ export default {
       this.activeNames = [];
       this.categoriName =
         this.boardCategori[index].emoticon + this.boardCategori[index].title;
+    },
+    uploadImage() {
+      console.log('사진 업로드');
+    },
+    clickVoting() {
+      console.log('투표 기능');
+    },
+    // 위치 버튼을 클릭
+    getLocation() {
+      // GPS를 지원하면
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            console.log('성공');
+            // 좌표 (위도[latitude], 경도[longitude])
+            console.log(
+              position.coords.latitude + ' ' + position.coords.longitude,
+            );
+          },
+          /* eslint-disable */
+          // 접근 권한 실패  -> GeolocationPositionError {code: 1, message: "User denied Geolocation"}
+          function(error) {
+            alert('위치 권한을 허용해주세요');
+            console.log('위치 접근 권한 실패');
+            console.error(error);
+          },
+          {
+            enableHighAccuracy: false,
+            maximumAge: 0,
+            timeout: Infinity,
+          },
+        );
+      }
+      // 위치 정보를 미지원
+      else {
+        navigator.geolocation.watchPosition();
+        alert('위치 정보를 지원하지 않습니다');
+      }
+    },
+    // 해시 태그 버튼을 클릭
+    clickHashTag() {
+      console.log('해시태그');
     },
   },
 };
