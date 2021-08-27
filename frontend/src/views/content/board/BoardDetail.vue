@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import hashTag from '@/views/components/item/HashTag.vue';
+import hashTag from '@/views/components/item/HashTag';
 
 export default {
   name: 'BoardDetail',

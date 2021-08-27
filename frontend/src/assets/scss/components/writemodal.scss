@@ -1,13 +1,4 @@
 ::v-deep {
-  .title-wraper {
-    display: block;
-    text-align: center;
-    margin: 0 auto;
-    height: 100%;
-    width: calc(100% - 115px);
-    box-sizing: border-box;
-    margin-top: 4px;
-  }
   // 모바일에서는 모달창 full size
   @media (min-width: 320px) and (max-width: 990px) {
     .modal-dialog {
@@ -35,24 +26,34 @@
       height: 100% !important;
       z-index: 10002 !important;
       opacity: 1 !important;
+      overflow: inherit;
     }
   }
   .write-modal-title {
+    font-size: 18px;
     display: inline-block;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.25em;
     color: #222;
     margin-top: -1px;
-    vertical-align: top;
     cursor: default;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    height: 100%;
+    width: calc(100% - 115px);
+    box-sizing: border-box;
   }
-  .modal-header .close {
-    margin: -1rem -1rem -1rem 0 !important;
-  }
-  .modal-body {
+  .el-dialog__body {
     padding: 0 !important;
+    overflow: auto !important;
   }
+  .modal-footer {
+    justify-content: space-between !important;
+  }
+
+  // 이전
   .list-group {
     height: 200px !important;
     overflow: scroll !important;
@@ -68,7 +69,7 @@
     border-radius: 5px;
   }
   .input-area {
-    padding: 20px !important;
+    padding: 5px !important;
   }
   .input-control {
     margin: 5px;

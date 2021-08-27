@@ -1,28 +1,15 @@
 <template>
-  <b-modal
-    id="write-modal"
-    size="lg"
-    centered
-    scrollable
-    no-close-on-esc
-    no-close-on-backdrop
-    v-model="modalShow"
-    class="v--modal-overlay scrollable"
+  <el-dialog
+    :visible.sync="dialogVisible"
+    width="35%"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
   >
-    <!-- 모달 header -->
-    <template #modal-header>
-      <b-button variant="light" size="sm" class="post-button">
-        등록
-      </b-button>
-      <div class="title-wraper">
-        <span class="mx-auto modal-title text-center write-modal-title">
-          글쓰기
-        </span>
-      </div>
-      <button type="button" aria-label="Close" class="close" @click="close()">
-        ×
-      </button>
-    </template>
+    <span slot="title">
+      <span class="write-modal-title">
+        글쓰기
+      </span>
+    </span>
 
     <!-- 모달 content  -->
     <el-collapse v-model="activeNames" @change="handleCategori">
@@ -45,10 +32,10 @@
         </b-list-group>
       </el-collapse-item>
     </el-collapse>
+
     <div class="input-control">
       <!-- 제목 입력 -->
       <el-input
-        v-on:keyup.enter.native="submit(title)"
         size="small"
         v-model="title"
         placeholder="제목을 입력해주세요"
@@ -65,54 +52,54 @@
       >
       </el-input>
     </div>
-    <!-- 모달 하단 -->
-    <template #modal-footer>
-      <div class="w-100">
-        <p class="float-left">
-          <!-- 사진 업로드 -->
-          <span class="mr-3" @click="uploadImage()">
-            <label class="input-file-button" for="input-file">
-              📷
-            </label>
-            <input
-              type="file"
-              id="input-file"
-              style="display:none;"
-              accept="image/jiff, image/pjpeg, image/jpeg, image/pjp, image/jpg, image/png, image/gif, image/tiff, image/tif"
-            />
-          </span>
-          <!-- 투표기능 -->
-          <span class="mr-3" @click="clickVoting()">
-            <label class="input-file-button">
-              🗳️
-            </label>
-          </span>
-          <!-- 위치태그 -->
-          <span class="mr-3" @click="getLocation()">
-            <label class="input-file-button">
-              <i class="fas fa-map-marker-alt"></i>
-            </label>
-          </span>
-          <!-- 해시태그 기능 -->
-          <span class="mr-3">
-            <label class="input-file-button">
-              <i class="fas fa-hashtag"></i>
-            </label>
-          </span>
-        </p>
-      </div>
-    </template>
-  </b-modal>
+    <div class="modal-footer">
+      <p class="float-left">
+        <!-- 사진 업로드 -->
+        <span class="mr-3" @click="uploadImage()">
+          <label class="input-file-button" for="input-file">
+            📷
+          </label>
+          <input
+            type="file"
+            id="input-file"
+            style="display:none;"
+            accept="image/jiff, image/pjpeg, image/jpeg, image/pjp, image/jpg, image/png, image/gif, image/tiff, image/tif"
+          />
+        </span>
+        <!-- 투표기능 -->
+        <span class="mr-3" @click="clickVoting()">
+          <label class="input-file-button">
+            🗳️
+          </label>
+        </span>
+        <!-- 위치태그 -->
+        <span class="mr-3" @click="getLocation()">
+          <label class="input-file-button">
+            <i class="fas fa-map-marker-alt"></i>
+          </label>
+        </span>
+        <!-- 해시태그 기능 -->
+        <span class="mr-3">
+          <label class="input-file-button">
+            <i class="fas fa-hashtag"></i>
+          </label>
+        </span>
+      </p>
+      <span style="float:right">
+        <el-button>등록</el-button>
+      </span>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
 import boardCategori from '@/constant/board-categori';
 
 export default {
-  name: 'WriteModal',
+  name: 'registModal',
   data() {
     return {
-      modalShow: false,
+      dialogVisible: false,
       activeNames: [],
       categoriName: '카테고리',
       boardCategori,
@@ -124,8 +111,7 @@ export default {
   },
   methods: {
     // 모달 창 닫기 => 선택된 카테고리 초기화
-    close() {
-      this.modalShow = false;
+    handleClose() {
       this.activeNames = [];
       this.categoriName = '카테고리';
     },
@@ -182,8 +168,11 @@ export default {
     clickHashTag() {
       console.log('해시태그');
     },
-    submit(title) {
-      console.log(`${title}입력`);
+    open() {
+      this.dialogVisible = true;
+    },
+    close() {
+      this.dialogVisible = false;
     },
   },
 };
