@@ -16,21 +16,17 @@
             mode="horizontal"
             @select="handleSelect"
           >
-            <el-menu-item index="board" v-b-hover="hoverBoardTab"
-              >📌게시판</el-menu-item
+            <el-menu-item index="board" v-b-hover="hoverBoardTab">
+              📌게시판
+            </el-menu-item>
+            <el-menu-item
+              v-for="(menu, index) in functionMenu"
+              :index="menu.index"
+              :key="index"
+              v-b-hover="disableHoverTab"
             >
-            <el-menu-item index="calendar" v-b-hover="disableHoverTab"
-              >📅일정</el-menu-item
-            >
-            <el-menu-item index="calc" v-b-hover="disableHoverTab"
-              >🧮연봉 계산기</el-menu-item
-            >
-            <el-menu-item index="food" v-b-hover="disableHoverTab"
-              >🍽음식 메뉴 돌림판</el-menu-item
-            >
-            <el-menu-item index="friend" v-b-hover="disableHoverTab"
-              >👨🏻‍🤝‍👨🏼친구</el-menu-item
-            >
+              {{ menu.name }}
+            </el-menu-item>
           </el-menu>
         </b-navbar-nav>
 
@@ -60,7 +56,9 @@
             @click="golive(index)"
             class="flex-column align-items-start"
           >
-            <small class="text-muted">{{categori.emoticon}} {{ categori.title }}</small>
+            <small class="text-muted"
+              >{{ categori.emoticon }} {{ categori.title }}</small
+            >
           </b-list-group-item>
         </b-list-group>
       </b-card-group>
@@ -114,10 +112,9 @@ export default {
       this.isHoveredMenu = hovered;
     },
     golive(index) {
-
-      console.log("index" , index)
-         this.$router.push(this.boardCategori[index].path).catch(() => {});
-    }
+      console.log('index', index);
+      this.$router.push(this.boardCategori[index].path).catch(() => {});
+    },
   },
 };
 </script>

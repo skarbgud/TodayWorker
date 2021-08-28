@@ -1,9 +1,4 @@
 const functionMenu = [{
-    name: '📌게시판',
-    index: 'board',
-    emoticon: '📌'
-  },
-  {
     name: '📅일정',
     index: 'calendar',
     emoticon: '📅'
