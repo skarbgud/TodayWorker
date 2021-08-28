@@ -149,7 +149,6 @@ export default {
       // 모달 닫기
       this.dialogVisible = false;
       // 초기화
-      this.modalFull = false;
       this.activeNames = [];
       this.categoriName = '카테고리';
     },
