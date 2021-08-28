@@ -4,6 +4,7 @@
     width="35%"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    :fullscreen="modalFull"
   >
     <span slot="title">
       <span class="write-modal-title">
@@ -108,11 +109,42 @@ export default {
       title: '',
       content: '',
       form: {},
+      modalFull: false,
+      width: 0,
     };
   },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  watch: {
+    width: {
+      immediate: true,
+      handler() {
+        this.handleResize();
+      },
+    },
+  },
   methods: {
+    // 반응형을 위한 사이즈
+    handleResize() {
+      this.width = window.innerWidth;
+      if (this.width < 950) {
+        this.modalFull = true;
+      } else {
+        this.modalFull = false;
+      }
+    },
+    // 모달창 열기
+    open() {
+      this.dialogVisible = true;
+    },
     // 모달 창 닫기 => 선택된 카테고리 초기화
-    handleClose() {
+    close() {
+      this.dialogVisible = false;
+      this.modalFull = false;
       this.activeNames = [];
       this.categoriName = '카테고리';
     },
@@ -168,12 +200,6 @@ export default {
     // 해시 태그 버튼을 클릭
     clickHashTag() {
       console.log('해시태그');
-    },
-    open() {
-      this.dialogVisible = true;
-    },
-    close() {
-      this.dialogVisible = false;
     },
   },
 };
