@@ -31,6 +31,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+@import '@/assets/scss/components/inputTextarea.scss';
 </style>

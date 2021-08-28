@@ -5,6 +5,7 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :fullscreen="modalFull"
+    @close="close"
   >
     <span slot="title">
       <span class="write-modal-title">
@@ -41,6 +42,7 @@
         v-model="title"
         placeholder="제목을 입력해주세요"
         class="input-area"
+        maxlength="120"
       ></el-input>
       <!-- 내용 입력 -->
       <input-textarea
@@ -101,6 +103,7 @@ export default {
   components: { InputTextarea },
   data() {
     return {
+      // 모달창 보이기 여부
       dialogVisible: false,
       activeNames: [],
       categoriName: '카테고리',
@@ -143,7 +146,9 @@ export default {
     },
     // 모달 창 닫기 => 선택된 카테고리 초기화
     close() {
+      // 모달 닫기
       this.dialogVisible = false;
+      // 초기화
       this.modalFull = false;
       this.activeNames = [];
       this.categoriName = '카테고리';
