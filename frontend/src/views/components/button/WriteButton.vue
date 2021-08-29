@@ -8,20 +8,17 @@
       @click="clickWriteButton"
       >글쓰기</b-button
     >
-    <!-- Write Modal 창 ( v-b-modal -> id="write-modal" ) -->
-    <!-- <write-modal></write-modal> -->
     <!-- bootstrap-vue 에서는 el-input 한글 오류 발생으로 인해 element ui로 팝업 구현 -->
-    <regist-modal ref="modal"></regist-modal>
+    <write-modal ref="modal"></write-modal>
   </div>
 </template>
 
 <script>
-// import WriteModal from '@/views/components/modal/WriteModal';
-import RegistModal from '@/views/components/modal/RegistModal';
+import WriteModal from '@/views/components/modal/WriteModal';
 
 export default {
   name: 'WriteButton',
-  components: { RegistModal },
+  components: { WriteModal },
   data() {
     return {
       dialogVisible: false,

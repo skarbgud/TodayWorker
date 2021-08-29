@@ -1,30 +1,20 @@
 <template>
-  <b-modal
-    id="write-modal"
-    size="lg"
-    centered
-    scrollable
-    no-close-on-esc
-    no-close-on-backdrop
-    v-model="modalShow"
-    class="v--modal-overlay scrollable"
+  <el-dialog
+    :visible.sync="dialogVisible"
+    width="35%"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :fullscreen="modalFull"
+    @close="close"
   >
-    <!-- 모달 header -->
-    <template #modal-header>
-      <b-button variant="light" size="sm" class="post-button">
-        등록
-      </b-button>
-      <div class="title-wraper">
-        <span class="mx-auto modal-title text-center write-modal-title">
-          글쓰기
-        </span>
-      </div>
-      <button type="button" aria-label="Close" class="close" @click="close()">
-        ×
-      </button>
-    </template>
+    <span slot="title">
+      <span class="write-modal-title">
+        글쓰기
+      </span>
+    </span>
 
     <!-- 모달 content  -->
+    <categori-select></categori-select>
     <el-collapse v-model="activeNames" @change="handleCategori">
       <el-collapse-item name="categori">
         <!-- 선택된 카테고리  -->
@@ -45,74 +35,68 @@
         </b-list-group>
       </el-collapse-item>
     </el-collapse>
+
     <div class="input-control">
       <!-- 제목 입력 -->
       <el-input
-        v-on:keyup.enter.native="submit(title)"
         size="small"
         v-model="title"
         placeholder="제목을 입력해주세요"
         class="input-area"
+        maxlength="120"
       ></el-input>
       <!-- 내용 입력 -->
-      <el-input
-        class="input-area"
-        type="textarea"
-        placeholder="주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다."
-        resize="none"
-        :autosize="{ minRows: 14, maxRows: 1000000 }"
-        v-model="content"
+      <input-textarea
+        :minRows="14"
+        :maxRows="1000000"
+        :placeHolder="
+          '주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다.'
+        "
       >
-      </el-input>
+      </input-textarea>
     </div>
-    <!-- 모달 하단 -->
-    <template #modal-footer>
-      <div class="w-100">
-        <p class="float-left">
-          <!-- 사진 업로드 -->
-          <span class="mr-3" @click="uploadImage()">
-            <label class="input-file-button" for="input-file">
-              📷
-            </label>
-            <input
-              type="file"
-              id="input-file"
-              style="display:none;"
-              accept="image/jiff, image/pjpeg, image/jpeg, image/pjp, image/jpg, image/png, image/gif, image/tiff, image/tif"
-            />
-          </span>
-          <!-- 투표기능 -->
-          <span class="mr-3" @click="clickVoting()">
-            <label class="input-file-button">
-              🗳️
-            </label>
-          </span>
-          <!-- 위치태그 -->
-          <span class="mr-3" @click="getLocation()">
-            <label class="input-file-button">
-              <i class="fas fa-map-marker-alt"></i>
-            </label>
-          </span>
-          <!-- 해시태그 기능 -->
-          <span class="mr-3">
-            <label class="input-file-button">
-              <i class="fas fa-hashtag"></i>
-            </label>
-          </span>
-        </p>
-      </div>
-    </template>
-  </b-modal>
+    <div class="modal-footer">
+      <p class="float-left">
+        <!-- 사진 업로드 -->
+        <camera-button @uploadImage="uploadImage"></camera-button>
+        <!-- 투표기능 -->
+        <span class="mr-3" @click="clickVoting()">
+          <label class="input-file-button">
+            🗳️
+          </label>
+        </span>
+        <!-- 위치태그 -->
+        <span class="mr-3" @click="getLocation()">
+          <label class="input-file-button">
+            <i class="fas fa-map-marker-alt"></i>
+          </label>
+        </span>
+        <!-- 해시태그 기능 -->
+        <span class="mr-3">
+          <label class="input-file-button">
+            <i class="fas fa-hashtag"></i>
+          </label>
+        </span>
+      </p>
+      <span style="float:right">
+        <el-button>등록</el-button>
+      </span>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
 import boardCategori from '@/constant/board-categori';
+import InputTextarea from '@/views/components/input/InputTextarea';
+import CameraButton from '@/views/components/button/CameraButton';
 
 export default {
   name: 'WriteModal',
+  components: { InputTextarea, CameraButton },
   data() {
     return {
-      modalShow: false,
+      // 모달창 보이기 여부
+      dialogVisible: false,
       activeNames: [],
       categoriName: '카테고리',
       boardCategori,
@@ -120,12 +104,43 @@ export default {
       title: '',
       content: '',
       form: {},
+      modalFull: false,
+      width: 0,
     };
   },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  watch: {
+    width: {
+      immediate: true,
+      handler() {
+        this.handleResize();
+      },
+    },
+  },
   methods: {
+    // 반응형을 위한 사이즈
+    handleResize() {
+      this.width = window.innerWidth;
+      if (this.width < 950) {
+        this.modalFull = true;
+      } else {
+        this.modalFull = false;
+      }
+    },
+    // 모달창 열기
+    open() {
+      this.dialogVisible = true;
+    },
     // 모달 창 닫기 => 선택된 카테고리 초기화
     close() {
-      this.modalShow = false;
+      // 모달 닫기
+      this.dialogVisible = false;
+      // 초기화
       this.activeNames = [];
       this.categoriName = '카테고리';
     },
@@ -182,13 +197,10 @@ export default {
     clickHashTag() {
       console.log('해시태그');
     },
-    submit(title) {
-      console.log(`${title}입력`);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/components/writemodal.scss';
+@import '@/assets/scss/components/registModal.scss';
 </style>

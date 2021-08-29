@@ -53,7 +53,7 @@
           :key="index"
         >
           <b-list-group-item
-            @click="golive(index)"
+            @click="goMenu(index)"
             class="flex-column align-items-start"
           >
             <small class="text-muted"
@@ -113,9 +113,8 @@ export default {
     hoverMenuBar(hovered) {
       this.isHoveredMenu = hovered;
     },
-    golive(index) {
-      console.log('index', index);
-      this.$router.push(this.boardCategori[index].path).catch(() => {});
+    goMenu(index) {
+      this.$router.push(`/${this.boardCategori[index].path}`);
     },
   },
 };
