@@ -74,7 +74,10 @@
     <div class="modal-footer">
       <p class="float-left">
         <!-- 사진 업로드 -->
-        <camera-button @uploadImage="uploadImage"></camera-button>
+        <camera-button
+          @uploadImage="uploadImage"
+          :fileList="files"
+        ></camera-button>
         <!-- 투표기능 -->
         <span class="mr-3" @click="clickVoting()">
           <label class="input-file-button">
@@ -123,8 +126,6 @@ export default {
       modalFull: false,
       width: 0,
       files: [], //업로드용 파일
-      filesPreview: [],
-      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
     };
   },
   mounted() {
@@ -178,10 +179,8 @@ export default {
       this.files = files;
     },
     fileDeleteButton(e) {
-      console.log(e);
       const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
-      // console.log(this.files);
     },
     clickVoting() {
       console.log('투표 기능');

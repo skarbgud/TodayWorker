@@ -18,12 +18,22 @@
 <script>
 export default {
   name: 'CameraButton',
+  props: ['fileList'],
   data() {
     return {
       files: [], //업로드용 파일
       filesPreview: [],
       uploadImageIndex: 0, // 이미지 업로드를 위한 변수
     };
+  },
+  watch: {
+    // 부모 컴포넌트에서 이미지 삭제에 대한 반응을 하기 위해 사용
+    fileList: {
+      immediate: true,
+      handler() {
+        this.files = this.fileList;
+      },
+    },
   },
   methods: {
     imageUpload() {
