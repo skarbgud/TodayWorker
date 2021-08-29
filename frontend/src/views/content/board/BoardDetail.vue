@@ -4,7 +4,7 @@
       <div style="justify-content-md-center" class="mt-4">
         <!-- <b-breadcrumb :items="items"/> -->
         <b-row>
-          <b-col cols-sm="12" cols-lg="12" cols-xl ="8" class="mt-4">
+          <b-col cols-sm="12" cols-md="7" cols-lg="8" cols-xl="8" class="mt-4">
             <h2>{{ post.title }}</h2>
             <div class="content">
               <div class="userbox mt-3">
@@ -64,16 +64,37 @@
             </div>
             <div class="article-comments pt-2">
               <h6>댓글 127</h6>
-              <b-link>
-                <div class="comment-box mt-2">
-                  <b-icon icon="camera" font-scale="2"></b-icon>
-                  <span class="comment">댓글을 입력하세요</span>
+
+              <div
+                class="comment-box mt-2"
+                v-if="isWrite === false"
+                @click="isWrite = true"
+              >
+                <b-icon icon="camera" font-scale="2"></b-icon>
+                <span class="comment">댓글을 입력하세요</span>
+              </div>
+              <div v-else class="write-box mt-2">
+                <input-textarea
+                  :placeHolder="placeHolder"
+                  :minRows="5"
+                  :maxRows="1000000"
+                ></input-textarea>
+
+                <div class="rcmd-btn">
+                  <b-button
+                    variant="danger"
+                    class="mr-3"
+                    size="sm"
+                    @click="isWrite = false"
+                    >취소</b-button
+                  >
+                  <b-button variant="light" size="sm">등록</b-button>
                 </div>
-              </b-link>
+              </div>
             </div>
           </b-col>
-           <div class="ml-5 d-none d-xl-block"/>
-          <b-col class="mt-4 box d-none d-xl-block" >
+          <div class="ml-5 d-none d-lg-none d-xl-block" />
+          <b-col class="mt-4 box d-none d-lg-none d-xl-block" cols="3">
             <slot name="recommendedPost"></slot>
           </b-col>
         </b-row>
@@ -83,17 +104,24 @@
 </template>
 
 <script>
-import hashTag from '@/views/components/item/HashTag';
+import hashTag from "@/views/components/item/HashTag";
+import InputTextarea from "../../components/input/InputTextarea.vue";
 
 export default {
-  name: 'BoardDetail',
-  props: ['post', 'user'],
-  components: { hashTag },
+  name: "BoardDetail",
+  props: ["post", "user"],
+  components: { hashTag, InputTextarea },
   computed: {},
+  data() {
+    return {
+      isWrite: false,
+      placeHolder: "댓글을 입력 해 주세요",
+    };
+  },
   methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/pages/content/boardContent.scss';
+@import "@/assets/scss/pages/content/boardContent.scss";
 </style>
