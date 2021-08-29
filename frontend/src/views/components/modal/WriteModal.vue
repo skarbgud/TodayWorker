@@ -14,7 +14,6 @@
     </span>
 
     <!-- 모달 content  -->
-    <categori-select></categori-select>
     <el-collapse v-model="activeNames" @change="handleCategori">
       <el-collapse-item name="categori">
         <!-- 선택된 카테고리  -->
@@ -54,6 +53,23 @@
         "
       >
       </input-textarea>
+      <!-- 이미지 미리보기 -->
+      <div class="file-preview-container">
+        <div
+          v-for="(file, index) in files"
+          :key="index"
+          class="file-preview-wrapper"
+        >
+          <div
+            class="file-close-button"
+            @click="fileDeleteButton"
+            :name="file.number"
+          >
+            x
+          </div>
+          <img :src="file.preview" />
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -106,6 +122,9 @@ export default {
       form: {},
       modalFull: false,
       width: 0,
+      files: [], //업로드용 파일
+      filesPreview: [],
+      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
     };
   },
   mounted() {
@@ -155,8 +174,14 @@ export default {
       this.categoriName =
         this.boardCategori[index].emoticon + this.boardCategori[index].title;
     },
-    uploadImage() {
-      console.log('사진 업로드');
+    uploadImage(files) {
+      this.files = files;
+    },
+    fileDeleteButton(e) {
+      console.log(e);
+      const name = e.target.getAttribute('name');
+      this.files = this.files.filter((data) => data.number !== Number(name));
+      // console.log(this.files);
     },
     clickVoting() {
       console.log('투표 기능');

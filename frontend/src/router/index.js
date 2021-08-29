@@ -15,13 +15,11 @@ const router = new VueRouter({
     },
     {
       path: '/:board',
-      name: BoardList,
       component: BoardList,
     },
     {
       path: '/:board/:index',
       component: BoardContent,
-      name: BoardContent,
     }
   ],
 })
