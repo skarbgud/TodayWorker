@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" class="border-bottom border-secondary">
       <b-navbar-brand tag="h1" class="mb-0" @click="goMainPage()"
-        ><span style="color: red">WorkerHolic</span></b-navbar-brand
+        ><span style="color: red">{{ projectTitle }}</span></b-navbar-brand
       >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import projectTitle from '@/constant/project-title';
 import SearchForm from '@/views/components/input/SearchForm';
 import boardCategori from '@/constant/board-categori';
 import functionMenu from '@/constant/function-menu';
@@ -82,6 +83,7 @@ export default {
   components: { SearchForm, LoginButton, MainCarousel, WriteButton },
   data() {
     return {
+      projectTitle,
       activeIndex: '',
       isHoveredTab: false,
       isHoveredMenu: false,
