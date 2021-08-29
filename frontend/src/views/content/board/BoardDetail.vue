@@ -4,7 +4,7 @@
       <div style="justify-content-md-center" class="mt-4">
         <!-- <b-breadcrumb :items="items"/> -->
         <b-row>
-          <b-col cols="8" class="mt-4">
+          <b-col cols-sm="12" cols-lg="12" cols-xl ="8" class="mt-4">
             <h2>{{ post.title }}</h2>
             <div class="content">
               <div class="userbox mt-3">
@@ -72,8 +72,8 @@
               </b-link>
             </div>
           </b-col>
-           <div class="ml-5"/>
-          <b-col class="mt-4 box" >
+           <div class="ml-5 d-none d-xl-block"/>
+          <b-col class="mt-4 box d-none d-xl-block" >
             <slot name="recommendedPost"></slot>
           </b-col>
         </b-row>
