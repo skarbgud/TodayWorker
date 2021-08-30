@@ -22,7 +22,6 @@ export default {
   data() {
     return {
       files: [], //업로드용 파일
-      filesPreview: [],
       uploadImageIndex: 0, // 이미지 업로드를 위한 변수
     };
   },
@@ -40,7 +39,6 @@ export default {
       //하나의 배열로 넣기
       let num = -1;
       for (let i = 0; i < this.$refs.files.files.length; i++) {
-        console.log(this.uploadImageIndex);
         this.files = [
           ...this.files,
           //이미지 업로드
