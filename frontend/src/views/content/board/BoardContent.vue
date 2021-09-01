@@ -11,7 +11,7 @@
 
 <script>
 import BoardDetail from '@/views/content/board/BoardDetail';
-import Comment from '@/views/components/cards/Comment';
+import Comment from './comment/Comment';
 import RecommendedPost from '../../components/item/RecommendedPost';
 
 export default {
@@ -215,7 +215,7 @@ export default {
               groupNum: 1,
               reply: [],
             },
-              {
+            {
               postIndex: 1,
               index: 4,
               userId: '냐미냐미',
