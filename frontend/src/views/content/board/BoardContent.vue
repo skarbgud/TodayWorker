@@ -215,6 +215,17 @@ export default {
               groupNum: 1,
               reply: [],
             },
+              {
+              postIndex: 1,
+              index: 4,
+              userId: '냐미냐미',
+              company: '쩝쩝회사',
+              content: '1의대댓글 14',
+              isRecomment: true,
+              order: 1,
+              groupNum: 1,
+              reply: [],
+            },
           ],
         },
         {

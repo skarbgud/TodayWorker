@@ -19,18 +19,17 @@
         </div>
         <!-- 본댓글 끝 -->
         <!-- 대댓글이 3개가 넘어가면 대댓글 더보기 -->
-        <div
+        <!-- <div
           v-if="item.reply.length > 3"
           class="recomment-hide col-8"
           @click="clickMoreReply(item)"
         >
           + 대댓글 {{ item.reply.length - end }} 개 더 보기
           <hr />
-        </div>
+        </div> -->
         <!-- 대댓글 영역 -->
         <div v-if="item.reply.length !== 0">
           <comment-detail
-            @loadData="setEndData"
             :commentItem="item.reply"
             :ref="item.postIndex"
           ></comment-detail>
@@ -123,15 +122,15 @@ export default {
     // getReplyRange(replyList, start, end) {
     //   return replyList.slice(start, end);
     // },
-    clickMoreReply(val) {
-      // this.end += 10;
-      // this.list = val.reply;
-      console.log(this.$refs[val.postIndex][0]);
-      this.$refs[val.postIndex][0].loadMoreData();
-    },
-    setEndData(val) {
-      this.end = val;
-    },
+    // clickMoreReply(val) {
+    //   // this.end += 10;
+    //   // this.list = val.reply;
+    //   console.log(this.$refs[val.postIndex][0]);
+    //   this.$refs[val.postIndex][0].loadMoreData();
+    // },
+    // setEndData(val) {
+    //   this.end = val;
+    // },
     //코멘트 댓글그룹별 묶어서 정렬
     // commentSort() {
     //   this.comment = this.comments.sort(function(a, b) {
