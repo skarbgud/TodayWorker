@@ -15,13 +15,13 @@
       v-show="showMainImage"
     >
       <!-- Text slides with image -->
-      <b-carousel-slide caption="Worker Holic" text="지금 시작하세요">
+      <b-carousel-slide>
         <template #img>
           <img
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/main1.png"
+            src="../../../assets/image/main.png"
             alt="image slot"
           />
         </template>
@@ -34,7 +34,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/main2.png"
+            src="../../../assets/image/main1.png"
             alt="image slot"
           />
         </template>
