@@ -70,7 +70,6 @@
                 v-if="isWrite === false"
                 @click="isWrite = true"
               >
-                <b-icon icon="camera" font-scale="2"></b-icon>
                 <span class="comment">댓글을 입력하세요</span>
               </div>
               <div v-else class="write-box mt-2">
@@ -79,16 +78,37 @@
                   :minRows="5"
                   :maxRows="1000000"
                 ></input-textarea>
-
-                <div class="rcmd-btn">
-                  <b-button
-                    variant="danger"
-                    class="mr-3"
-                    size="sm"
-                    @click="isWrite = false"
-                    >취소</b-button
+                <div class="file-preview-container">
+                  <div
+                    v-for="(file, index) in files"
+                    :key="index"
+                    class="file-preview-wrapper"
                   >
-                  <b-button variant="light" size="sm">등록</b-button>
+                    <div
+                      class="file-close-button"
+                      @click="fileDeleteButton"
+                      :name="file.number"
+                    >
+                      x
+                    </div>
+                    <img :src="file.preview" />
+                  </div>
+                </div>
+                <div class="rcmd-btn">
+                  <span class="ml-3">
+                    <camera-button @uploadImage="uploadImage" :fileList="files">
+                    </camera-button>
+                  </span>
+                  <span class="float-right">
+                    <b-button
+                      variant="danger"
+                      class="mr-3"
+                      size="sm"
+                      @click="isWrite = false"
+                      >취소</b-button
+                    >
+                    <b-button variant="light" size="sm">등록</b-button>
+                  </span>
                 </div>
               </div>
             </div>
@@ -106,19 +126,30 @@
 <script>
 import hashTag from "@/views/components/item/HashTag";
 import InputTextarea from "../../components/input/InputTextarea.vue";
+import CameraButton from "../../components/button/CameraButton.vue";
 
 export default {
   name: "BoardDetail",
   props: ["post", "user"],
-  components: { hashTag, InputTextarea },
+  components: { hashTag, InputTextarea, CameraButton },
   computed: {},
   data() {
     return {
       isWrite: false,
       placeHolder: "댓글을 입력 해 주세요",
+      files: [],
     };
   },
-  methods: {},
+  methods: {
+    uploadImage(files) {
+      console.log(files);
+      this.files = files;
+    },
+    fileDeleteButton(e) {
+      const name = e.target.getAttribute("name");
+      this.files = this.files.filter((data) => data.number !== Number(name));
+    },
+  },
 };
 </script>
 
