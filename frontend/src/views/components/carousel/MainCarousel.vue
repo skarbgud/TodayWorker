@@ -21,7 +21,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/main.png"
+            src="../../../assets/image/mainImage1.png"
             alt="image slot"
           />
         </template>
@@ -34,20 +34,20 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/main1.png"
+            src="../../../assets/image/mainImage2.png"
             alt="image slot"
           />
         </template>
       </b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide text="우리의 일상이 돌아오길 바라면서....">
+      <b-carousel-slide>
         <template #img>
           <img
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/main3.png"
+            src="../../../assets/image/mainImage3.png"
             alt="image slot"
           />
         </template>

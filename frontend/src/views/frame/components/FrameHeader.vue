@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-navbar toggleable="lg" class="border-bottom border-secondary">
-      <b-navbar-brand tag="h1" class="mb-0" @click="goMainPage()"
-        ><span style="color: red">{{ projectTitle }}</span></b-navbar-brand
-      >
+      <b-navbar-brand tag="h1" class="mb-0" href="/">
+        <img src="../../../assets/image/logo1.png" alt="only" :width="40" :height="40">
+      </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -94,10 +94,6 @@ export default {
   },
 
   methods: {
-    goMainPage() {
-      // 중복 url 이동때문에 오류 catch
-      this.$router.push('/').catch(() => {});
-    },
     handleSelect(activeIndex) {
       this.activeIndex = activeIndex;
     },
