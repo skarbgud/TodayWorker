@@ -74,41 +74,7 @@
         </div>
       </div>
       <!-- 투표 영역 -->
-      <div class="voting-area" v-if="showVoting">
-        <p>
-          * 투표 항목은 글 등록 이후에는 수정할 수 없습니다.
-        </p>
-        <!-- 투표 항목 (기본 2개) -->
-        <el-input
-          v-for="(voteItem, index) in voteList"
-          :key="index"
-          class="input-area"
-          v-model="voteList[index]"
-          placeholder="투표항목"
-          clearable
-        ></el-input>
-        <div class="plus-vote">
-          <div>
-            <div class="vote-left">
-              <el-button @click="plusVoteItem" size="small" plain
-                >➕ 항목 추가</el-button
-              >
-
-              <el-checkbox
-                class="ml-3"
-                v-model="manyChecked"
-                label="manyChecked"
-                border
-                size="small"
-                >복수 투표 허용</el-checkbox
-              >
-            </div>
-            <div class="vote-right">
-              <el-button @click="deleteVoting" type="primary" size="small" icon="el-icon-delete">투표 삭제</el-button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <voting-write ref="votingComponent"></voting-write>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -148,11 +114,12 @@ import boardCategori from '@/constant/board-categori';
 import InputTextarea from '@/views/components/input/InputTextarea';
 import CameraButton from '@/views/components/button/CameraButton';
 import HashTag from '../item/HashTag.vue';
+import VotingWrite from './components/VotingWrite';
 
 export default {
   name: 'WriteModal',
-  components: { InputTextarea, CameraButton, HashTag },
-  data(){
+  components: { InputTextarea, CameraButton, VotingWrite, HashTag },
+  data() {
     return {
       // 모달창 보이기 여부
       dialogVisible: false,
@@ -166,10 +133,7 @@ export default {
       modalFull: false,
       width: 0,
       files: [], //업로드용 파일
-      showVoting: false, // 투표기능 on/off 여부
-      voteList: ['', ''], //투표 항목 리스트
-      manyChecked: false, // 복수 투표 가능
-      isHashTag: false
+      isHashTag: false,
     };
   },
   mounted() {
@@ -228,19 +192,7 @@ export default {
     },
     // 투표버튼 클릭
     clickVoting() {
-      this.showVoting = true;
-    },
-    // 투표 항목 버튼
-    plusVoteItem() {
-      this.voteList.push('');
-    },
-    // 투표 삭제
-    deleteVoting()
-    {
-      // 모든 변수 초기화
-      this.showVoting = false;
-      this.manyChecked = false;
-      this.voteList = ['', ''];
+      this.$refs.votingComponent.clickVoting();
     },
     // 위치 버튼을 클릭
     getLocation() {
