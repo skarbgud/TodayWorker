@@ -24,20 +24,18 @@
                 </div>
               </div>
               <div class="post-info mt-1">
-                <b-icon class="mx-1" icon="clock" />2시간전
-                <b-icon class=" ml-2 " icon="hand-index-thumb" /> 505
+                <i class="far fa-clock mx-1" />2시간전
+                <i class="fas fa-eye mx-1"></i> 505
                 <b-icon class="mx-1 ml-2" icon="chat" />38
                 <div class="info-right">
                   <a href="#"><b-icon class="mx-1 ml-3" icon="bookmark"/></a>
-                  <a href="#"><b-icon class="mx-1 ml-3" icon="three-dots"/></a>
+                  <a href="#" v-b-popover.click.html="popoverMethod" ><b-icon class="mx-1 ml-3" icon="three-dots"/></a>
                 </div>
               </div>
               <hr />
               <div class="mt-4 mb-4">{{ post.content }}</div>
               <div class="info-bottom">
-                <a href="#"
-                  ><b-icon class="mx-1 ml-2" icon="hand-thumbs-up" />505</a
-                >
+                <a href="#"><i class="far fa-thumbs-up mx-1 mr-1" />505</a>
                 <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />38</a>
                 <a href="">
                   <img
@@ -58,7 +56,7 @@
                     class="sharebtn_custom"
                 /></a>
               </div>
-              <hash-tag :hashTag="post.hashTag" />
+              <hash-tag :disabled="tagDisabled" />
               <div style="clear:both" />
               <hr />
             </div>
@@ -136,11 +134,15 @@ export default {
   data() {
     return {
       isWrite: false,
+      tagDisabled: true,
       placeHolder: "댓글을 입력 해 주세요",
       files: [],
     };
   },
   methods: {
+    popoverMethod() {
+     return '<a href="#">' + '공유하기' + '</a>' + '<hr />'+'<a href="#">' + '신고하기' + '</a>' 
+    },
     uploadImage(files) {
       console.log(files);
       this.files = files;
