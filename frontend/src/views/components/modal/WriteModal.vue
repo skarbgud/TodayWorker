@@ -70,6 +70,37 @@
           <img :src="file.preview" />
         </div>
       </div>
+      <!-- 투표 영역 -->
+      <div class="voting-area" v-if="showVoting">
+        <p>
+          * 투표 항목은 글 등록 이후에는 수정할 수 없습니다.
+        </p>
+        <!-- 투표 항목 (기본 2개) -->
+        <el-input
+          v-for="(voteItem, index) in voteList"
+          :key="index"
+          class="input-area"
+          v-model="voteList[index]"
+          placeholder="투표항목"
+          clearable
+        ></el-input>
+        <div class="plus-vote">
+          <el-button @click="plusVoteItem" size="small" plain
+            >➕ 항목 추가</el-button
+          >
+          <!-- <b-button  variant="outline-dark" 
+            ></b-button
+          > -->
+          <el-checkbox
+            class="ml-3"
+            v-model="manyChecked"
+            label="manyChecked"
+            border
+            size="small"
+            >복수 투표 허용</el-checkbox
+          >
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -126,6 +157,9 @@ export default {
       modalFull: false,
       width: 0,
       files: [], //업로드용 파일
+      showVoting: false, // 투표기능 on/off 여부
+      voteList: ['', ''], //투표 항목 리스트
+      manyChecked: false, // 복수 투표 가능
     };
   },
   mounted() {
@@ -182,8 +216,13 @@ export default {
       const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
     },
+    // 투표버튼 클릭
     clickVoting() {
-      console.log('투표 기능');
+      this.showVoting = true;
+    },
+    // 투표 항목 버튼
+    plusVoteItem() {
+      this.voteList.push('');
     },
     // 위치 버튼을 클릭
     getLocation() {
