@@ -18,9 +18,8 @@
       </div>
       <div class="mt-2">{{ reply.content }}</div>
       <div class="mt-2 comment-bottom">
-        <b-icon class="mx-1" icon="clock" />2시간전
-        {{ reply.isRecomment }}
-        <a href="#"><b-icon class="mx-1 ml-1" icon="hand-thumbs-up" />좋아요</a>
+        <i class="far fa-clock mx-1" />2시간전
+        <a href="#"><i class="far fa-thumbs-up mx-1 ml-1" />좋아요</a>
         <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />1</a>
       </div>
       <hr />
