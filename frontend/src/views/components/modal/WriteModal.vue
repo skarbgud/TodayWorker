@@ -85,20 +85,25 @@
           clearable
         ></el-input>
         <div class="plus-vote">
-          <el-button @click="plusVoteItem" size="small" plain
-            >➕ 항목 추가</el-button
-          >
-          <!-- <b-button  variant="outline-dark" 
-            ></b-button
-          > -->
-          <el-checkbox
-            class="ml-3"
-            v-model="manyChecked"
-            label="manyChecked"
-            border
-            size="small"
-            >복수 투표 허용</el-checkbox
-          >
+          <div>
+            <div class="vote-left">
+              <el-button @click="plusVoteItem" size="small" plain
+                >➕ 항목 추가</el-button
+              >
+
+              <el-checkbox
+                class="ml-3"
+                v-model="manyChecked"
+                label="manyChecked"
+                border
+                size="small"
+                >복수 투표 허용</el-checkbox
+              >
+            </div>
+            <div class="vote-right">
+              <el-button @click="deleteVoting" type="primary" size="small" icon="el-icon-delete">투표 삭제</el-button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -223,6 +228,14 @@ export default {
     // 투표 항목 버튼
     plusVoteItem() {
       this.voteList.push('');
+    },
+    // 투표 삭제
+    deleteVoting()
+    {
+      // 모든 변수 초기화
+      this.showVoting = false;
+      this.manyChecked = false;
+      this.voteList = ['', ''];
     },
     // 위치 버튼을 클릭
     getLocation() {

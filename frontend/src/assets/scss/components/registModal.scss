@@ -414,4 +414,14 @@ width: 100%; */
     margin-top: 15px;
     font-size: 14px;
   }
+  .vote-left{
+    display: table-cell;
+    text-align: left;
+    width: 100%;
+  }
+  .vote-right {
+    display: table-cell;
+    text-align: right;
+    width: 100%;
+  }
 }
