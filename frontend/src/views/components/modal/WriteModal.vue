@@ -53,6 +53,9 @@
         "
       >
       </input-textarea>
+      <div v-if="isHashTag">
+        <hash-tag :disabled="disable"></hash-tag>
+      </div>
       <!-- 이미지 미리보기 -->
       <div class="file-preview-container">
         <div
@@ -122,7 +125,7 @@
           </label>
         </span>
         <!-- 해시태그 기능 -->
-        <span class="mr-3">
+        <span class="mr-3" @click="isHashTag = !isHashTag">
           <label class="input-file-button">
             <i class="fas fa-hashtag"></i>
           </label>
@@ -139,11 +142,12 @@
 import boardCategori from '@/constant/board-categori';
 import InputTextarea from '@/views/components/input/InputTextarea';
 import CameraButton from '@/views/components/button/CameraButton';
+import HashTag from '../item/HashTag.vue';
 
 export default {
   name: 'WriteModal',
-  components: { InputTextarea, CameraButton },
-  data() {
+  components: { InputTextarea, CameraButton, HashTag },
+  data(){
     return {
       // 모달창 보이기 여부
       dialogVisible: false,
@@ -160,6 +164,7 @@ export default {
       showVoting: false, // 투표기능 on/off 여부
       voteList: ['', ''], //투표 항목 리스트
       manyChecked: false, // 복수 투표 가능
+      isHashTag: false
     };
   },
   mounted() {

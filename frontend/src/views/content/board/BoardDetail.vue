@@ -56,7 +56,7 @@
                     class="sharebtn_custom"
                 /></a>
               </div>
-              <hash-tag :disabled="tagDisabled" />
+              <hash-tag :disabled="disabled" :tagList="tagList" />
               <div style="clear:both" />
               <hr />
             </div>
@@ -134,9 +134,10 @@ export default {
   data() {
     return {
       isWrite: false,
-      tagDisabled: true,
+      disabled: true,
       placeHolder: "댓글을 입력 해 주세요",
       files: [],
+      tagList:["태그","맛집", "여행", "리스트"]
     };
   },
   methods: {
