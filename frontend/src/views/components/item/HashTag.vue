@@ -3,14 +3,14 @@
     <a href="#">
     <b-form-tags
       input-id="tags-pills"
-      v-model="value"
+      v-model="tagList"
       tag-variant="primary"
       tag-pills
       size="md"
       separator=" "
       placeholder=""
-      add-on-change=false
-      disabled
+      :disabled="disabled"
+      addButtonText="+"
     />
     </a>
   </div>
@@ -19,9 +19,10 @@
 <script>
 export default {
   name: "HashTag",
+  props: ["tagList", "disabled"],
   data() {
     return {
-      value:["# aaaa","# bbb","# ccc"]
+     
     }
   },
   methods:{
