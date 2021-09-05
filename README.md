@@ -1,13 +1,11 @@
-# ToyProject
-첫번째 토이프로젝트
+<h1><strong>프로젝트명 : Onyl(오늘도 직장인[오직])</strong></h1>
 
-# 프로젝트명: Worker Holic
-![image](https://user-images.githubusercontent.com/54926902/130327264-3b045242-adf1-48b8-9190-caa288ea49c7.png)
+![image](https://user-images.githubusercontent.com/54926902/132117682-97e75942-45e4-4638-9ac2-6e93595389e7.png)
 
 # 프로젝트 기간
 2021/08/16 ~ 
 
-# Contribute
-- 남규형 
-- 김진희
+# contributor
+- 남규형 (https://github.com/skarbgud)
+- 김진희 (https://github.com/wlsgml0229)
 
