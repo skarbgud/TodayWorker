@@ -75,6 +75,8 @@
       </div>
       <!-- 투표 영역 -->
       <voting-write ref="votingComponent"></voting-write>
+      <!-- 위치 팝업 -->
+      <location-modal ref="locationModal"></location-modal>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -115,10 +117,11 @@ import InputTextarea from '@/views/components/input/InputTextarea';
 import CameraButton from '@/views/components/button/CameraButton';
 import HashTag from '../item/HashTag.vue';
 import VotingWrite from './components/VotingWrite';
+import LocationModal from './components/LocationModal';
 
 export default {
   name: 'WriteModal',
-  components: { InputTextarea, CameraButton, VotingWrite, HashTag },
+  components: { InputTextarea, CameraButton, VotingWrite, LocationModal, HashTag },
   data() {
     return {
       // 모달창 보이기 여부
@@ -134,10 +137,17 @@ export default {
       width: 0,
       files: [], //업로드용 파일
       isHashTag: false,
+      position: [],
     };
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
+    const script = document.createElement('script');
+    /* global kakao */
+    script.onload = () => kakao.maps.load(this.initMap);
+    script.src =
+      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0';
+    document.head.appendChild(script);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
@@ -196,18 +206,22 @@ export default {
     },
     // 위치 버튼을 클릭
     getLocation() {
+      this.$refs.locationModal.open();
       // GPS를 지원하면
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          function(position) {
+          (position) => {
             console.log('성공');
             // 좌표 (위도[latitude], 경도[longitude])
+            this.position = [
+              position.coords.latitude,
+              position.coords.longitude,
+            ];
             console.log(
               position.coords.latitude + ' ' + position.coords.longitude,
             );
           },
           /* eslint-disable */
-          // 접근 권한 실패  -> GeolocationPositionError {code: 1, message: "User denied Geolocation"}
           function(error) {
             alert('위치 권한을 허용해주세요');
             console.log('위치 접근 권한 실패');
