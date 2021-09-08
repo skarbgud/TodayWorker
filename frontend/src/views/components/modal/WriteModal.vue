@@ -76,7 +76,7 @@
       <!-- 투표 영역 -->
       <voting-write ref="votingComponent"></voting-write>
       <!-- 위치 팝업 -->
-      <location-modal ref="locationModal"></location-modal>
+      <location-modal ref="locationModal" :position="position"></location-modal>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -142,12 +142,6 @@ export default {
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
-    const script = document.createElement('script');
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src =
-      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0';
-    document.head.appendChild(script);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
