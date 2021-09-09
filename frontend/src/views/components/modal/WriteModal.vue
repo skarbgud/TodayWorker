@@ -207,10 +207,10 @@ export default {
           (position) => {
             console.log('성공');
             // 좌표 (위도[latitude], 경도[longitude])
-            this.position = [
-              position.coords.latitude,
-              position.coords.longitude,
-            ];
+            this.position = {
+            len:  position.coords.latitude,
+            ren:  position.coords.longitude,
+          };
             console.log(
               position.coords.latitude + ' ' + position.coords.longitude,
             );
