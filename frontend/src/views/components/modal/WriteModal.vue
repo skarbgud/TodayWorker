@@ -54,7 +54,7 @@
       >
       </input-textarea>
       <div v-if="isHashTag">
-        <hash-tag :disabled="disable"></hash-tag>
+        <hash-tag></hash-tag>
       </div>
       <!-- 이미지 미리보기 -->
       <div class="file-preview-container">
@@ -76,7 +76,7 @@
       <!-- 투표 영역 -->
       <voting-write ref="votingComponent"></voting-write>
       <!-- 위치 팝업 -->
-      <location-modal ref="locationModal"></location-modal>
+      <location-modal ref="locationModal" :position="position"></location-modal>
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -142,12 +142,6 @@ export default {
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
-    const script = document.createElement('script');
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src =
-      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0';
-    document.head.appendChild(script);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
@@ -206,22 +200,21 @@ export default {
     },
     // 위치 버튼을 클릭
     getLocation() {
-      this.$refs.locationModal.open();
       // GPS를 지원하면
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
+            this.$refs.locationModal.open();
             console.log('성공');
             // 좌표 (위도[latitude], 경도[longitude])
-            this.position = [
-              position.coords.latitude,
-              position.coords.longitude,
-            ];
+            this.position = {
+            len:  position.coords.latitude,
+            ren:  position.coords.longitude,
+          };
             console.log(
               position.coords.latitude + ' ' + position.coords.longitude,
             );
           },
-          /* eslint-disable */
           function(error) {
             alert('위치 권한을 허용해주세요');
             console.log('위치 접근 권한 실패');
