@@ -56,7 +56,9 @@
                     class="sharebtn_custom"
                 /></a>
               </div>
-              <hash-tag :disabled="disabled" :tagList="tagList" />
+              <div class="mt-3">
+              <el-tag v-for="tag in tagList" :key="tag" class="tag mx-1">{{tag}}</el-tag>
+              </div>
               <div style="clear:both" />
               <hr />
             </div>
@@ -122,14 +124,13 @@
 </template>
 
 <script>
-import hashTag from "@/views/components/item/HashTag";
 import InputTextarea from "../../components/input/InputTextarea.vue";
 import CameraButton from "../../components/button/CameraButton.vue";
 
 export default {
   name: "BoardDetail",
   props: ["post", "user"],
-  components: { hashTag, InputTextarea, CameraButton },
+  components: { InputTextarea, CameraButton },
   computed: {},
   data() {
     return {
