@@ -54,7 +54,7 @@
       >
       </input-textarea>
       <div v-if="isHashTag">
-        <hash-tag :disabled="disable"></hash-tag>
+        <hash-tag></hash-tag>
       </div>
       <!-- 이미지 미리보기 -->
       <div class="file-preview-container">
@@ -200,11 +200,11 @@ export default {
     },
     // 위치 버튼을 클릭
     getLocation() {
-      this.$refs.locationModal.open();
       // GPS를 지원하면
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
+            this.$refs.locationModal.open();
             console.log('성공');
             // 좌표 (위도[latitude], 경도[longitude])
             this.position = {
@@ -215,7 +215,6 @@ export default {
               position.coords.latitude + ' ' + position.coords.longitude,
             );
           },
-          /* eslint-disable */
           function(error) {
             alert('위치 권한을 허용해주세요');
             console.log('위치 접근 권한 실패');
