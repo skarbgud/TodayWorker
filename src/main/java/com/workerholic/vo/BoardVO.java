@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class LiveBoardVO {
+public class BoardVO {
 //    LIVE_BNO            INT NOT NULL AUTO_INCREMENT,
 //    LIVE_TYPE            VARCHAR(20) NOT NULL,
 //    LIVE_TITLE            VARCHAR(30),
@@ -13,11 +13,11 @@ public class LiveBoardVO {
 //    LIVE_CNT            INT DEFAULT 0,
 //    LIVE_USER            VARCHAR(20) NOT NULL,
 //    LIVE_REGDATE             TIMESTAMP DEFAULT NOW(),
-	int live_bno;
-	String live_type;
-	String live_title;
-	String live_content;
-	String live_cnt;
-	String live_user;
-	Date live_regdate;
+	int bno;
+	String type;
+	String title;
+	String content;
+	String cnt;
+	String writer;
+	Date regdate;
 }

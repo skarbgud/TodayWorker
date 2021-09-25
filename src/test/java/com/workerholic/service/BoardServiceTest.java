@@ -12,29 +12,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.workerholic.mapper.LiveBoardMapper;
+import com.workerholic.mapper.BoardMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
-public class LiveBoardServiceTest {
+public class BoardServiceTest {
 
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 
 	@Test
-	public void getLiveBoardList() {
+	public void getBoardList() {
 
-		List<Map<String, Object>> liveBoardList = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> boardList = new ArrayList<Map<String, Object>>();
 
 		try (SqlSession session = sqlSessionFactory.openSession()) {
-			LiveBoardMapper mapper = session.getMapper(LiveBoardMapper.class);
+			BoardMapper mapper = session.getMapper(BoardMapper.class);
 
-			liveBoardList = mapper.getLiveBoardList();
+			boardList = mapper.getBoardList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println(liveBoardList);
+		System.out.println(boardList);
 	}
 
 }
