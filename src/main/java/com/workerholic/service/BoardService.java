@@ -9,25 +9,25 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.workerholic.mapper.LiveBoardMapper;
+import com.workerholic.mapper.BoardMapper;
 
 @Service
-public class LiveBoardService implements LiveBoardServiceIF{
+public class BoardService implements BoardServiceIF{
 
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 
-	public List<Map<String, Object>> getLiveBoardList() {
+	public List<Map<String, Object>> getBoardList() {
 
-		List<Map<String, Object>> liveBoardList = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> boardList = new ArrayList<Map<String,Object>>();
 		
 		try (SqlSession session = sqlSessionFactory.openSession()) {
-			LiveBoardMapper mapper = session.getMapper(LiveBoardMapper.class);
+			BoardMapper mapper = session.getMapper(BoardMapper.class);
 
-			liveBoardList = mapper.getLiveBoardList();
+			boardList = mapper.getBoardList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return liveBoardList;
+		return boardList;
 	}
 }
