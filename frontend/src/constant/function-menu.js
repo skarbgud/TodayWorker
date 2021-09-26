@@ -4,12 +4,12 @@ const functionMenu = [{
     emoticon: '📅'
   },
   {
-    name: '🧮연봉 계산기',
+    name: '🧮계산기',
     index: 'calc',
     emoticon: '🧮'
   },
   {
-    name: '🍽음식 메뉴 돌림판',
+    name: '🍽 뭐먹지?',
     index: 'food',
     emoticon: '🍽'
   },
