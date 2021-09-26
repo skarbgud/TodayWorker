@@ -76,7 +76,7 @@
       <!-- 투표 영역 -->
       <voting-write ref="votingComponent"></voting-write>
       <!-- 위치 팝업 -->
-      <location-modal ref="locationModal" :position="position"></location-modal>
+      <!-- <location-modal ref="locationModal" :position="position"></location-modal> -->
     </div>
     <div class="modal-footer">
       <p class="float-left">
@@ -92,11 +92,11 @@
           </label>
         </span>
         <!-- 위치태그 -->
-        <span class="mr-3" @click="getLocation()">
+        <!-- <span class="mr-3" @click="getLocation()">
           <label class="input-file-button">
             <i class="fas fa-map-marker-alt"></i>
           </label>
-        </span>
+        </span> -->
         <!-- 해시태그 기능 -->
         <span class="mr-3" @click="isHashTag = !isHashTag">
           <label class="input-file-button">
@@ -117,11 +117,11 @@ import InputTextarea from '@/views/components/input/InputTextarea';
 import CameraButton from '@/views/components/button/CameraButton';
 import HashTag from '../item/HashTag.vue';
 import VotingWrite from './components/VotingWrite';
-import LocationModal from './components/LocationModal';
+// import LocationModal from './components/LocationModal';
 
 export default {
   name: 'WriteModal',
-  components: { InputTextarea, CameraButton, VotingWrite, LocationModal, HashTag },
+  components: { InputTextarea, CameraButton, VotingWrite, HashTag },
   data() {
     return {
       // 모달창 보이기 여부
