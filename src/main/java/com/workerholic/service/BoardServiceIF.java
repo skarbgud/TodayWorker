@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface BoardServiceIF {
 
-	public List<Map<String, Object>> getBoardList();
+	public List<Map<String, Object>> getBoardList() throws Exception;
 }

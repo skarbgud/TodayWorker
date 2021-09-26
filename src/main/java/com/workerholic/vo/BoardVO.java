@@ -6,13 +6,13 @@ import lombok.Data;
 
 @Data
 public class BoardVO {
-//    LIVE_BNO            INT NOT NULL AUTO_INCREMENT,
-//    LIVE_TYPE            VARCHAR(20) NOT NULL,
-//    LIVE_TITLE            VARCHAR(30),
-//    LIVE_CONTENT        TEXT,
-//    LIVE_CNT            INT DEFAULT 0,
-//    LIVE_USER            VARCHAR(20) NOT NULL,
-//    LIVE_REGDATE             TIMESTAMP DEFAULT NOW(),
+//    BNO            INT NOT NULL AUTO_INCREMENT,
+//    TYPE            VARCHAR(20) NOT NULL,
+//    TITLE            VARCHAR(30),
+//    CONTENT        TEXT,
+//    CNT            INT DEFAULT 0,
+//    WRITER            VARCHAR(20) NOT NULL,
+//    REGDATE             TIMESTAMP DEFAULT NOW(),
 	int bno;
 	String type;
 	String title;

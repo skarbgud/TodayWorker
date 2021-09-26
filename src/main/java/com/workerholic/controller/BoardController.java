@@ -19,7 +19,7 @@ public class BoardController {
 
 	@Autowired
 	BoardService service;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "get-board-list.do", method = RequestMethod.POST)
 	public ResultVO getBoardList() {
@@ -27,9 +27,10 @@ public class BoardController {
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			result.setResult(service.getBoardList());
+			result.setData(service.getBoardList());
 			result.setSuccess(true);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			LOG.error("[Board] getBoardList : " + e.getMessage(), e);
 		}
 

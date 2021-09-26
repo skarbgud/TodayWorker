@@ -12,22 +12,21 @@ import org.springframework.stereotype.Service;
 import com.workerholic.mapper.BoardMapper;
 
 @Service
-public class BoardService implements BoardServiceIF{
+public class BoardService implements BoardServiceIF {
 
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 
-	public List<Map<String, Object>> getBoardList() {
-
-		List<Map<String, Object>> boardList = new ArrayList<Map<String,Object>>();
+	public List<Map<String, Object>> getBoardList() throws Exception {
 		
-		try (SqlSession session = sqlSessionFactory.openSession()) {
-			BoardMapper mapper = session.getMapper(BoardMapper.class);
+		List<Map<String, Object>> boardList = new ArrayList<Map<String, Object>>();
 
-			boardList = mapper.getBoardList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		SqlSession session = sqlSessionFactory.openSession();
+		
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+
+		boardList = mapper.getBoardList();
+
 		return boardList;
 	}
 }
