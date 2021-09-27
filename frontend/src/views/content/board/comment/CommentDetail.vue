@@ -6,7 +6,7 @@
       @click="loadMoreData()"
     >
       + 대댓글 {{ totalReplyCount }} 개 더 보기
-      <hr />
+      <hr/>
     </div>
     <div
       v-for="(reply, index) in getReplyRange(replyComment, 0, end)"
@@ -52,4 +52,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.hr{
+  width: 80px;
+}
+</style>
