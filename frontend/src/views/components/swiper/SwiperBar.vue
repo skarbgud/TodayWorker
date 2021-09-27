@@ -11,6 +11,7 @@
           <b-nav>
             <b-nav-item @click="golive(index)">
               {{ boardCategori[index].title }}
+              {{boardCategori[index].emoticon}}
             </b-nav-item>
           </b-nav>
         </swiper-slide>
@@ -34,31 +35,14 @@ export default {
     return {
       boardCategori,
       swiperOption: {
-        slidesPerView: 5,
-        spaceBetween: 50,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        breakpoints: {
-          1024: {
-            slidesPerView: 8,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 20,
-          },
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
-        },
-      },
+        slidesPerView: 'auto',
+        spaceBetween: 6, 
+        slidesOffsetBefore: 0, 
+        slidesOffsetAfter: 0, 
+        freeMode: true, 
+        centerInsufficientSlides: true, 
+      }
+    
     };
   },
   methods: {
@@ -68,15 +52,42 @@ export default {
   },
 };
 </script>
-
-<style>
-.item:hover {
-  /* border-bottom: 1px solid #0b0c0c; */
-}
-.swiper-pagination {
-  margin-bottom: 75px;
-}
+<style lang="scss" scoped>
 .swiper-container {
-  padding-top: 40px;
+   padding: 0 20px; 
+  &:before,
+  &:after { 
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    z-index: 10;
+    content: "";
+  }
+  &:before {
+    left: 0;
+    background: linear-gradient(90deg, #fff -20.19%, rgba(255, 255, 255, 0.8) 18.31%, rgba(255, 255, 255, 0) 75%);
+  }
+  &:after {
+    right: 0;
+    background: linear-gradient(270deg, #fff -20.19%, rgba(255, 255, 255, 0.8) 18.31%, rgba(255, 255, 255, 0) 75%);
+  }
+  .swiper-wrapper {
+    .swiper-slide {
+      width: auto; 
+      min-width: 56px; 
+      padding: 0px 14px;
+      font-size: 14px;
+      line-height: 36px;
+      text-align: center;
+      color: #84868c;
+      border: 0;
+      border-radius: 18px;
+      background: #f3f4f7;
+      appearance: none;
+      cursor: pointer;
+    }
+  }
 }
 </style>
