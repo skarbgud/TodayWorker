@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="replyComment.length > 3 && totalReplyCount > 0"
-      class="recomment-hide col-8"
+      class="recomment-hide"
       @click="loadMoreData()"
     >
       + 대댓글 {{ totalReplyCount }} 개 더 보기
@@ -11,7 +11,7 @@
     <div
       v-for="(reply, index) in getReplyRange(replyComment, 0, end)"
       :key="index"
-      class="mt-3 col-8"
+      class="mt-3 ml-4"
     >
       <div class="mt-2 comment-user">
         {{ reply.company }} | {{ reply.userId }}
