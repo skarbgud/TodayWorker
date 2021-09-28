@@ -8,12 +8,10 @@
           :key="index"
           class="item"
         >
-          <b-nav>
-            <b-nav-item @click="golive(index)">
+          <a @click="golive(index)">
               {{ boardCategori[index].title }}
               {{boardCategori[index].emoticon}}
-            </b-nav-item>
-          </b-nav>
+            </a>
         </swiper-slide>
       </swiper>
     </b-row>
@@ -47,6 +45,8 @@ export default {
   },
   methods: {
     golive(index) {
+      const a = document.getElementById("class")
+      a.classList.add
       this.$router.push(this.boardCategori[index].path).catch(() => {});
     },
   },
@@ -87,6 +87,10 @@ export default {
       background: #f3f4f7;
       appearance: none;
       cursor: pointer;
+      &[aria-selected="true"] {
+        color: #fff;
+        background: #000;
+      }
     }
   }
 }
