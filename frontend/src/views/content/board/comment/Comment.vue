@@ -1,7 +1,7 @@
 <template>
-  <div class="mt-4">
+  <div class="mt-4 row">
     <b-container>
-      <div v-for="(item, index) in comments" :key="index" class="mt-3 col-8">
+      <div v-for="(item, index) in comments" :key="index" class="mt-3 col-xl-8">
         <!--본댓글 -->
         <div :class="{ isRecomment: item.isRecomment === true }">
           <div class="mt-2 comment-user">
