@@ -7,5 +7,5 @@
 
 # contributor
 - 남규형 (https://github.com/skarbgud)
-- 김진희 (https://github.com/wlsgml0229)
+- 김진희 (https://github.com/wlsgml0229, https://github.com/peacelove27)
 
