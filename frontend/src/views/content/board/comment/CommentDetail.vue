@@ -1,17 +1,9 @@
 <template>
   <div>
     <div
-      v-if="replyComment.length > 3 && totalReplyCount > 0"
-      class="recomment-hide col-8"
-      @click="loadMoreData()"
-    >
-      + 대댓글 {{ totalReplyCount }} 개 더 보기
-      <hr />
-    </div>
-    <div
       v-for="(reply, index) in getReplyRange(replyComment, 0, end)"
       :key="index"
-      class="mt-3 col-8"
+      class="mt-3 ml-4"
     >
       <div class="mt-2 comment-user">
         {{ reply.company }} | {{ reply.userId }}
@@ -23,6 +15,14 @@
         <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />1</a>
       </div>
       <hr />
+    </div>
+    <div
+      v-if="replyComment.length > 3 && totalReplyCount > 0"
+      class="recomment-hide"
+      @click="loadMoreData()"
+    >
+      + 대댓글 {{ totalReplyCount }} 개 더 보기
+      <hr/>
     </div>
   </div>
 </template>
@@ -52,4 +52,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.hr{
+  width: 80px;
+}
+</style>
