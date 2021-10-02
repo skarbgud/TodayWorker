@@ -88,12 +88,12 @@ public class ElasticApi {
 
 	@Test
 	public void executeCreateDocument() {
-		String index = "test";
-		String id = "3";
+		String index = "board";
+		String id = "1";
 		Map<String, Object> jsonMap = new HashMap<>();
 		jsonMap.put("user", "nam");
 		jsonMap.put("postDate", new Date());
-		jsonMap.put("message", "trying out Elasticsearch2");
+		jsonMap.put("message", "trying out Elasticsearch1");
 		try {
 			createDocument(index, id, gson.toJson(jsonMap).toString());
 		} catch (IOException e) {
