@@ -128,4 +128,16 @@ public class BoardServiceElasticTest {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void deleteBoard() {
+		int bno = 1; 
+		DeleteRequest request = new DeleteRequest(indexName, indexName+bno);
+		
+		try {
+			client.delete(request, RequestOptions.DEFAULT);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }
