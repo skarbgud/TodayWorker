@@ -20,6 +20,9 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
@@ -76,6 +79,34 @@ public class BoardServiceElasticTest {
 		}
 
 		System.out.println(gson.toJson(boardList));
+	}
+	
+	@Test
+	public void getBoardDetail()
+	{
+		Map<String, Object> board = new HashMap<String, Object>();
+		
+		//쿼리문
+		SearchRequest searchRequest = new SearchRequest(indexName);
+		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder().filter(QueryBuilders.termQuery("_id", indexName+3));
+		sourceBuilder.query(boolQueryBuilder);
+		
+		searchRequest.source(sourceBuilder);
+		
+		try {
+			SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+			
+			for (SearchHit hit : searchResponse.getHits())
+			{
+				board = hit.getSourceAsMap();
+			}
+			
+			System.out.println(gson.toJson(board));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 	@Test
