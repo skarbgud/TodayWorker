@@ -6,13 +6,6 @@ import lombok.Data;
 
 @Data
 public class BoardVO {
-//    BNO            INT NOT NULL AUTO_INCREMENT,
-//    TYPE            VARCHAR(20) NOT NULL,
-//    TITLE            VARCHAR(30),
-//    CONTENT        TEXT,
-//    CNT            INT DEFAULT 0,
-//    WRITER            VARCHAR(20) NOT NULL,
-//    REGDATE             TIMESTAMP DEFAULT NOW(),
 	int bno;
 	String type;
 	String title;
@@ -20,4 +13,9 @@ public class BoardVO {
 	String cnt;
 	String writer;
 	Date regdate;
+	
+	// 투표 항목
+	String [] voteList;
+	// 해시태그 목록
+	String [] tagList;
 }

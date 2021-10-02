@@ -4,23 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpHost;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import com.workerholic.mapper.BoardMapper;
 import com.workerholic.utils.ElasticsearchConnect;
+import com.workerholic.vo.BoardVO;
 
 @Service
 public class BoardService implements BoardServiceIF {
@@ -61,4 +55,30 @@ public class BoardService implements BoardServiceIF {
 
 		return boardList;
 	}
+
+	@Override
+	public Map<String, Object> getBoardDetail() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertBoard(BoardVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBoard(BoardVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteBoard(BoardVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }
