@@ -37,29 +37,7 @@ export default {
   data() {
     return {
       boardPath: '',
-      post: [
-        {
-          index: 1,
-          title: '강원도여행 가려는데',
-          content:
-            'asdfdf  lkadsjflkdjflkdf ㅣㅏ어라ㅣㅓㅏㅣ어라ㅣ어라어러아ㅣ러  ㅣㅏㅁㅇ렁나렁ㅁㄴ러ㅣㅇ너리ㅏㅁㅇ너라ㅣㅓㅇㅁ나ㅣ렁나ㅣㅓ이ㅏ링너라ㅣ  ㅣㄴㅁㅇ렁나러ㅏㅣㅇㄴ러ㅣㅁㄴ리ㅏㅓㅣㅇㅁ나 ㅣㅏㅇ나러아ㅣ',
-        },
-        {
-          index: 2,
-          title: '롤렉스 시계 선물어때?',
-          content: '어떻게 생각해',
-        },
-        {
-          index: 3,
-          title: '테스트세트스',
-          content: '오오아아아아아',
-        },
-        {
-          index: 4,
-          title: '우오아아아아ㅏㅇ',
-          content: '오오아아아아아',
-        },
-      ],
+      post: [],
     };
   },
   methods: {
@@ -68,7 +46,7 @@ export default {
         .then((response) => {
           if(response.data.success)
           {
-            console.log(response.data.data);
+            this.post = response.data.data;
           }
           else {
             console.log('데이터 불러오기 실패');
