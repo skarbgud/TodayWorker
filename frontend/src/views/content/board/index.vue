@@ -12,7 +12,10 @@
           cols-lg="2"
         >
           <b-col class="pr-0 pl-0" v-for="(title, index) in post" :key="index">
-            <card-list :post="post[index]" @click="goDetailRouter(index)"></card-list>
+            <card-list
+              :post="post[index]"
+              @click="goDetailRouter(index)"
+            ></card-list>
           </b-col>
         </b-row>
       </div>
@@ -23,10 +26,14 @@
 <script>
 import CardList from '@/views/components/cards/CardList';
 import SwiperBar from '@/views/components/swiper/SwiperBar';
+import { axiosService } from '@/api/index';
 
 export default {
   name: 'BoardList',
   components: { CardList, SwiperBar },
+  created() {
+    this.getBoardListApi();
+  },
   data() {
     return {
       boardPath: '',
@@ -56,6 +63,21 @@ export default {
     };
   },
   methods: {
+    getBoardListApi() {
+      axiosService.post(`/board/get-board-list.do`)
+        .then((response) => {
+          if(response.data.success)
+          {
+            console.log(response.data.data);
+          }
+          else {
+            console.log('데이터 불러오기 실패');
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
