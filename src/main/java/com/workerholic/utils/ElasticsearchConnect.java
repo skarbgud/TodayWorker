@@ -7,19 +7,47 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
 import org.elasticsearch.client.RestHighLevelClient;
 
-import lombok.Data;
-
-@Data
 public class ElasticsearchConnect {
 
 	private String address = "localhost";
 	private Integer port = 9200;
 	private String userId = "newadmin";
 	private String password = "password123";
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Integer getPort() {
+		return port;
+	}
+
+	public void setPort(Integer port) {
+		this.port = port;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public ElasticsearchConnect(String address, Integer port, String userId, String password) {
 		if (address != null) {
