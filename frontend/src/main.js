@@ -10,10 +10,12 @@ import '@fortawesome/fontawesome-free/js/all.js'
 // import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 
 import router from "./router"
+import axios from 'axios';
 
 Vue.use(IconsPlugin);
 Vue.use(BootstrapVue);
 Vue.use(ElementUI);
+Vue.use(axios);
 // Vue.use(Swiper);
 // Vue.use(SwiperSlide);
 
