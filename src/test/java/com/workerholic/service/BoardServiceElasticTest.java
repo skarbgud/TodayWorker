@@ -1,6 +1,5 @@
 package com.workerholic.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,23 +7,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpHost;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.script.Script;
-import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
@@ -35,6 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.workerholic.utils.ElasticsearchConnect;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml" })
@@ -44,14 +43,14 @@ public class BoardServiceElasticTest {
 
 	private String hostname = "localhost";
 	private Integer port = 9200;
+	
+	// es연결 정보
+	ElasticsearchConnect connect = new ElasticsearchConnect("localhost", 9200);
 
-	@Bean
-	public RestHighLevelClient restHighLevelClient() {
-		return new RestHighLevelClient(RestClient.builder(new HttpHost(hostname, port, "http")));
-	}
+	// Rest connection 설정
+	private final RestHighLevelClient client = connect.getConnection();
 
-	private final RestHighLevelClient client = restHighLevelClient();
-
+	// 인덱스 name
 	String indexName = "board";
 
 	@Test
