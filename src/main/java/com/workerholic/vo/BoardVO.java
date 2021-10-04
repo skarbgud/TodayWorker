@@ -3,11 +3,11 @@ package com.workerholic.vo;
 import java.util.Date;
 
 public class BoardVO {
-	private int bno;
+	private String bno;
 	private	String type;
 	private String title;
 	private String content;
-	private String cnt;
+	private int cnt;
 	private String writer;
 	private Date regdate;
 	
@@ -15,10 +15,10 @@ public class BoardVO {
 	String [] voteList;
 	// 해시태그 목록
 	String [] tagList;
-	public int getBno() {
+	public String getBno() {
 		return bno;
 	}
-	public void setBno(int bno) {
+	public void setBno(String bno) {
 		this.bno = bno;
 	}
 	public String getType() {
@@ -39,10 +39,10 @@ public class BoardVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCnt() {
+	public int getCnt() {
 		return cnt;
 	}
-	public void setCnt(String cnt) {
+	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
 	public String getWriter() {
