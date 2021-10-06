@@ -6,6 +6,7 @@
     resize="none"
     :autosize="{ minRows: minRows, maxRows: maxRows }"
     v-model="content"
+    @input="updateInput"
   ></el-input>
 </template>
 
@@ -13,9 +14,17 @@
 export default {
   name: 'InputArea',
   data() {
-    return {
-      content: '',
-    };
+    return {  
+      content : '',
+    }
+  },
+  methods: {
+    initData() {
+      this.content = ''
+    },
+    updateInput() {
+      this.$emit('inputContent', this.content);
+    },
   },
   props: {
     minRows:{

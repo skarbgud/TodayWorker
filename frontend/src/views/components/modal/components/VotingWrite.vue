@@ -9,6 +9,7 @@
       :key="index"
       class="input-area"
       v-model="voteList[index]"
+      @change="emitVoteList"
       placeholder="투표항목"
       clearable
     ></el-input>
@@ -60,6 +61,10 @@ export default {
     // 투표 항목 버튼
     plusVoteItem() {
       this.voteList.push('');
+    },
+    emitVoteList() {
+      console.log(this.voteList)
+      this.$emit('addVoteItem', this.voteList)
     },
     // 투표 삭제
     deleteVoting() {

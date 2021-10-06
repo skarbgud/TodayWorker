@@ -51,6 +51,8 @@
         :placeHolder="
           '주제에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김 처리 될 수 있습니다.'
         "
+        v-on:inputContent="inputContent"
+        ref="inputTextArea"
       >
       </input-textarea>
       <div v-if="isHashTag">
@@ -105,7 +107,7 @@
         </span>
       </p>
       <span style="float:right">
-        <el-button>등록</el-button>
+        <el-button @click="insertBoardApi">등록</el-button>
       </span>
     </div>
   </el-dialog>
@@ -117,6 +119,7 @@ import InputTextarea from '@/views/components/input/InputTextarea';
 import CameraButton from '@/views/components/button/CameraButton';
 import HashTag from '../item/HashTag.vue';
 import VotingWrite from './components/VotingWrite';
+import { axiosService } from '@/api/index';
 // import LocationModal from './components/LocationModal';
 
 export default {
@@ -138,6 +141,7 @@ export default {
       files: [], //업로드용 파일
       isHashTag: false,
       position: [],
+      voteList: []
     };
   },
   mounted() {
@@ -155,6 +159,46 @@ export default {
     },
   },
   methods: {
+    initData() {
+      this.form = []
+      this.categoriName = '카테고리',
+      this.title = '', 
+      this.content = '',
+      this.files = [],
+      this.voteList = [],
+      this.$refs.inputTextArea.initData();
+    },
+    addVoteItem(voteList) {
+      this.voteList = voteList
+    },
+    inputContent(content) {
+      this.content = content;
+    },
+    insertBoardApi() {
+      this.form = {
+        categoriName: this.categoriName,
+        title: this.title,
+        content: this.content,
+        files : this.files,
+        voteList : this.voteList
+      }
+      console.log(this.form)
+      axiosService.post(`/board/insert-board.do`, this.form)
+        .then((response) => {
+          if(response.data.success)
+          {
+           alert('등록되었습니다.') 
+           this.close();
+           this.initData();
+          }
+          else {
+            console.log('등록 실패하였습니다.');
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     // 반응형을 위한 사이즈
     handleResize() {
       this.width = window.innerWidth;
