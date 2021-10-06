@@ -13,10 +13,14 @@
 import BoardDetail from '@/views/content/board/BoardDetail';
 import Comment from './comment/Comment';
 import RecommendedPost from '../../components/item/RecommendedPost';
+import { axiosService } from '@/api/index';
 
 export default {
   name: 'BoardContent',
   components: { BoardDetail, Comment, RecommendedPost },
+   created() {
+    this.getBoardDetailApi();
+  },
   data() {
     return {
       path: '',
@@ -363,6 +367,23 @@ export default {
       },
     };
   },
+  methods: {
+    getBoardDetailApi() {
+      axiosService.post(`/board/get-board-detail.do`)
+        .then((response) => {
+          if(response.data.success)
+          {
+            this.post = response.data.data;
+          }
+          else {
+            console.log('데이터 불러오기 실패');
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      },
+    }
 };
 </script>
 
