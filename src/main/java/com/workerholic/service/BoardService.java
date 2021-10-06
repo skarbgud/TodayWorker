@@ -1,14 +1,20 @@
 package com.workerholic.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.ElasticsearchStatusException;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
@@ -63,9 +69,37 @@ public class BoardService implements BoardServiceIF {
 	}
 
 	@Override
-	public void insertBoard(BoardVO vo) throws Exception {
-		// TODO Auto-generated method stub
+	public void insertBoard(BoardVO boardVO) throws Exception {
 		
+		String uuid = UUID.randomUUID().toString();
+		uuid = uuid.replace("-", "");
+		
+		// bno는 uuid로 고유화
+		boardVO.setBno(uuid);
+		// 조회수는 기본값 0
+		boardVO.setCnt(0);
+		// 현재 날짜
+		boardVO.setRegdate(new Date());
+		
+		Map<String, String> boardMap = null;
+		
+		try {
+			boardMap = BeanUtils.describe(boardVO);
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			// id는 인덱스 + bno로 unique
+			IndexRequest request = new IndexRequest(indexName).id(indexName+boardVO.getBno()).source(boardMap, XContentType.JSON);
+			
+			client.index(request, RequestOptions.DEFAULT);
+			
+		} catch (ElasticsearchStatusException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 	@Override
