@@ -67,8 +67,6 @@ public class BoardService implements BoardServiceIF {
 
 	@Override
 	public Map<String, Object> getBoardDetail(BoardVO boardVO) throws Exception  {
-		
-		boardVO.setBno("2672725de75d46f3868acad9cda040db");
 		Map<String, Object> board = new HashMap<String, Object>();
 		
 		// bno
@@ -114,7 +112,7 @@ public class BoardService implements BoardServiceIF {
 		// 현재 날짜
 		boardVO.setRegdate(new Date());
 		
-		Map<String, String> boardMap = null;
+		Map<String, String> boardMap = null;   
 		
 		try {
 			boardMap = BeanUtils.describe(boardVO);
