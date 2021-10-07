@@ -90,29 +90,37 @@ public class BoardServiceElasticTest {
 	@Test
 	public void getBoardDetail()
 	{
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBno("2672725de75d46f3868acad9cda040db");
 		Map<String, Object> board = new HashMap<String, Object>();
+		
+		// bno
+		String boardNumer = boardVO.getBno();
+		// id (인덱스이름 + bno)
+		String id = indexName + boardNumer;
 		
 		//쿼리문
 		SearchRequest searchRequest = new SearchRequest(indexName);
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder().filter(QueryBuilders.termQuery("_id", indexName+3));
+		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+		boolQueryBuilder.must(QueryBuilders.termQuery("_id", id));
 		sourceBuilder.query(boolQueryBuilder);
 		
 		searchRequest.source(sourceBuilder);
 		
 		try {
-			SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+			SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);;
 			
-			for (SearchHit hit : searchResponse.getHits())
+			for (SearchHit hit : searchResponse.getHits().getHits())
 			{
 				board = hit.getSourceAsMap();
-			}
+			}			
 			
-			System.out.println(gson.toJson(board));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		System.out.println(gson.toJson(board));
 	}
 
 	@Test
