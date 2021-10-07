@@ -9,7 +9,7 @@ public interface BoardServiceIF {
 
 	public List<Map<String, Object>> getBoardList() throws Exception;
 	
-	public Map<String, Object> getBoardDetail() throws Exception;
+	public Map<String, Object> getBoardDetail(BoardVO vo) throws Exception;
 	
 	public void insertBoard(BoardVO vo) throws Exception;
 	

@@ -3,6 +3,7 @@ package com.workerholic.service;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,6 +16,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
@@ -63,9 +66,39 @@ public class BoardService implements BoardServiceIF {
 	}
 
 	@Override
-	public Map<String, Object> getBoardDetail() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getBoardDetail(BoardVO boardVO) throws Exception  {
+		
+		boardVO.setBno("2672725de75d46f3868acad9cda040db");
+		Map<String, Object> board = new HashMap<String, Object>();
+		
+		// bno
+		String boardNumer = boardVO.getBno();
+		// id (인덱스이름 + bno)
+		String id = indexName + boardNumer;
+		
+		//쿼리문
+		SearchRequest searchRequest = new SearchRequest(indexName);
+		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+		boolQueryBuilder.must(QueryBuilders.termQuery("_id", id));
+		sourceBuilder.query(boolQueryBuilder);
+		
+		searchRequest.source(sourceBuilder);
+		
+		try {
+			SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);;
+			
+			for (SearchHit hit : searchResponse.getHits().getHits())
+			{
+				board = hit.getSourceAsMap();
+			}			
+			
+		} catch (ElasticsearchStatusException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return board;
 	}
 
 	@Override

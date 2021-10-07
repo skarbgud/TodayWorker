@@ -47,7 +47,7 @@ public class BoardController implements BoardControllerIF {
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			result.setData(service.getBoardDetail());
+			result.setData(service.getBoardDetail(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] getBoardDetail : " + e.getMessage(), e);
