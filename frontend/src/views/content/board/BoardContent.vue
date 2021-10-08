@@ -13,7 +13,7 @@
 import BoardDetail from '@/views/content/board/BoardDetail';
 import Comment from './comment/Comment';
 import RecommendedPost from '../../components/item/RecommendedPost';
-import { axiosService } from '@/api/index';
+import boardApi from '@/api/board/index';
 
 export default {
   name: 'BoardContent',
@@ -369,7 +369,7 @@ export default {
   },
   methods: {
     getBoardDetailApi() {
-      axiosService.post(`/board/get-board-detail.do`)
+      boardApi.getboardDetail()
         .then((response) => {
           if(response.data.success)
           {

@@ -26,7 +26,7 @@
 <script>
 import CardList from '@/views/components/cards/CardList';
 import SwiperBar from '@/views/components/swiper/SwiperBar';
-import { axiosService } from '@/api/index';
+import boardApi from '@/api/board/index';
 
 export default {
   name: 'BoardList',
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getBoardListApi() {
-      axiosService.post(`/board/get-board-list.do`)
+      boardApi.getBoardList()
         .then((response) => {
           if(response.data.success)
           {
