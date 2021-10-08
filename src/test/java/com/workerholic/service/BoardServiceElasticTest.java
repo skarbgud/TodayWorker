@@ -24,6 +24,8 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
@@ -31,6 +33,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.workerholic.utils.ElasticsearchConnect;
@@ -191,22 +195,28 @@ public class BoardServiceElasticTest {
 
 	@Test
 	public void updateBoard() {
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBno("408ea6eefe1645d78135c166270ea88f");
+		boardVO.setTitle("변경된 제목입니다");
+		boardVO.setContent("변경된 내용입니다");
 
-		int bno = 1;
-
-		Map<String, Object> boardVO = new HashMap<String, Object>();
-
-		boardVO.put("bno", bno);
-		boardVO.put("boardType", "live");
-		boardVO.put("title", "변경테스트제목");
-		boardVO.put("content", "변경테스트내용");
-		boardVO.put("cnt", 1);
-		boardVO.put("writer", "변경User");
-		boardVO.put("registDate", new Date());
-
+		// bno
+		String boardNumer = boardVO.getBno();
+		// id (인덱스이름 + bno)
+		String id = indexName + boardNumer;
+		
+		String json = null;
 		try {
-			UpdateRequest request = new UpdateRequest(indexName, indexName + bno).doc(boardVO);
-
+			json = new ObjectMapper().writeValueAsString(boardVO);
+		} 
+		catch (JsonProcessingException jsonException) {
+			// TODO Auto-generated catch block
+			jsonException.printStackTrace();
+		}
+	
+		try {
+			UpdateRequest request = new UpdateRequest(indexName, id).doc(json, XContentType.JSON);
+			
 			client.update(request, RequestOptions.DEFAULT);
 		} catch (Exception e) {
 			// TODO: handle exception
