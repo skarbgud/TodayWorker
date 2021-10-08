@@ -119,7 +119,7 @@ import InputTextarea from '@/views/components/input/InputTextarea';
 import CameraButton from '@/views/components/button/CameraButton';
 import HashTag from '../item/HashTag.vue';
 import VotingWrite from './components/VotingWrite';
-import { axiosService } from '@/api/index';
+import boardApi from '@/api/board/index';
 // import LocationModal from './components/LocationModal';
 
 export default {
@@ -183,7 +183,7 @@ export default {
         voteList : this.voteList
       }
       console.log(this.form)
-      axiosService.post(`/board/insert-board.do`, this.form)
+      boardApi.insertBoard(this.form)
         .then((response) => {
           if(response.data.success)
           {
