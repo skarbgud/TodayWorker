@@ -1,6 +1,7 @@
 package com.workerholic.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class BoardVO {
 	private String bno;
@@ -9,12 +10,15 @@ public class BoardVO {
 	private String content;
 	private int cnt;
 	private String writer;
-	private Date regdate;
+	private Date regDate;
 	
 	// 투표 항목
 	String [] voteList;
 	// 해시태그 목록
 	String [] tagList;
+	
+	List<ReplyVO> replys;
+	
 	public String getBno() {
 		return bno;
 	}
@@ -51,11 +55,11 @@ public class BoardVO {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public Date getRegdate() {
-		return regdate;
+	public Date getregDate() {
+		return regDate;
 	}
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
+	public void setregDate(Date regDate) {
+		this.regDate = regDate;
 	}
 	public String[] getVoteList() {
 		return voteList;

@@ -13,10 +13,12 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -24,6 +26,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
@@ -170,7 +173,7 @@ public class BoardServiceElasticTest {
 		// 조회수는 기본값 0
 		boardVO.setCnt(0);
 		// 현재 날짜
-		boardVO.setRegdate(new Date());
+		boardVO.setregDate(new Date());
 
 		Map<String, String> boardMap = null;
 		try {
@@ -197,8 +200,8 @@ public class BoardServiceElasticTest {
 	public void updateBoard() {
 		BoardVO boardVO = new BoardVO();
 		boardVO.setBno("408ea6eefe1645d78135c166270ea88f");
-		boardVO.setTitle("변경된 제목입니다");
-		boardVO.setContent("변경된 내용입니다");
+		boardVO.setTitle("변경된 제목입니다10/18");
+		boardVO.setContent("변경된 내용입니다10/18");
 
 		// bno
 		String boardNumer = boardVO.getBno();
@@ -217,7 +220,12 @@ public class BoardServiceElasticTest {
 		try {
 			UpdateRequest request = new UpdateRequest(indexName, id).doc(json, XContentType.JSON);
 			
-			client.update(request, RequestOptions.DEFAULT);
+			UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
+			
+			RestStatus status = response.status();
+			 
+			System.out.println(status);
+				 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -226,11 +234,21 @@ public class BoardServiceElasticTest {
 
 	@Test
 	public void deleteBoard() {
-		int bno = 1;
-		DeleteRequest request = new DeleteRequest(indexName, indexName + bno);
+		String bno = "1c90ad87728c45eeb44a1a5b9c0e7802";
+		
+		// id (인덱스이름 + bno)
+		String id = indexName + bno;
+		
+		DeleteRequest request = new DeleteRequest(indexName, id);
 
 		try {
-			client.delete(request, RequestOptions.DEFAULT);
+			DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
+			
+			RestStatus status = response.status();
+			 
+			System.out.println(status);
+
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -13,7 +13,7 @@ public interface BoardServiceIF {
 	
 	public void insertBoard(BoardVO vo) throws Exception;
 	
-	public void updateBoard(BoardVO vo) throws Exception;
+	public boolean updateBoard(BoardVO vo) throws Exception;
 	
-	public void deleteBoard(BoardVO vo) throws Exception;
+	public boolean deleteBoard(BoardVO vo) throws Exception;
 }
