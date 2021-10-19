@@ -3,6 +3,7 @@ package com.workerholic.controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.workerholic.vo.BoardVO;
+import com.workerholic.vo.ReplyVO;
 import com.workerholic.vo.ResultVO;
 
 public interface BoardControllerIF {
@@ -16,4 +17,6 @@ public interface BoardControllerIF {
 	public ResultVO updateBoard(@RequestBody BoardVO vo);
 
 	public ResultVO deleteBoard(@RequestBody BoardVO vo);
+	
+	public ResultVO registReply(@RequestBody ReplyVO vo);
 }

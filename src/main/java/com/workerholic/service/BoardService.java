@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workerholic.utils.ElasticsearchConnect;
 import com.workerholic.vo.BoardVO;
-import com.workerholic.vo.ReplyVO;
 
 @Service
 public class BoardService implements BoardServiceIF {
@@ -172,11 +170,6 @@ public class BoardService implements BoardServiceIF {
 		{
 			return false;
 		}
-	}
-
-	public void registReply(ReplyVO vo) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
