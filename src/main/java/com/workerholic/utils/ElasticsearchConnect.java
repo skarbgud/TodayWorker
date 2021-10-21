@@ -14,7 +14,7 @@ public class ElasticsearchConnect {
 
 	private String address = "localhost";
 	private Integer port = 9200;
-	private String userId = "newadmin";
+	private String userId = "elastic";
 	private String password = "password123";
 	
 	public String getAddress() {
