@@ -181,7 +181,8 @@ export default {
         title: this.title,
         content: this.content,
         files : this.files,
-        voteList : this.voteList
+        voteList : this.voteList,
+        tagList: this.tagList,
       }
       console.log(this.form)
       boardApi.insertBoard(this.form)
