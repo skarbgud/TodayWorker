@@ -22,7 +22,22 @@ export default {
       tagList: [],
     };
   },
-  methods: {},
+  watch: {
+    tagList: {
+      immediate:true,
+      handler(value)
+      {
+        let convertValue = value + '1';
+        console.log(convertValue);
+        this.changeTagList();
+      }
+    }
+  },
+  methods: {
+    changeTagList(){
+      this.$emit('changeTagList', this.tagList);
+    },
+  },
 };
 </script>
 

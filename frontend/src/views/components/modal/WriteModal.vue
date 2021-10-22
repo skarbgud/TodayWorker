@@ -56,7 +56,7 @@
       >
       </input-textarea>
       <div v-if="isHashTag">
-        <hash-tag></hash-tag>
+        <hash-tag @changeTagList="changeTagList"></hash-tag>
       </div>
       <!-- 이미지 미리보기 -->
       <div class="file-preview-container">
@@ -141,7 +141,8 @@ export default {
       files: [], //업로드용 파일
       isHashTag: false,
       position: [],
-      voteList: []
+      voteList: [],
+      tagList: [],
     };
   },
   mounted() {
@@ -281,6 +282,10 @@ export default {
     clickHashTag() {
       console.log('해시태그');
     },
+    changeTagList(data) {
+      console.log('호출하나');
+      this.tagList = data;
+    }
   },
 };
 </script>
