@@ -18,7 +18,7 @@
             ></card-list>
           </b-col>
         </b-row>
-          <loading-bar :variant="'info'" :loading="loading"></loading-bar>
+        <loading-bar :variant="'info'" :loading="loading"></loading-bar>
       </div>
     </b-container>
   </div>
@@ -43,16 +43,24 @@ export default {
       post: [],
     };
   },
+  computed: {
+    setParams() {
+      const params = {
+        fromIndex: 0,
+        pageSize: 30,
+      };
+      return params;
+    },
+  },
   methods: {
     getBoardListApi() {
-      this.loading = true
-      boardApi.getBoardList()
+      this.loading = true;
+      boardApi
+        .getBoardList(this.setParams)
         .then((response) => {
-          if(response.data.success)
-          {
+          if (response.data.success) {
             this.post = response.data.data;
-          }
-          else {
+          } else {
             console.log('데이터 불러오기 실패');
           }
         })
@@ -60,12 +68,10 @@ export default {
           console.log(error);
         })
         .finally(() => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
-    goDetailRouter() {
-      
-    }
+    goDetailRouter() {},
   },
 };
 </script>
