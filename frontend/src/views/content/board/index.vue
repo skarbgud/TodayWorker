@@ -17,6 +17,10 @@
               @click="goDetailRouter(index)"
             ></card-list>
           </b-col>
+          <infinite-loading
+            @infinite="infiniteHandler"
+            spinner="waveDots"
+          ></infinite-loading>
         </b-row>
         <loading-bar :variant="'info'" :loading="loading"></loading-bar>
       </div>
@@ -29,10 +33,11 @@ import CardList from '@/views/components/cards/CardList';
 import SwiperBar from '@/views/components/swiper/SwiperBar';
 import boardApi from '@/api/board/index';
 import LoadingBar from '../../components/loading/LoadingBar.vue';
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   name: 'BoardList',
-  components: { CardList, SwiperBar, LoadingBar },
+  components: { CardList, SwiperBar, LoadingBar, InfiniteLoading },
   created() {
     this.getBoardListApi();
   },
@@ -47,29 +52,50 @@ export default {
     setParams() {
       const params = {
         fromIndex: 0,
-        pageSize: 30,
+        pageSize: 10,
       };
       return params;
     },
   },
   methods: {
-    getBoardListApi() {
-      this.loading = true;
+    // getBoardListApi() {
+    //   this.loading = true;
+    //   boardApi
+    //     .getBoardList(this.setParams)
+    //     .then((response) => {
+    //       if (response.data.success) {
+    //         this.post = response.data.data;
+    //       } else {
+    //         console.log('데이터 불러오기 실패');
+    //       }
+    //     })
+    //     .catch(function(error) {
+    //       console.log(error);
+    //     })
+    //     .finally(() => {
+    //       this.loading = false;
+    //     });
+    // },
+    infiniteHandler($state) {
       boardApi
         .getBoardList(this.setParams)
         .then((response) => {
           if (response.data.success) {
-            this.post = response.data.data;
+            this.post = this.post.concat(response.data.data);
+            $state.loaded();
+            this.setParams.fromIndex += 10;
+            if (response.data.data.length == 0) {
+              $state.complete();
+            }
           } else {
-            console.log('데이터 불러오기 실패');
+            $state.complete();
+            console.log('무한스크롤 실패');
           }
         })
         .catch(function(error) {
           console.log(error);
         })
-        .finally(() => {
-          this.loading = false;
-        });
+        .finally(() => {});
     },
     goDetailRouter() {},
   },
