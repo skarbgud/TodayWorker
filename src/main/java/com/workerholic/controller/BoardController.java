@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.workerholic.service.BoardService;
 import com.workerholic.service.ReplyService;
 import com.workerholic.vo.BoardVO;
+import com.workerholic.vo.ElasticSearchVO;
 import com.workerholic.vo.ReplyVO;
 import com.workerholic.vo.ResultVO;
 
@@ -31,12 +32,12 @@ public class BoardController implements BoardControllerIF {
 
 	@ResponseBody
 	@RequestMapping(value = "get-board-list.do", method = RequestMethod.POST)
-	public ResultVO getBoardList() {
+	public ResultVO getBoardList(@RequestBody ElasticSearchVO vo) {
 		LOG.info("GetBoardList");
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			result.setData(service.getBoardList());
+			result.setData(service.getBoardList(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] getBoardList : " + e.getMessage(), e);

@@ -3,12 +3,13 @@ package com.workerholic.controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.workerholic.vo.BoardVO;
+import com.workerholic.vo.ElasticSearchVO;
 import com.workerholic.vo.ReplyVO;
 import com.workerholic.vo.ResultVO;
 
 public interface BoardControllerIF {
 
-	public ResultVO getBoardList();
+	public ResultVO getBoardList(@RequestBody ElasticSearchVO vo);
 
 	public ResultVO getBoardDetail(@RequestBody BoardVO vo);
 

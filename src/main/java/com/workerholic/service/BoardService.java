@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workerholic.utils.ElasticsearchConnect;
 import com.workerholic.vo.BoardVO;
+import com.workerholic.vo.ElasticSearchVO;
 
 @Service
 public class BoardService implements BoardServiceIF {
@@ -42,16 +43,16 @@ public class BoardService implements BoardServiceIF {
 	// 인덱스 name
 	private String indexName = "board";
 
-	public List<Map<String, Object>> getBoardList() throws Exception {
+	public List<Map<String, Object>> getBoardList(ElasticSearchVO vo) throws Exception {
 		List<Map<String, Object>> boardList = new ArrayList<Map<String, Object>>();
 
 		// 쿼리문
 		SearchRequest searchRequest = new SearchRequest(indexName);
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 		// 시작위치
-		sourceBuilder.from(0);
+		sourceBuilder.from(vo.getFromIndex());
 		// 가져오는 데이터양
-		sourceBuilder.size(1000);
+		sourceBuilder.size(vo.getPageSize());
 		searchRequest.source(sourceBuilder);
 
 		SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
