@@ -43,7 +43,8 @@ export default {
     // TODO. 상세보기 라우터 구현
     goDetailRouter() {
       console.log(this.$route.path);
-      this.$router.push(`${this.$route.path}/${this.post.index}`);
+      //받은데이터 post의 bno로 상세페이지 params 설정
+      this.$router.push(`${this.$route.path}/${this.post.bno}`);
     },
   },
 };

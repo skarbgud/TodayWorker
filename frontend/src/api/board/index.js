@@ -3,8 +3,8 @@ import { baseUrl } from '@/config';
 
 export default {
   // 게시판 > 게시글 목록 불러오기
-  getBoardList(params) {
-    return axios.post(`${baseUrl}/board/get-board-list.do`, params);
+  getBoardList() {
+    return axios.post(`${baseUrl}/board/get-board-list.do`);
   },
   // 게시판 > 게시글 등록 
   insertBoard(params) {

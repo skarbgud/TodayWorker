@@ -18,6 +18,7 @@
             ></card-list>
           </b-col>
         </b-row>
+          <loading-bar :variant="'info'" :loading="loading"></loading-bar>
       </div>
     </b-container>
   </div>
@@ -26,22 +27,25 @@
 <script>
 import CardList from '@/views/components/cards/CardList';
 import SwiperBar from '@/views/components/swiper/SwiperBar';
-import boardApi from '@/api/board/index';
+import { boardApi } from '@/api/board/index';
+import LoadingBar from '../../components/loading/LoadingBar.vue';
 
 export default {
   name: 'BoardList',
-  components: { CardList, SwiperBar },
+  components: { CardList, SwiperBar, LoadingBar },
   created() {
     this.getBoardListApi();
   },
   data() {
     return {
+      loading: false,
       boardPath: '',
       post: [],
     };
   },
   methods: {
     getBoardListApi() {
+      this.loading = true
       boardApi.getBoardList()
         .then((response) => {
           if(response.data.success)
@@ -54,8 +58,14 @@ export default {
         })
         .catch(function(error) {
           console.log(error);
-        });
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
+    goDetailRouter() {
+      
+    }
   },
 };
 </script>
