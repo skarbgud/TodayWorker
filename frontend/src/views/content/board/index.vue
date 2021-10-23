@@ -33,11 +33,10 @@ import CardList from '@/views/components/cards/CardList';
 import SwiperBar from '@/views/components/swiper/SwiperBar';
 import boardApi from '@/api/board/index';
 import LoadingBar from '../../components/loading/LoadingBar.vue';
-import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   name: 'BoardList',
-  components: { CardList, SwiperBar, LoadingBar, InfiniteLoading },
+  components: { CardList, SwiperBar, LoadingBar },
   created() {
     this.getBoardListApi();
   },
