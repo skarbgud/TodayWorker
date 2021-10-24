@@ -369,7 +369,8 @@ export default {
   },
   methods: {
     getBoardDetailApi() {
-      boardApi.getboardDetail()
+    //상세 페이지 조회시 게시글 bno로 조회
+      boardApi.getboardDetail(this.$route.params.index)
         .then((response) => {
           if(response.data.success)
           {
