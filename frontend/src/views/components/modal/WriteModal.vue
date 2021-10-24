@@ -159,6 +159,15 @@ export default {
       },
     },
   },
+  computed: {
+    setParams() {
+      const params = {
+        fromIndex: 0,
+        pageSize: 10,
+      };
+      return params;
+    },
+  },
   methods: {
     initData() {
       this.form = []
@@ -192,6 +201,7 @@ export default {
            alert('등록되었습니다.') 
            this.close();
            this.initData();
+           boardApi.getBoardList(this.setParams);          
           }
           else {
             console.log('등록 실패하였습니다.');
