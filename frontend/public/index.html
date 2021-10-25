@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>logo.ico">
     <title>오직 | 오늘도 직장인</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16aa0ff8556c688656fe838916e638c1"></script>
+    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16aa0ff8556c688656fe838916e638c1"></script> -->
+    <!--카카오톡으로 공유하기 기능 사용시 아래 앱키로 사용-->
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js" language="javascript" type="text/javascript"></script>
+    <script>Kakao.init('d8a126b1dad50de2b8d492573b3c35fa')</script>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   </head>
   <body>

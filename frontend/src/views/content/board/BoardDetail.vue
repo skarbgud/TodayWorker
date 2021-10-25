@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 <template>
   <div>
     <b-container>
@@ -49,12 +50,12 @@
                     title="트위터로 공유하기"
                     class="sharebtn_custom"
                 /></a>
-                <a href=""
-                  ><img
+                 <img
                     src="https://storage.googleapis.com/storage.chris-chris.ai/images/story.gif"
                     title="카카오스토리로 공유하기"
                     class="sharebtn_custom"
-                /></a>
+                    @click="sendkakao"
+                />
               </div>
               <div class="mt-3">
               <el-tag v-for="tag in post.tagList" :key="tag" class="tag mx-1">{{tag}}</el-tag>
@@ -128,6 +129,7 @@ import InputTextarea from "../../components/input/InputTextarea.vue";
 import CameraButton from "../../components/button/CameraButton.vue";
 
 export default {
+  head() { return { script: [ {src: '//developers.kakao.com/sdk/js/kakao.min.js'}, ], } },
   name: "BoardDetail",
   props: ["post", "user"],
   components: { InputTextarea, CameraButton },
@@ -153,7 +155,22 @@ export default {
       const name = e.target.getAttribute("name");
       this.files = this.files.filter((data) => data.number !== Number(name));
     },
-  },
+    sendkakao: function () {
+      // eslint-disable-next-line no-undef
+      Kakao.Link.sendDefault({ 
+          objectType: 'feed', 
+          content: { 
+                    title: this.post.title,
+                    description: this.post.content,
+                    imageUrl: 'http://localhost:8080/test.png',
+                    link: { 
+                      mobileWebUrl: 'http://localhost:8080',
+                      webUrl: 'http://localhost:8080',
+                    },
+              }, 
+          }) 
+     }
+  }
 };
 </script>
 
