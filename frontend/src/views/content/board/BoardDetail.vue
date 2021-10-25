@@ -25,7 +25,7 @@
               </div>
               <div class="post-info mt-1">
                 <i class="far fa-clock mx-1" />{{post.regDate}}
-                <i class="fas fa-eye mx-1"></i> {{post.viewCnt}}
+                <i class="fas fa-eye mx-1"></i> {{post.cnt}}
                 <b-icon class="mx-1 ml-2" icon="chat" />{{post.recomment}}
                 <div class="info-right">
                   <a href="#"><b-icon class="mx-1 ml-3" icon="bookmark"/></a>
@@ -57,7 +57,7 @@
                 /></a>
               </div>
               <div class="mt-3">
-              <el-tag v-for="tag in tagList" :key="tag" class="tag mx-1">{{tag}}</el-tag>
+              <el-tag v-for="tag in post.tagList" :key="tag" class="tag mx-1">{{tag}}</el-tag>
               </div>
               <div style="clear:both" />
               <hr />
