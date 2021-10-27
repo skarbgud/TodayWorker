@@ -1,5 +1,5 @@
 <template>
-  <div class="d-none d-xl-block">
+  <div class="d-none d-xl-block" v-if="isMobileWeb">
     <b-carousel
       id="carousel-1"
       v-model="slide"
@@ -61,6 +61,8 @@ export default {
   name: 'MainCarousel',
   data() {
     return {
+      isMobileWeb: false,
+      width: 0,
       slide: 0,
       sliding: null,
       showMainImage: false,
@@ -82,6 +84,15 @@ export default {
     },
   },
   methods: {
+    // 반응형을 위한 사이즈
+    handleResize() {
+      this.width = window.innerWidth;
+      if (this.width < 950) {
+        this.isMobileWeb = true;
+      } else {
+        this.isMobileWeb = false;
+      }
+    },
     // 슬라이딩 method
     onSlideStart() {
       this.sliding = true;
