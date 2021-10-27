@@ -21,7 +21,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/mainImage1.png"
+            src="https://raw.githubusercontent.com/skarbgud/Github-User-Content/main/mainImage1.png"
             alt="image slot"
           />
         </template>
@@ -34,7 +34,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/mainImage2.png"
+            src="https://raw.githubusercontent.com/skarbgud/Github-User-Content/main/mainImage2.png"
             alt="image slot"
           />
         </template>
@@ -47,7 +47,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="180"
-            src="../../../assets/image/mainImage3.png"
+            src="https://raw.githubusercontent.com/skarbgud/Github-User-Content/main/mainImage3.png"
             alt="image slot"
           />
         </template>
