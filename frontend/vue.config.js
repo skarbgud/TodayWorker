@@ -1,4 +1,13 @@
+const path = require('path');
+const devServerOptions = require('./config');
+
 module.exports = {
+  devServer: {
+    // jshint ignore:start
+    ...devServerOptions,
+    // jshint ignore:end
+    overlay: false,
+  },
   chainWebpack: config => {
     config.module
       .rule('vue')
@@ -21,4 +30,4 @@ module.exports = {
         return options
       })
   }
-}
+};
