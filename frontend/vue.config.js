@@ -1,7 +1,7 @@
 module.exports = {
   devServer: {
     host: 'localhost',  // 로컬 구동
-    port: 4000, // 포트번호
+    port: 3333, // 포트번호
     overlay: false,
     contentBase: '.',
     proxy: {

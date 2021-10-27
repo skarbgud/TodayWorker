@@ -38,7 +38,7 @@ export default {
   name: 'BoardList',
   components: { CardList, SwiperBar, LoadingBar },
   created() {
-    this.getBoardListApi();
+    // this.getBoardListApi();
   },
   data() {
     return {
