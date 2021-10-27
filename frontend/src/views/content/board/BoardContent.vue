@@ -370,7 +370,10 @@ export default {
   methods: {
     getBoardDetailApi() {
     //상세 페이지 조회시 게시글 bno로 조회
-      boardApi.getboardDetail(this.$route.params.index)
+    const params = {
+      "bno": this.$route.params.index
+    }
+      boardApi.getBoardDetail(params)
         .then((response) => {
           if(response.data.success)
           {
