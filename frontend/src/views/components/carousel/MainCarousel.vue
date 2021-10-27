@@ -1,5 +1,5 @@
 <template>
-  <div class="d-none d-xl-block" v-if="isMobileWeb">
+  <div class="d-none d-xl-block" v-if="!isMobileWeb">
     <b-carousel
       id="carousel-1"
       v-model="slide"
@@ -12,7 +12,7 @@
       style="text-shadow: 1px 1px 2px #333"
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
-      v-show="showMainImage"
+      v-if="showMainImage"
     >
       <!-- Text slides with image -->
       <b-carousel-slide>
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       isMobileWeb: false,
-      width: 0,
+      width: window.innerWidth,
       slide: 0,
       sliding: null,
       showMainImage: false,
@@ -74,6 +74,12 @@ export default {
     }
   },
   watch: {
+    width: {
+      immediate: true,
+      handler() {
+        this.handleResize();
+      },
+    },
     $route() {
       // 라우터 감지로 메인페이지일때만 Navbar하단 이미지 출력
       if (this.$route.path === '/') {
