@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosService = axios.create({
-  baseURL: process.env.VUE_APP_API_URL
+  baseURL: process.env.VUE_APP_PUBLIC_PATH
 });
 
 export {

@@ -1,1 +1,1 @@
-export const baseUrl = process.env.VUE_APP_API_URL
+export const baseUrl = process.env.VUE_APP_PUBLIC_PATH

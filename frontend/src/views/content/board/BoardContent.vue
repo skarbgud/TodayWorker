@@ -18,7 +18,7 @@ import boardApi from '@/api/board/index';
 export default {
   name: 'BoardContent',
   components: { BoardDetail, Comment, RecommendedPost },
-   created() {
+  created() {
     this.getBoardDetailApi();
   },
   data() {
@@ -53,9 +53,8 @@ export default {
       ],
       post: {
         index: 1,
-        title: '강원도여행 가려는데',
-        content:
-          '호에에에글쓰기테스트  글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트    글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트    글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트 글쓰기테스트   글쓰기테스트 ',
+        title: '',
+        content: '',
         hashTag: {
           '1': '#여행',
           '2': '#휴가',
@@ -369,25 +368,24 @@ export default {
   },
   methods: {
     getBoardDetailApi() {
-    //상세 페이지 조회시 게시글 bno로 조회
-    const params = {
-      "bno": this.$route.params.index
-    }
-      boardApi.getBoardDetail(params)
+      //상세 페이지 조회시 게시글 bno로 조회
+      const params = {
+        bno: this.$route.params.index,
+      };
+      boardApi
+        .getBoardDetail(params)
         .then((response) => {
-          if(response.data.success)
-          {
+          if (response.data.success) {
             this.post = response.data.data;
-          }
-          else {
+          } else {
             console.log('데이터 불러오기 실패');
           }
         })
         .catch(function(error) {
           console.log(error);
         });
-      },
-    }
+    },
+  },
 };
 </script>
 
