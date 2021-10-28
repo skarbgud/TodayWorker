@@ -33,9 +33,9 @@ import com.workerholic.vo.ElasticSearchVO;
 
 @Service
 public class BoardService implements BoardServiceIF {
-
+	
 	// es연결 정보
-	ElasticsearchConnect connect = new ElasticsearchConnect("52.79.73.9", 9200, "elastic", "password123");
+	ElasticsearchConnect connect = new ElasticsearchConnect("192.168.1.103", 9200);
 
 	// Rest connection 설정
 	private final RestHighLevelClient client = connect.getConnection();
