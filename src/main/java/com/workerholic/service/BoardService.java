@@ -1,6 +1,5 @@
 package com.workerholic.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -27,6 +25,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.workerholic.utils.ConvertUtils;
 import com.workerholic.utils.ElasticsearchConnect;
 import com.workerholic.vo.BoardVO;
 import com.workerholic.vo.ElasticSearchVO;
@@ -105,18 +104,10 @@ public class BoardService implements BoardServiceIF {
 		// 현재 날짜
 		boardVO.setregDate(new Date());
 
-		Map<String, String> boardMap = null;
-
-		try {
-			boardMap = BeanUtils.describe(boardVO);
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Map<String, Object> boardMap = ConvertUtils.convertToMap(boardVO);
 
 		// id는 인덱스 + bno로 unique
-		IndexRequest request = new IndexRequest(indexName).id(indexName + boardVO.getBno()).source(boardMap,
-				XContentType.JSON);
+		IndexRequest request = new IndexRequest(indexName).id(indexName + boardVO.getBno()).source(boardMap, XContentType.JSON);
 
 		client.index(request, RequestOptions.DEFAULT);
 

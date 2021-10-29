@@ -53,7 +53,7 @@ public class BoardServiceElasticTest {
 	private Integer port = 9200;
 
 	// es연결 정보
-	ElasticsearchConnect connect = new ElasticsearchConnect("localhost", 9200);
+	ElasticsearchConnect connect = new ElasticsearchConnect("192.168.1.103", 9200, "elastic", "password123");
 
 	// Rest connection 설정
 	private final RestHighLevelClient client = connect.getConnection();
@@ -91,7 +91,7 @@ public class BoardServiceElasticTest {
 	@Test
 	public void getBoardDetail() {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBno("2672725de75d46f3868acad9cda040db");
+		boardVO.setBno("a937f17b9ee54dcf84931b0f0cd856fe");
 		Map<String, Object> board = new HashMap<String, Object>();
 
 		// bno
@@ -199,9 +199,11 @@ public class BoardServiceElasticTest {
 	@Test
 	public void updateBoard() {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBno("408ea6eefe1645d78135c166270ea88f");
-		boardVO.setTitle("변경된 제목입니다10/18");
-		boardVO.setContent("변경된 내용입니다10/18");
+		boardVO.setBno("230e97293bbc4332932c71fee00b25d6");
+		boardVO.setTitle("변경된 제목입니다10/29 with tagList");
+		boardVO.setContent("변경된 내용입니다10/29 with tagList");
+		String [] tagList = {"변경태그1", "변경태그2"};
+		boardVO.setTagList(tagList);
 
 		// bno
 		String boardNumer = boardVO.getBno();
