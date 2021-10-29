@@ -14,26 +14,19 @@
     </span>
 
     <!-- 모달 content  -->
-    <el-collapse v-model="activeNames" @change="handleCategori">
-      <el-collapse-item name="categori">
-        <!-- 선택된 카테고리  -->
-        <template slot="title">
-          {{ categoriName }}
-        </template>
-        <!-- 카테고리 목록 -->
-        <b-list-group v-if="isShowCategori">
-          <b-list-group-item
-            v-for="(categori, index) in boardCategori"
-            :key="index"
-            class="d-flex justify-content-between align-items-center"
-            @click="clickCategori(index)"
-          >
-            {{ categori.emoticon }}
-            {{ categori.title }}
-          </b-list-group-item>
-        </b-list-group>
-      </el-collapse-item>
-    </el-collapse>
+    <el-select
+      v-model="categoriName"
+      placeholder="카테고리"
+      class="d-flex justify-content-between align-items-center"
+    >
+      <el-option
+        v-for="(categori, index) in boardCategori"
+        :key="index"
+        :label="categori.emoticon + ' ' + categori.title"
+        :value="categori.path"
+      >
+      </el-option>
+    </el-select>
 
     <div class="input-control">
       <!-- 제목 입력 -->
@@ -129,10 +122,8 @@ export default {
     return {
       // 모달창 보이기 여부
       dialogVisible: false,
-      activeNames: [],
-      categoriName: '카테고리',
+      categoriName: '',
       boardCategori,
-      isShowCategori: false,
       title: '',
       content: '',
       form: {},
@@ -170,16 +161,16 @@ export default {
   },
   methods: {
     initData() {
-      this.form = []
-      this.categoriName = '카테고리',
-      this.title = '', 
-      this.content = '',
-      this.files = [],
-      this.voteList = [],
+      this.form = [];
+      this.categoriName = '';
+      this.title = '';
+      this.content = '';
+      this.files = [];
+      this.voteList = [];
       this.$refs.inputTextArea.initData();
     },
     addVoteItem(voteList) {
-      this.voteList = voteList
+      this.voteList = voteList;
     },
     inputContent(content) {
       this.content = content;
@@ -189,22 +180,22 @@ export default {
         categoriName: this.categoriName,
         title: this.title,
         content: this.content,
-        files : this.files,
-        voteList : this.voteList,
+        files: this.files,
+        voteList: this.voteList,
         tagList: this.tagList,
-      }
-      console.log(this.form)
-      boardApi.insertBoard(this.form)
+      };
+      console.log(this.form);
+      boardApi
+        .insertBoard(this.form)
         .then((response) => {
-          if(response.data.success)
-          {
-           alert('등록되었습니다.') 
-           this.close();
-           this.initData();
-           // TODO. VUEX를 통해서 게시글 리로드
-           boardApi.getBoardList(this.setParams);          
-          }
-          else {
+          if (response.data.success) {
+            alert('등록되었습니다.');
+            this.close();
+            this.initData();
+            // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
+            const url = response.data.data;
+            this.$router.push(`/${url}`);
+          } else {
             console.log('등록 실패하였습니다.');
           }
         })
@@ -225,24 +216,9 @@ export default {
     open() {
       this.dialogVisible = true;
     },
-    // 모달 창 닫기 => 선택된 카테고리 초기화
+    // 모달 창 닫기
     close() {
-      // 모달 닫기
       this.dialogVisible = false;
-      // 초기화
-      this.activeNames = [];
-      this.categoriName = '카테고리';
-    },
-    // 카테고리 목록 보이기
-    handleCategori() {
-      this.isShowCategori = true;
-    },
-    // 카테고리 클릭 => 선택된 카테고리를 collapse 타이틀로
-    clickCategori(index) {
-      this.isShowCategori = false;
-      this.activeNames = [];
-      this.categoriName =
-        this.boardCategori[index].emoticon + this.boardCategori[index].title;
     },
     uploadImage(files) {
       this.files = files;
@@ -265,9 +241,9 @@ export default {
             console.log('성공');
             // 좌표 (위도[latitude], 경도[longitude])
             this.position = {
-            len:  position.coords.latitude,
-            ren:  position.coords.longitude,
-          };
+              len: position.coords.latitude,
+              ren: position.coords.longitude,
+            };
             console.log(
               position.coords.latitude + ' ' + position.coords.longitude,
             );
@@ -295,9 +271,8 @@ export default {
       console.log('해시태그');
     },
     changeTagList(data) {
-      console.log('호출하나');
       this.tagList = data;
-    }
+    },
   },
 };
 </script>
