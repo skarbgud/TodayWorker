@@ -69,7 +69,7 @@ public class BoardController implements BoardControllerIF {
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			service.insertBoard(vo);
+			result.setData(service.insertBoard(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] insertBoard : " + e.getMessage(), e);

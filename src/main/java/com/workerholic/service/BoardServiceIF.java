@@ -12,7 +12,7 @@ public interface BoardServiceIF {
 	
 	public Map<String, Object> getBoardDetail(BoardVO vo) throws Exception;
 	
-	public void insertBoard(BoardVO vo) throws Exception;
+	public String insertBoard(BoardVO vo) throws Exception;
 	
 	public boolean updateBoard(BoardVO vo) throws Exception;
 	

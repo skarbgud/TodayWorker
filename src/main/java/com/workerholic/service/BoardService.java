@@ -92,7 +92,7 @@ public class BoardService implements BoardServiceIF {
 	}
 
 	@Override
-	public void insertBoard(BoardVO boardVO) throws Exception {
+	public String insertBoard(BoardVO boardVO) throws Exception {
 
 		String uuid = UUID.randomUUID().toString();
 		uuid = uuid.replace("-", "");
@@ -110,9 +110,13 @@ public class BoardService implements BoardServiceIF {
 		IndexRequest request = new IndexRequest(indexName).id(indexName + boardVO.getBno()).source(boardMap, XContentType.JSON);
 
 		client.index(request, RequestOptions.DEFAULT);
-
+		
+		// vue 라우터 이동을 위한 urlpath(boardType/bno)
+		String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno(); 
+		
+		return urlPath;
 	}
-
+ 
 	@Override
 	public boolean updateBoard(BoardVO vo) throws Exception {
 

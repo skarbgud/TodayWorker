@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BoardVO {
 	private String bno;
-	private	String type;
+	private	String categoriName;
 	private String title;
 	private String content;
 	private int cnt;
@@ -25,11 +25,11 @@ public class BoardVO {
 	public void setBno(String bno) {
 		this.bno = bno;
 	}
-	public String getType() {
-		return type;
+	public String getCategoriName() {
+		return categoriName;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setCategoriName(String categoriName) {
+		this.categoriName = categoriName;
 	}
 	public String getTitle() {
 		return title;
