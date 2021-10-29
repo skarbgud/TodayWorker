@@ -10,7 +10,7 @@ public class BoardVO {
 	private String content;
 	private int cnt;
 	private String writer;
-	private Date regDate;
+	private String regDate;
 	
 	// 투표 항목
 	String [] voteList;
@@ -55,10 +55,10 @@ public class BoardVO {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public Date getregDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setregDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 	public String[] getVoteList() {

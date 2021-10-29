@@ -1,5 +1,6 @@
 package com.workerholic.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workerholic.utils.ConvertUtils;
+import com.workerholic.utils.DateUtils;
 import com.workerholic.utils.ElasticsearchConnect;
 import com.workerholic.vo.BoardVO;
 import com.workerholic.vo.ElasticSearchVO;
@@ -102,7 +104,7 @@ public class BoardService implements BoardServiceIF {
 		// 조회수는 기본값 0
 		boardVO.setCnt(0);
 		// 현재 날짜
-		boardVO.setregDate(new Date());
+		boardVO.setRegDate(DateUtils.getDatetimeString(new Date()));
 
 		Map<String, Object> boardMap = ConvertUtils.convertToMap(boardVO);
 

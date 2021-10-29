@@ -40,6 +40,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.workerholic.utils.DateUtils;
 import com.workerholic.utils.ElasticsearchConnect;
 import com.workerholic.vo.BoardVO;
 import com.workerholic.vo.ReplyVO;
@@ -176,7 +177,7 @@ public class ReplyServiceTest {
 		BoardVO boardVO = new BoardVO();
 		boardVO.setTitle("UUID제목테스트");
 		boardVO.setContent("UUID내용테스트");
-		boardVO.setType("live");
+		boardVO.setCategoriName("live");
 
 		try {
 			insertBoardUUIDMethod(boardVO);
@@ -195,7 +196,7 @@ public class ReplyServiceTest {
 		// 조회수는 기본값 0
 		boardVO.setCnt(0);
 		// 현재 날짜
-		boardVO.setregDate(new Date());
+		boardVO.setRegDate(DateUtils.getDatetimeString(new Date()));
 
 		Map<String, String> boardMap = null;
 		try {
