@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="p-0">
     <frame-header/>
-    <router-view></router-view>
+    <router-view :key="$route.fullPath"></router-view>
   </b-container>
 </template>
 
