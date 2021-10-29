@@ -201,6 +201,7 @@ export default {
            alert('등록되었습니다.') 
            this.close();
            this.initData();
+           // TODO. VUEX를 통해서 게시글 리로드
            boardApi.getBoardList(this.setParams);          
           }
           else {
