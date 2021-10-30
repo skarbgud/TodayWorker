@@ -120,15 +120,15 @@ public class BoardService implements BoardServiceIF {
 	}
  
 	@Override
-	public boolean updateBoard(BoardVO vo) throws Exception {
+	public String updateBoard(BoardVO boardVO) throws Exception {
 
 		// bno
-		String bno = vo.getBno();
+		String bno = boardVO.getBno();
 		// id (인덱스 이름 + bno)
 		String id = indexName + bno;
 
 		String json = null;
-		json = new ObjectMapper().writeValueAsString(vo);
+		json = new ObjectMapper().writeValueAsString(boardVO);
 
 		UpdateRequest request = new UpdateRequest(indexName, id).doc(json, XContentType.JSON);
 
@@ -138,11 +138,13 @@ public class BoardService implements BoardServiceIF {
 		
 		if (status == RestStatus.OK)
 		{
-			return true;
+			// vue 라우터 이동을 위한 urlpath(boardType/bno)
+			String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno();
+			return urlPath;
 		}
 		else
 		{
-			return false;
+			return "/";
 		}
 	}
 

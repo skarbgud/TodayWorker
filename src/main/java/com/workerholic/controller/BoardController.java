@@ -86,7 +86,7 @@ public class BoardController implements BoardControllerIF {
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			service.updateBoard(vo);
+			result.setData(service.updateBoard(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] updaeteBoard : " + e.getMessage(), e);
