@@ -129,6 +129,7 @@ export default {
       title: '',
       content: '',
       updateContent: '',
+      regDate: '',
       modalFull: false,
       width: 0,
       files: [], //업로드용 파일
@@ -160,6 +161,7 @@ export default {
         categoriName: this.categoriName,
         title: this.title,
         content: this.content,
+        regDate: this.regDate,
         files: this.files,
         voteList: this.voteList,
         tagList: this.tagList,
@@ -184,6 +186,7 @@ export default {
       this.content = content;
     },
     loadEditData(post) {
+      console.log(post);
       this.bno = post.bno;
       this.categoriName = post.categoriName;
       this.title = post.title;
@@ -192,6 +195,7 @@ export default {
       // this.files = post.files;
       this.voteList = post.voteList;
       this.tagList = post.tagList;
+      this.regDate = post.regDate;
 
       // updateFlag => 수정창인지 구분위해
       this.updateFlag = true;
