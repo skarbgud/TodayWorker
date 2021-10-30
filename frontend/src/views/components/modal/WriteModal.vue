@@ -39,6 +39,7 @@
       ></el-input>
       <!-- 내용 입력 -->
       <input-textarea
+        :updateContent="updateContent"
         :minRows="14"
         :maxRows="1000000"
         :placeHolder="
@@ -124,9 +125,10 @@ export default {
       dialogVisible: false,
       categoriName: '',
       boardCategori,
+      bno: '',
       title: '',
       content: '',
-      form: {},
+      updateContent: '',
       modalFull: false,
       width: 0,
       files: [], //업로드용 파일
@@ -134,6 +136,7 @@ export default {
       position: [],
       voteList: [],
       tagList: [],
+      updateFlag: false,
     };
   },
   mounted() {
@@ -151,21 +154,26 @@ export default {
     },
   },
   computed: {
-    setParams() {
+    formData() {
       const params = {
-        fromIndex: 0,
-        pageSize: 10,
+        bno: this.bno,
+        categoriName: this.categoriName,
+        title: this.title,
+        content: this.content,
+        files: this.files,
+        voteList: this.voteList,
+        tagList: this.tagList,
       };
       return params;
     },
   },
   methods: {
     initData() {
-      this.form = [];
       this.categoriName = '';
       this.title = '';
       this.content = '';
       this.files = [];
+      this.tagList = [];
       this.voteList = [];
       this.$refs.inputTextArea.initData();
     },
@@ -174,6 +182,19 @@ export default {
     },
     inputContent(content) {
       this.content = content;
+    },
+    loadEditData(post) {
+      this.bno = post.bno;
+      this.categoriName = post.categoriName;
+      this.title = post.title;
+      this.updateContent = post.content;
+      // TODO. FILE바인딩
+      // this.files = post.files;
+      this.voteList = post.voteList;
+      this.tagList = post.tagList;
+
+      // updateFlag => 수정창인지 구분위해
+      this.updateFlag = true;
     },
     insertBoardApi() {
       this.form = {
@@ -185,23 +206,43 @@ export default {
         tagList: this.tagList,
       };
       console.log(this.form);
-      boardApi
-        .insertBoard(this.form)
-        .then((response) => {
-          if (response.data.success) {
-            alert('등록되었습니다.');
-            this.close();
-            this.initData();
-            // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
-            const url = response.data.data;
-            this.$router.push(`/${url}`);
-          } else {
-            console.log('등록 실패하였습니다.');
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      if (!this.updateFlag) {
+        boardApi
+          .insertBoard(this.formData)
+          .then((response) => {
+            if (response.data.success) {
+              alert('등록되었습니다.');
+              this.close();
+              this.initData();
+              // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
+              const url = response.data.data;
+              this.$router.push(`/${url}`);
+            } else {
+              console.log('등록 실패하였습니다.');
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        boardApi
+          .updateBoard(this.formData)
+          .then((response) => {
+            if (response.data.success) {
+              alert('수정되었습니다.');
+              this.close();
+              // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
+              const url = response.data.data;
+              this.$router.push(`/${url}`);
+              this.$router.go();
+            } else {
+              console.log('등록 실패하였습니다.');
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     },
     // 반응형을 위한 사이즈
     handleResize() {

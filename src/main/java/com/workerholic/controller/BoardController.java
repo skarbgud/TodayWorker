@@ -86,7 +86,7 @@ public class BoardController implements BoardControllerIF {
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			service.updateBoard(vo);
+			result.setData(service.updateBoard(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] updaeteBoard : " + e.getMessage(), e);
@@ -99,7 +99,7 @@ public class BoardController implements BoardControllerIF {
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "delete-board.do", method = RequestMethod.POST)
-	public ResultVO deleteBoard(BoardVO vo) {
+	public ResultVO deleteBoard(@RequestBody BoardVO vo) {
 		LOG.info("DeleteBoard");
 		ResultVO result = new ResultVO(false, null);
 
@@ -116,7 +116,11 @@ public class BoardController implements BoardControllerIF {
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "regist-reply.do", method = RequestMethod.POST)
+<<<<<<< HEAD
 	public ResultVO registReply(ReplyVO vo) {
+=======
+	public ResultVO registReply(@RequestBody ReplyVO vo) {
+>>>>>>> 4a684834fa1302bcfecac822599eb7750ac930c7
 		LOG.info("registReply");
 		ResultVO result = new ResultVO(false, null);
 

@@ -12,7 +12,29 @@
 
 <script>
 export default {
-  name: 'InputArea',
+  name: 'InputTextarea',
+  props: {
+    updateContent : {
+      type: String,
+    },
+    minRows:{
+      type: Number,
+    },
+    maxRows:{
+      type: Number,
+    },
+    placeHolder:{
+      type: String,
+    }
+  },
+  watch: {
+    updateContent : {
+      immediate: true,
+      handler(val) {
+        this.content = val;
+      }
+    }
+  },
   data() {
     return {  
       content : '',
@@ -26,17 +48,6 @@ export default {
       this.$emit('inputContent', this.content);
     },
   },
-  props: {
-    minRows:{
-      type: Number,
-    },
-    maxRows:{
-      type: Number,
-    },
-    placeHolder:{
-      type: String,
-    }
-  }
 }
 </script>
 

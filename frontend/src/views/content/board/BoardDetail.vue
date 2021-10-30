@@ -145,10 +145,12 @@
         </b-row>
       </div>
     </b-container>
+    <write-modal ref="modal"></write-modal>
   </div>
 </template>
 
 <script>
+import WriteModal from '@/views/components/modal/WriteModal';
 import boardApi from '@/api/board/index';
 import InputTextarea from '../../components/input/InputTextarea.vue';
 import CameraButton from '../../components/button/CameraButton.vue';
@@ -159,7 +161,7 @@ export default {
   },
   name: 'BoardDetail',
   props: ['post', 'user'],
-  components: { InputTextarea, CameraButton },
+  components: { WriteModal, InputTextarea, CameraButton },
   computed: {
     setParams() {
       const params = {
@@ -190,7 +192,8 @@ export default {
       );
     },
     clickEditBoard() {
-
+      this.$refs.modal.loadEditData(this.post);
+      this.$refs.modal.open();
     },
     clickDeleteBoard() {
       boardApi

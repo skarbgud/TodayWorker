@@ -14,7 +14,7 @@ public interface BoardServiceIF {
 	
 	public String insertBoard(BoardVO vo) throws Exception;
 	
-	public boolean updateBoard(BoardVO vo) throws Exception;
+	public String updateBoard(BoardVO vo) throws Exception;
 	
 	public boolean deleteBoard(BoardVO vo) throws Exception;
 }
