@@ -97,13 +97,14 @@ public class BoardController implements BoardControllerIF {
 	}
 
 	@Override
+	@ResponseBody
 	@RequestMapping(value = "delete-board.do", method = RequestMethod.POST)
-	public ResultVO deleteBoard(BoardVO vo) {
+	public ResultVO deleteBoard(@RequestBody BoardVO vo) {
 		LOG.info("DeleteBoard");
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			service.deleteBoard(vo);
+			result.setData(service.deleteBoard(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] deleteBoard : " + e.getMessage(), e);
@@ -113,7 +114,9 @@ public class BoardController implements BoardControllerIF {
 	}
 
 	@Override
-	public ResultVO registReply(ReplyVO vo) {
+	@ResponseBody
+	@RequestMapping(value = "regist-reply.do", method = RequestMethod.POST)
+	public ResultVO registReply(@RequestBody ReplyVO vo) {
 		LOG.info("registReply");
 		ResultVO result = new ResultVO(false, null);
 
