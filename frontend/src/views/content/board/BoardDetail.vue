@@ -25,12 +25,31 @@
                 </div>
               </div>
               <div class="post-info mt-1">
-                <i class="far fa-clock mx-1" />{{post.regDate}}
-                <i class="fas fa-eye mx-1"></i> {{post.cnt}}
-                <b-icon class="mx-1 ml-2" icon="chat" />{{post.recomment}}
+                <i class="far fa-clock mx-1" />{{ post.regDate }}
+                <i class="fas fa-eye mx-1"></i> {{ post.cnt }}
+                <b-icon class="mx-1 ml-2" icon="chat" />{{ post.recomment }}
                 <div class="info-right">
                   <a href="#"><b-icon class="mx-1 ml-3" icon="bookmark"/></a>
-                  <a href="#" v-b-popover.click.html="popoverMethod" ><b-icon class="mx-1 ml-3" icon="three-dots"/></a>
+                  <!-- <a href="#" v-b-popover.click.html="popoverMethod" ><b-icon class="mx-1 ml-3" icon="three-dots"/></a> -->
+                  <!-- 팝오버 -->
+                  <el-popover
+                    placement="right"
+                    width="80"
+                    trigger="click"
+                    content="popOverContent"
+                  >
+                    <el-button @click="clickEditBoard">수정하기</el-button>
+                    <el-button
+                      @click="clickDeleteBoard"
+                      style="margin-left:0px;margin-top:10px;"
+                      >삭제하기</el-button
+                    >
+                    <b-icon
+                      slot="reference"
+                      class="mx-1 ml-3"
+                      icon="three-dots"
+                    />
+                  </el-popover>
                 </div>
               </div>
               <hr />
@@ -50,15 +69,20 @@
                     title="트위터로 공유하기"
                     class="sharebtn_custom"
                 /></a>
-                 <img
-                    src="https://storage.googleapis.com/storage.chris-chris.ai/images/story.gif"
-                    title="카카오스토리로 공유하기"
-                    class="sharebtn_custom"
-                    @click="sendkakao"
+                <img
+                  src="https://storage.googleapis.com/storage.chris-chris.ai/images/story.gif"
+                  title="카카오스토리로 공유하기"
+                  class="sharebtn_custom"
+                  @click="sendkakao"
                 />
               </div>
               <div class="mt-3">
-              <el-tag v-for="tag in post.tagList" :key="tag" class="tag mx-1">{{tag}}</el-tag>
+                <el-tag
+                  v-for="tag in post.tagList"
+                  :key="tag"
+                  class="tag mx-1"
+                  >{{ tag }}</el-tag
+                >
               </div>
               <div style="clear:both" />
               <hr />
@@ -125,55 +149,94 @@
 </template>
 
 <script>
-import InputTextarea from "../../components/input/InputTextarea.vue";
-import CameraButton from "../../components/button/CameraButton.vue";
+import boardApi from '@/api/board/index';
+import InputTextarea from '../../components/input/InputTextarea.vue';
+import CameraButton from '../../components/button/CameraButton.vue';
 
 export default {
-  head() { return { script: [ {src: '//developers.kakao.com/sdk/js/kakao.min.js'}, ], } },
-  name: "BoardDetail",
-  props: ["post", "user"],
+  head() {
+    return { script: [{ src: '//developers.kakao.com/sdk/js/kakao.min.js' }] };
+  },
+  name: 'BoardDetail',
+  props: ['post', 'user'],
   components: { InputTextarea, CameraButton },
-  computed: {},
+  computed: {
+    setParams() {
+      const params = {
+        bno: this.$route.params.index
+      };
+      return params;
+    }
+  },
   data() {
     return {
       isWrite: false,
       disabled: true,
-      placeHolder: "댓글을 입력 해 주세요",
+      placeHolder: '댓글을 입력 해 주세요',
       files: [],
-      tagList:["태그","맛집", "여행", "리스트"]
+      tagList: ['태그', '맛집', '여행', '리스트'],
     };
   },
   methods: {
     popoverMethod() {
-     return '<a href="#">' + '공유하기' + '</a>' + '<hr />'+'<a href="#">' + '신고하기' + '</a>' 
+      return (
+        '<a href="#">' +
+        '공유하기' +
+        '</a>' +
+        '<hr />' +
+        '<a href="#">' +
+        '신고하기' +
+        '</a>'
+      );
+    },
+    clickEditBoard() {
+
+    },
+    clickDeleteBoard() {
+      boardApi
+        .deleteBoard(this.setParams)
+        .then((response) => {
+          if (response.data.success) {
+            // 삭제시 메인페이지로
+            if (response.data.data)
+            {
+              this.$router.push('/');
+            }
+          } else {
+            console.log('데이터 불러오기 실패');
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     uploadImage(files) {
       console.log(files);
       this.files = files;
     },
     fileDeleteButton(e) {
-      const name = e.target.getAttribute("name");
+      const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
     },
-    sendkakao: function () {
+    sendkakao: function() {
       // eslint-disable-next-line no-undef
-      Kakao.Link.sendDefault({ 
-          objectType: 'feed', 
-          content: { 
-                    title: this.post.title,
-                    description: this.post.content,
-                    imageUrl: 'http://localhost:8080/test.png',
-                    link: { 
-                      mobileWebUrl: 'http://localhost:8080',
-                      webUrl: 'http://localhost:8080',
-                    },
-              }, 
-          }) 
-     }
-  }
+      Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: this.post.title,
+          description: this.post.content,
+          imageUrl: 'http://localhost:8080/test.png',
+          link: {
+            mobileWebUrl: 'http://localhost:8080',
+            webUrl: 'http://localhost:8080',
+          },
+        },
+      });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/pages/content/boardContent.scss";
+@import '@/assets/scss/pages/content/boardContent.scss';
 </style>
