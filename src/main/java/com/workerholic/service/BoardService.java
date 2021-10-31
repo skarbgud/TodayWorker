@@ -1,8 +1,6 @@
 package com.workerholic.service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +21,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,6 +53,8 @@ public class BoardService implements BoardServiceIF {
 		sourceBuilder.from(vo.getFromIndex());
 		// 가져오는 데이터양
 		sourceBuilder.size(vo.getPageSize());
+		// 최신글로 정렬하여 가져오기
+		sourceBuilder.sort("regDate", SortOrder.DESC);
 		searchRequest.source(sourceBuilder);
 
 		SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -104,7 +105,7 @@ public class BoardService implements BoardServiceIF {
 		// 조회수는 기본값 0
 		boardVO.setCnt(0);
 		// 현재 날짜
-		boardVO.setRegDate(DateUtils.getDatetimeString(new Date()));
+		boardVO.setRegDate(DateUtils.getDatetimeString());
 
 		Map<String, Object> boardMap = ConvertUtils.convertToMap(boardVO);
 

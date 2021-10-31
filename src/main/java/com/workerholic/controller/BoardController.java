@@ -116,11 +116,7 @@ public class BoardController implements BoardControllerIF {
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "regist-reply.do", method = RequestMethod.POST)
-<<<<<<< HEAD
-	public ResultVO registReply(ReplyVO vo) {
-=======
 	public ResultVO registReply(@RequestBody ReplyVO vo) {
->>>>>>> 4a684834fa1302bcfecac822599eb7750ac930c7
 		LOG.info("registReply");
 		ResultVO result = new ResultVO(false, null);
 

@@ -221,6 +221,7 @@ export default {
               // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
               const url = response.data.data;
               this.$router.push(`/${url}`);
+              this.$router.go();
             } else {
               console.log('등록 실패하였습니다.');
             }
