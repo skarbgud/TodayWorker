@@ -21,7 +21,7 @@
       <div class="icon-color mt-1">
         <b-icon class="ml-0 mx-2" icon="hand-index-thumb" />{{post.cnt}}
         <b-icon class="mx-2 ml-3 " icon="hand-thumbs-up" />좋아요
-        <b-icon class="mx-2 ml-3 " icon="chat" />{{post.recomment}}
+        <b-icon class="mx-2 ml-3 " icon="chat" />{{ replyCount }}
       </div>
     </b-card>
   </div>
@@ -38,7 +38,17 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    replyCount() {
+      if (this.post.reply == null)
+      {
+        return 0;
+      }
+      else {
+        return this.post.reply.length;
+      }
+    }
+  },
   methods: {
     // TODO. 상세보기 라우터 구현
     goDetailRouter() {

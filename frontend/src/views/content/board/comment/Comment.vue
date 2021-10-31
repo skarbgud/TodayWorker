@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import CommentDetail from './CommentDetail';
+// import CommentDetail from './CommentDetail';
 
 export default {
   name: 'Comment',
-  components: { CommentDetail },
+  // components: { CommentDetail },
   props: ['comments'],
   computed: {},
   data() {
