@@ -3,11 +3,18 @@ package com.workerholic.vo;
 public class ReplyVO {
 	
 	// 댓글
+	private String bno;
 	private String rno;
 	private String content;
 	private String writer;
 	private String regDate;
 	
+	public String getBno() {
+		return bno;
+	}
+	public void setBno(String bno) {
+		this.bno = bno;
+	}
 	public String getRno() {
 		return rno;
 	}

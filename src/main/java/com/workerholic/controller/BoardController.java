@@ -121,7 +121,7 @@ public class BoardController implements BoardControllerIF {
 		ResultVO result = new ResultVO(false, null);
 
 		try {
-			replyService.registReply(vo);
+			result.setData(replyService.registReply(vo));
 			result.setSuccess(true);
 		} catch (Exception e) {
 			LOG.error("[Board] registReply : " + e.getMessage(), e);

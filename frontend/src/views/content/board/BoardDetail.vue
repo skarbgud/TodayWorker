@@ -102,6 +102,7 @@
                   :placeHolder="placeHolder"
                   :minRows="5"
                   :maxRows="1000000"
+                  v-on:inputContent="inputContent"
                 ></input-textarea>
                 <div class="file-preview-container">
                   <div
@@ -125,14 +126,15 @@
                     </camera-button>
                   </span>
                   <span class="float-right">
+                    <b-button variant="danger" size="sm" @click="registReply"
+                      >등록</b-button
+                    >
                     <b-button
-                      variant="danger"
-                      class="mr-3"
+                      class="ml-2 mr-2"
                       size="sm"
                       @click="isWrite = false"
                       >취소</b-button
                     >
-                    <b-button variant="light" size="sm">등록</b-button>
                   </span>
                 </div>
               </div>
@@ -152,6 +154,7 @@
 <script>
 import WriteModal from '@/views/components/modal/WriteModal';
 import boardApi from '@/api/board/index';
+import registApi from '@/api/board/reply';
 import InputTextarea from '../../components/input/InputTextarea.vue';
 import CameraButton from '../../components/button/CameraButton.vue';
 
@@ -165,7 +168,16 @@ export default {
   computed: {
     setParams() {
       const params = {
-        bno: this.$route.params.index
+        bno: this.$route.params.index,
+      };
+      return params;
+    },
+    setReplyParams() {
+      const params = {
+        bno: this.$route.params.index,
+        content: this.replyContent,
+        // TODO. 댓글 작성자
+        // writer: this.replyWriter,
       };
       return params;
     }
@@ -177,6 +189,7 @@ export default {
       placeHolder: '댓글을 입력 해 주세요',
       files: [],
       tagList: ['태그', '맛집', '여행', '리스트'],
+      replyContent: '',
     };
   },
   methods: {
@@ -201,8 +214,7 @@ export default {
         .then((response) => {
           if (response.data.success) {
             // 삭제시 메인페이지로
-            if (response.data.data)
-            {
+            if (response.data.data) {
               this.$router.push('/');
             }
           } else {
@@ -235,6 +247,27 @@ export default {
           },
         },
       });
+    },
+    // 댓글 작성 내용
+    inputContent(content) {
+      this.replyContent = content;
+    },
+    registReply() {
+      registApi
+        .registReply(this.setReplyParams)
+        .then((response) => {
+          if (response.data.success) {
+            // 성공시 페이지리로드
+            if (response.data.data) {
+              this.$router.go();
+            }
+          } else {
+            console.log('댓글 등록 실패');
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
   },
 };
