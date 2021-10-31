@@ -25,7 +25,7 @@
                 </div>
               </div>
               <div class="post-info mt-1">
-                <i class="far fa-clock mx-1" />{{ post.regDate }}
+                <i class="far fa-clock mx-1" />{{ post.regDate | moment('YYYY-MM-DD HH:mm:ss') }}
                 <i class="fas fa-eye mx-1"></i> {{ post.cnt }}
                 <b-icon class="mx-1 ml-2" icon="chat" />{{ post.recomment }}
                 <div class="info-right">
