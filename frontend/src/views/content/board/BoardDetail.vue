@@ -56,7 +56,7 @@
               <div class="mt-4 mb-4">{{ post.content }}</div>
               <div class="info-bottom">
                 <a href="#"><i class="far fa-thumbs-up mx-1 mr-1" />505</a>
-                <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />38</a>
+                <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />{{ replyCount }}</a>
                 <a href="">
                   <img
                     src="https://storage.googleapis.com/storage.chris-chris.ai/images/facebook.gif"
@@ -88,7 +88,7 @@
               <hr />
             </div>
             <div class="article-comments pt-2">
-              <h6>댓글 127</h6>
+              <h6>댓글 {{ replyCount }}</h6>
 
               <div
                 class="comment-box mt-2"
@@ -163,9 +163,22 @@ export default {
     return { script: [{ src: '//developers.kakao.com/sdk/js/kakao.min.js' }] };
   },
   name: 'BoardDetail',
-  props: ['post', 'user'],
+  props: ['post', 'user', 'comments'],
   components: { WriteModal, InputTextarea, CameraButton },
+  data() {
+    return {
+      isWrite: false,
+      disabled: true,
+      placeHolder: '댓글을 입력 해 주세요',
+      files: [],
+      tagList: ['태그', '맛집', '여행', '리스트'],
+      replyContent: '',
+    };
+  },
   computed: {
+    replyCount() {
+      return this.comments === null ? 0 : this.comments.length;
+    },
     setParams() {
       const params = {
         bno: this.$route.params.index,
@@ -181,16 +194,6 @@ export default {
       };
       return params;
     }
-  },
-  data() {
-    return {
-      isWrite: false,
-      disabled: true,
-      placeHolder: '댓글을 입력 해 주세요',
-      files: [],
-      tagList: ['태그', '맛집', '여행', '리스트'],
-      replyContent: '',
-    };
   },
   methods: {
     popoverMethod() {

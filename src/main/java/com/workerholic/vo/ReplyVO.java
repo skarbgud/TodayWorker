@@ -8,6 +8,7 @@ public class ReplyVO {
 	private String content;
 	private String writer;
 	private String regDate;
+	private Boolean isRecomment;
 	
 	public String getBno() {
 		return bno;
@@ -39,5 +40,10 @@ public class ReplyVO {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
+	public Boolean getIsRecomment() {
+		return isRecomment;
+	}
+	public void setIsRecomment(Boolean isRecomment) {
+		this.isRecomment = isRecomment;
+	}
 }

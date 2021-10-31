@@ -42,6 +42,7 @@ public class ReplyService implements ReplyServiceIF {
 		
 		// 등록일
 		vo.setRegDate(DateUtils.getDatetimeString());
+		vo.setIsRecomment(false);
 		
 		// VO -> Map
 		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
