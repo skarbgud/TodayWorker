@@ -17,7 +17,7 @@ public class BoardVO {
 	// 해시태그 목록
 	String [] tagList;
 	
-	List<ReplyVO> replys;
+	List<ReplyVO> reply;
 	
 	public String getBno() {
 		return bno;

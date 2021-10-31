@@ -1,27 +1,18 @@
 package com.workerholic.vo;
 
-import java.util.Date;
-
 public class ReplyVO {
 	
 	// 댓글
 	private String rno;
-	private String title;
 	private String content;
 	private String writer;
-	private Date regDate;
+	private String regDate;
 	
 	public String getRno() {
 		return rno;
 	}
 	public void setRno(String rno) {
 		this.rno = rno;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
 	}
 	public String getContent() {
 		return content;
@@ -35,10 +26,10 @@ public class ReplyVO {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 	
