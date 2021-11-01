@@ -56,12 +56,6 @@ export default {
   name: 'Comment',
   // components: { CommentDetail },
   props: ['comments'],
-  computed: {
-    setReplyParams() {
-      
-      return params;
-    }
-  },
   data() {
     return {};
   },
