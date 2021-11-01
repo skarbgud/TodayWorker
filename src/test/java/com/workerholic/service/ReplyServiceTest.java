@@ -70,7 +70,7 @@ public class ReplyServiceTest {
 
 	private static BoardVO getBoardVO() {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBno("1e690a686a9b48b29c20b27a4c969041");
+		boardVO.setBno("0562f4045ad8427f9b0efae5f34ef62e");
 		boardVO.setCategoriName("live");
 		boardVO.setCnt(0);
 		boardVO.setContent("테스트내용");
@@ -81,10 +81,11 @@ public class ReplyServiceTest {
 
 	private static ReplyVO getReplyVO() {
 		ReplyVO replyVO = new ReplyVO();
-		replyVO.setContent("테스트댓글입니다.1");
+		replyVO.setIsRecomment(false);
+		replyVO.setRno("2c03a03614ac4a02b5a154f0b7453302");
 		replyVO.setRegDate(DateUtils.getDatetimeString());
-		replyVO.setRno(null);
-		replyVO.setWriter("테스트 댓글 작성자1");
+		replyVO.setWriter("수정된 댓글 작성자1");
+		replyVO.setContent("수정된댓글입니다.1");
 
 		return replyVO;
 	}
@@ -111,11 +112,13 @@ public class ReplyServiceTest {
 			e.printStackTrace();
 		}
 		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
-		
+
 		try {
-			
-			UpdateRequest request = new UpdateRequest(indexName, indexName + bno).script(new Script(ScriptType.INLINE, "painless", "if (ctx._source.reply == null) {ctx._source.reply=[]} ctx._source.reply.add(params.reply)", singletonMap));
-			
+
+			UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
+					.script(new Script(ScriptType.INLINE, "painless",
+							"if (ctx._source.reply == null) {ctx._source.reply=[]} ctx._source.reply.add(params.reply)",
+							singletonMap));
 
 			UpdateResponse response;
 
@@ -131,7 +134,50 @@ public class ReplyServiceTest {
 		}
 	}
 
-	
+	// 댓글 수정
+	@Test
+	public void updateReply() {
+		BoardVO boardVO = getBoardVO();
+		ReplyVO replyVO = getReplyVO();
+
+		// bno 가져와서 해당 게시글에 댓글 수정
+		String bno = boardVO.getBno();
+
+		// rno 가져와서 해당 게시글에 댓글 수정
+		String rno = replyVO.getRno();
+
+		Map<String, Object> replyMap = new HashMap<String, Object>();
+		try {
+			replyMap = ConvertUtils.convertToMap(replyVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
+
+		try {
+
+			UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
+					.script(new Script(ScriptType.INLINE, "painless",
+							"for(int i = 0; i< ctx._source.reply.size(); i++) {"
+							+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
+							+ "ctx._source.reply[i]=params.reply }}",
+							singletonMap));
+					
+			UpdateResponse response;
+
+			response = client.update(request, RequestOptions.DEFAULT);
+
+			RestStatus status = response.status();
+
+			System.out.println(status);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	// 인덱스 초기화
 	@Test
 	public void deleteAndCreateIndexData() {
