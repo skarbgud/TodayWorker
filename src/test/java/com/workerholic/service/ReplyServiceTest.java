@@ -177,6 +177,47 @@ public class ReplyServiceTest {
 			e.printStackTrace();
 		}
 	}
+	
+	// 댓글 삭제
+	@Test
+	public void deleteReply() {
+		BoardVO boardVO = getBoardVO();
+		ReplyVO replyVO = getReplyVO();
+
+		// bno 가져와서 해당 게시글에 댓글 수정
+		String bno = boardVO.getBno();
+
+		Map<String, Object> replyMap = new HashMap<String, Object>();
+		try {
+			replyMap = ConvertUtils.convertToMap(replyVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
+
+		try {
+
+			UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
+					.script(new Script(ScriptType.INLINE, "painless",
+							"for(int i = 0; i< ctx._source.reply.size(); i++) {"
+							+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
+							+ "ctx._source.reply.remove(i) }}",
+							singletonMap));
+					
+			UpdateResponse response;
+
+			response = client.update(request, RequestOptions.DEFAULT);
+
+			RestStatus status = response.status();
+
+			System.out.println(status);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	// 인덱스 초기화
 	@Test
