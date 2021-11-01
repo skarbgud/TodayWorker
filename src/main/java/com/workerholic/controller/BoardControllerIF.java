@@ -20,4 +20,8 @@ public interface BoardControllerIF {
 	public ResultVO deleteBoard(@RequestBody BoardVO vo);
 	
 	public ResultVO registReply(@RequestBody ReplyVO vo);
+	
+	public ResultVO updateReply(@RequestBody ReplyVO vo);
+	
+	public ResultVO deleteReply(@RequestBody ReplyVO vo);
 }

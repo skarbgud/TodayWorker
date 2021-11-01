@@ -129,4 +129,38 @@ public class BoardController implements BoardControllerIF {
 
 		return result;
 	}
+
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "update-reply.do", method = RequestMethod.POST)
+	public ResultVO updateReply(@RequestBody ReplyVO vo) {
+		LOG.info("updateReply");
+		ResultVO result = new ResultVO(false, null);
+
+		try {
+			result.setData(replyService.updateReply(vo));
+			result.setSuccess(true);
+		} catch (Exception e) {
+			LOG.error("[Board] updateReply : " + e.getMessage(), e);
+		}
+
+		return result;
+	}
+
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "delete-reply.do", method = RequestMethod.POST)
+	public ResultVO deleteReply(@RequestBody ReplyVO vo) {
+		LOG.info("deleteReply");
+		ResultVO result = new ResultVO(false, null);
+
+		try {
+			result.setData(replyService.deleteReply(vo));
+			result.setSuccess(true);
+		} catch (Exception e) {
+			LOG.error("[Board] deleteReply : " + e.getMessage(), e);
+		}
+
+		return result;
+	}
 }

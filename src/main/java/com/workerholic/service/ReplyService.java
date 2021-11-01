@@ -1,6 +1,7 @@
 package com.workerholic.service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,25 +40,74 @@ public class ReplyService implements ReplyServiceIF {
 		String uuid = UUID.randomUUID().toString();
 		uuid = uuid.replace("-", "");
 		vo.setRno(uuid);
-		
+
 		// 등록일
 		vo.setRegDate(DateUtils.getDatetimeString());
 		vo.setIsRecomment(false);
-		
+
 		// VO -> Map
 		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
-		
+
 		// singtoneMap 정의
 		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
-		
-		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
-				.script(new Script(ScriptType.INLINE, "painless", "if (ctx._source.reply == null) {ctx._source.reply=[]} ctx._source.reply.add(params.reply)", singletonMap));
+
+		UpdateRequest request = new UpdateRequest(indexName, indexName + bno).script(new Script(ScriptType.INLINE,
+				"painless", "if (ctx._source.reply == null) {ctx._source.reply=[]} ctx._source.reply.add(params.reply)",
+				singletonMap));
 
 		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
-		
+
 		RestStatus status = response.status();
-		
-		return status == RestStatus.OK ?  true : false;
+
+		return status == RestStatus.OK ? true : false;
+	}
+
+	@Override
+	public boolean updateReply(ReplyVO vo) throws Exception {
+		// bno
+		String bno = vo.getBno();
+
+		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
+
+		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
+
+		// reply중에서 rno이 같은 reply의 내용을 수정
+		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
+				.script(new Script(ScriptType.INLINE, "painless",
+						"for (int i = 0; i < ctx._source.reply.size(); i++) {"
+								+ "if (ctx.source.reply[i].rno == params.reply.rno) {"
+								+ "ctx._source.reply[i] = params.reply }}",
+						singletonMap));
+
+		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
+
+		RestStatus status = response.status();
+
+		return status == RestStatus.OK ? true : false;
+	}
+
+	@Override
+	public boolean deleteReply(ReplyVO vo) throws Exception {
+		// bno
+		String bno = vo.getBno();
+
+		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
+
+		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
+
+		// reply중에서 rno이 같은 reply를 삭제
+		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
+				.script(new Script(ScriptType.INLINE, "painless",
+						"for (int i = 0; i < ctx._source.reply.size(); i++) {"
+								+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
+								+ "ctx._source.reply.remove(i) }}",
+						singletonMap));
+
+		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
+
+		RestStatus status = response.status();
+
+		return status == RestStatus.OK ? true : false;
 	}
 
 }
