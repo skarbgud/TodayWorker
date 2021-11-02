@@ -3,41 +3,7 @@
     <b-container>
       <div v-for="(item, index) in comments" :key="index" class="mt-3 col-xl-8">
         <!--본댓글 -->
-        <div :class="{ isRecomment: item.isRecomment === true }">
-          <div class="mt-2 comment-user">
-            <!-- {{ item.company }} | {{ item.userId }} -->
-            {{ item.writer }}
-          </div>
-          <div class="mt-2">{{ item.content }}</div>
-          <b-row align-h="between">
-            <b-col cols="4">
-              <div class="mt-2 comment-bottom">
-                <i class="far fa-clock mx-1" />{{
-                  item.regDate | moment('from', 'now')
-                }}
-                <a href="#"><i class="far fa-thumbs-up mx-1 ml-1"></i>좋아요</a>
-                <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />1</a>
-              </div>
-            </b-col>
-            <b-col cols="4" style="text-align: right;">
-              <el-popover
-                placement="right"
-                width="80"
-                trigger="click"
-                content="popOverContent"
-              >
-                <el-button @click="clickUpdateReply">수정하기</el-button>
-                <el-button
-                  @click="clickDeleteReply(item.rno)"
-                  style="margin-left:0px;margin-top:10px;"
-                  >삭제하기</el-button
-                >
-                <b-icon slot="reference" class="mx-1 ml-3" icon="three-dots" />
-              </el-popover>
-            </b-col>
-          </b-row>
-          <hr />
-        </div>
+        <comment-content :item="item" :index="index" ref="index" @clickUpdateReply=clickUpdateReply></comment-content>
         <!-- [더보기] , 대댓글   -->
         <!-- // TODO. 대댓글 구현 -->
         <!-- <div v-if="item.reply.length !== 0">
@@ -51,20 +17,31 @@
 <script>
 // import CommentDetail from './CommentDetail';
 import registApi from '@/api/board/reply';
+import InputTextarea from '@/views/components/input/InputTextarea.vue';
+import CommentContent from './CommentContent.vue';
 
 export default {
   name: 'Comment',
-  // components: { CommentDetail },
+  components: { InputTextarea, CommentContent },
   props: ['comments'],
   data() {
-    return {};
+    return {
+      isEdit: false,
+      placeHolder: '댓글을 남겨주세요.',
+      files: [],
+      replyContent: '',
+    };
   },
   methods: {
-    clickUpdateReply() {
-
+    fileDeleteButton(e) {
+      const name = e.target.getAttribute('name');
+      this.files = this.files.filter((data) => data.number !== Number(name));
+    },
+    clickUpdateReply(index) {
+      this.$refs.index[index].isEdit = true;
     },
     clickDeleteReply(rno) {
-      const params = { 
+      const params = {
         bno: this.$route.params.index,
         rno: rno,
       };

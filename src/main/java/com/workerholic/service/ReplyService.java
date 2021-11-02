@@ -66,6 +66,8 @@ public class ReplyService implements ReplyServiceIF {
 	public boolean updateReply(ReplyVO vo) throws Exception {
 		// bno
 		String bno = vo.getBno();
+		vo.setRegDate(DateUtils.getDatetimeString());
+		vo.setIsRecomment(false);
 
 		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
 
@@ -74,10 +76,10 @@ public class ReplyService implements ReplyServiceIF {
 		// reply중에서 rno이 같은 reply의 내용을 수정
 		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
 				.script(new Script(ScriptType.INLINE, "painless",
-						"for (int i = 0; i < ctx._source.reply.size(); i++) {"
-								+ "if (ctx.source.reply[i].rno == params.reply.rno) {"
-								+ "ctx._source.reply[i] = params.reply }}",
-						singletonMap));
+						"for(int i = 0; i< ctx._source.reply.size(); i++) {"
+								+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
+								+ "ctx._source.reply[i]=params.reply }}",
+								singletonMap));
 
 		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
 

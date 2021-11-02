@@ -25,5 +25,58 @@
     height: 45px;
     cursor: pointer;
   }
+  .write-box {
+    display: flex;
+    border: 1px solid lightgrey;
+    font-size: 14px;
+    flex-direction: column;
+    padding: 5px;
+  }
+  .file-preview-container {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .file-preview-wrapper {
+    padding: 10px;
+    position: relative;
+  }
 
+  .file-preview-wrapper > img {
+    position: relative;
+    width: 190px;
+    height: 130px;
+    z-index: 10;
+  }
+
+  .file-close-button {
+    position: absolute;
+    /* align-items: center; */
+    line-height: 18px;
+    z-index: 99;
+    font-size: 18px;
+    right: 5px;
+    top: 10px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #666666;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .file-preview-container {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .file-preview-wrapper-upload {
+    margin: 10px;
+    padding-top: 20px;
+    background-color: #888888;
+    width: 190px;
+    height: 130px;
+  }
 }
