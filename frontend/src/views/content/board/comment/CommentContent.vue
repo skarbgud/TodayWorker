@@ -84,7 +84,7 @@ import CameraButton from '@/views/components/button/CameraButton.vue';
 
 export default {
   name: 'CommentContent',
-  components: { InputTextarea },
+  components: { InputTextarea, CameraButton },
   props: ['item', 'index'],
   data() {
     return {
@@ -157,3 +157,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/components/comment.scss';
+</style>
