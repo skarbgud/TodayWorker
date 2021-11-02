@@ -81,7 +81,9 @@
         or
       </div>
 
-      <social-login-button :icon="naver"></social-login-button>
+      <a class="button_naver" v-on:click="naverlogin()">
+        <social-login-button :icon="naver"></social-login-button>
+      </a>
       <social-login-button :icon="facebook"></social-login-button>
       <social-login-button :icon="google"></social-login-button>
 
@@ -108,9 +110,19 @@ export default {
       naver: 'naver',
       facebook: 'facebook',
       google: 'google',
+      client_id: 'G2E83phs8ORaJ0BxJWKx',
+      callbackUrl: 'http://192.168.1.100:8080/todayworker/login/naver-login.do',
     };
   },
   methods: {
+    naverlogin() {
+      var url =
+        'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
+        this.client_id +
+        '&redirect_uri=' +
+        this.callbackUrl +
+      window.location.replace(url);
+    },
     submitForm(formName) {
       console.log(this.dynamicValidateForm.email);
       this.$refs[formName].validate((valid) => {
