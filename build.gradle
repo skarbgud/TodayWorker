@@ -34,7 +34,11 @@ dependencies {
 
     compile('com.h2database:h2')    // 인메모리 관계형 DB
 
-    compile('org.elasticsearch.client:elasticsearch-rest-high-level-client') //elasticsearch
+    // elasticsearch
+    compile 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.9.1'
+    compile 'org.elasticsearch.client:elasticsearch-rest-client:7.9.3'
+    compile 'org.elasticsearch:elasticsearch:7.9.3'
 
 //    compile('org.springframework.boot:spring-boot-starter-oauth2-client') // 스프링 시큐리티 의존성
 
