@@ -154,3 +154,4 @@ $RECYCLE.BIN/
 .gradle
 .idea
 application-oauth.properties
+*/build
