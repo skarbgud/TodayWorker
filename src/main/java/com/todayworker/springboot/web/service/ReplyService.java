@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class ReplyService implements ReplyServiceIF {
 
 	// es연결 정보
-	ElasticsearchConnect connect = new ElasticsearchConnect("192.168.1.103", 9200);
+	ElasticsearchConnect connect = new ElasticsearchConnect();
 
 	// Rest connection 설정
 	private final RestHighLevelClient client = connect.getConnection();
@@ -52,7 +52,7 @@ public class ReplyService implements ReplyServiceIF {
 		// singtoneMap 정의
 		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
 
-		UpdateRequest request = new UpdateRequest(indexName, "_doc",indexName + bno).script(new Script(ScriptType.INLINE,
+		UpdateRequest request = new UpdateRequest(indexName,indexName + bno).script(new Script(ScriptType.INLINE,
 				"painless", "if (ctx._source.reply == null) {ctx._source.reply=[]} ctx._source.reply.add(params.reply)",
 				singletonMap));
 
@@ -75,7 +75,7 @@ public class ReplyService implements ReplyServiceIF {
 		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
 
 		// reply중에서 rno이 같은 reply의 내용을 수정
-		UpdateRequest request = new UpdateRequest(indexName, "_doc", indexName + bno)
+		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
 				.script(new Script(ScriptType.INLINE, "painless",
 						"for(int i = 0; i< ctx._source.reply.size(); i++) {"
 								+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
@@ -99,7 +99,7 @@ public class ReplyService implements ReplyServiceIF {
 		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
 
 		// reply중에서 rno이 같은 reply를 삭제
-		UpdateRequest request = new UpdateRequest(indexName, "_doc", indexName + bno)
+		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
 				.script(new Script(ScriptType.INLINE, "painless",
 						"for (int i = 0; i < ctx._source.reply.size(); i++) {"
 								+ "if (ctx._source.reply[i].rno == params.reply.rno) {"

@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BoardService implements BoardServiceIF {
 	
 	// es연결 정보
-	ElasticsearchConnect connect = new ElasticsearchConnect("192.168.1.103", 9200);
+	ElasticsearchConnect connect = new ElasticsearchConnect();
 
 	// Rest connection 설정
 	private final RestHighLevelClient client = connect.getConnection();
@@ -132,7 +132,7 @@ public class BoardService implements BoardServiceIF {
 		String json = null;
 		json = new ObjectMapper().writeValueAsString(boardVO);
 
-		UpdateRequest request = new UpdateRequest(indexName, "_doc", id).doc(json, XContentType.JSON);
+		UpdateRequest request = new UpdateRequest(indexName, id).doc(json, XContentType.JSON);
 
 		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
 		
@@ -158,7 +158,7 @@ public class BoardService implements BoardServiceIF {
 		// id (인덱스 이름 + bno)
 		String id = indexName + bno;
 		
-		DeleteRequest request = new DeleteRequest(indexName, "_doc", id);
+		DeleteRequest request = new DeleteRequest(indexName, id);
 		
 		DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
 		
