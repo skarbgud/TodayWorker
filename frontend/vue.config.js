@@ -6,7 +6,7 @@ module.exports = {
     contentBase: '.',
     proxy: {
       '^/todayworker/api': {
-        target: 'http://192.168.1.100:8080/todayworker', // 요청할 서버 주소
+        target: 'http://localhost:8080/', // 요청할 서버 주소
         pathRewrite: { '^/todayworker/api': '' },
         changeOrigin: true,
         logLevel: 'debug', // 터미널에 proxy 로그 남기기
