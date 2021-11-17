@@ -61,6 +61,15 @@ export default {
 </script>
 
 <style>
+.card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 40px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .icon-color {
   color: rgb(145, 141, 141);
   font-size: 14px;
