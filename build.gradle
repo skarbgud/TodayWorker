@@ -48,6 +48,14 @@ dependencies {
 
     compile ('com.google.code.gson:gson') // gson
 
+    // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+    implementation 'commons-beanutils:commons-beanutils:1.9.3'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.11.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.2'
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.springframework.security:spring-security-test")
 }
