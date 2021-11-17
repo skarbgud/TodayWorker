@@ -1,8 +1,5 @@
 package config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.todayworker.springboot.utils.ElasticsearchConnect;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.*;
@@ -19,18 +16,24 @@ import java.io.IOException;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ElasticSearchConnectionTest {
 
-    private Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().serializeNulls().create();
-
     private ElasticsearchConnect connect = new ElasticsearchConnect();
-
-    private RestClient restClient = null;
 
     private final RestHighLevelClient client = connect.getConnection();
 
     // board 인덱스가 있는지 확인후 없으면 생성
     @Test
-    public void isExistBoardIndex() {
-        String indexName = "board";
+    public void isExistIndexTest() {
+
+        String[] indexNames = {"board"};
+
+        for (String indexName : indexNames)
+        {
+            isExistIndex(indexName);
+        }
+    }
+
+    public void isExistIndex(String indexName) {
+        // 이 값에서 존재하는 인덱스를 삭제 할 것인지를 판단
         Boolean deleteFlag = false;
 
         if (client != null) {
@@ -53,14 +56,9 @@ public class ElasticSearchConnectionTest {
                 else if (!exists){
                     CreateIndexResponse response = client.indices().create(createIndexRequest, RequestOptions.DEFAULT);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
-
-
-
 }
