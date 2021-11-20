@@ -81,11 +81,13 @@
         or
       </div>
 
-      <a @click="naverLogin()">
+      <a href="http://localhost:8080/oauth2/authorization/naver" role="button">
         <social-login-button :icon="naver"></social-login-button>
       </a>
       <social-login-button :icon="facebook"></social-login-button>
-      <social-login-button :icon="google"></social-login-button>
+      <a href="http://localhost:8080/oauth2/authorization/google" role="button">
+        <social-login-button :icon="google"></social-login-button>
+      </a>
 
       <p class="footer-info">
         걱정마세요! 여러분의 활동은 SNS에 노출되지 않습니다.
@@ -123,8 +125,8 @@ export default {
         '&redirect_uri=' +
         this.callbackUrl +
         '&state=' +
-        this.state
-      window.location.replace(url);
+          window.location.rep
+        this.statelace(url);
     },
     submitForm(formName) {
       console.log(this.dynamicValidateForm.email);

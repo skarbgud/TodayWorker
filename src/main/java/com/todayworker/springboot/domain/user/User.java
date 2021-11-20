@@ -17,7 +17,7 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // PK의 생성 규칙. 스트링부트 2.0에서는 GenerationType.IDENTITY 옵션을 추가해야지만 auto_increment가 된다
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
 
     @Column(nullable = false)
@@ -39,8 +39,12 @@ public class User extends BaseTimeEntity {
     }
 
     public User update(String name, String picture) {
-        this.name = name;
-        this.picture = picture;
+        if (name != null) {
+            this.name = name;
+        }
+        else if (picture != null) {
+            this.picture = picture;
+        }
 
         return this;
     }

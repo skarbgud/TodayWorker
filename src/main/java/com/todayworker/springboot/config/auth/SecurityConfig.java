@@ -23,9 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated() // anyRequest->설정된 값들 이외 나머지 URL들을 나타낸다. 여기서는 authenticated()을 추가하여 나머지 URL들은 모두 인증된 사용자들에게만 허용. 인증된 사용자 즉, 로그인한 사용자들을 이야기한다.
                 .and()
                 .logout() // 로그아웃 기능에 대한 여러 설정의 진입점
-                .logoutSuccessUrl("/") // 로그아웃 성공 시 / 주소로 이동한다.
+                .logoutSuccessUrl("http://localhost:3333") // 로그아웃 성공 시 / 주소로 이동한다.
                 .and()
                 .oauth2Login() // OAuth2 로그인 기능에 대한 여러 설정의 진입점입니다.
+                .defaultSuccessUrl("http://localhost:3333")
                 .userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정들을 담당한다.
                 .userService(customOAuth2UserService); // 소셜 로그인 성공시 후속 조치를 진행할 UserService 인터페이스를 구현체로 등록. 리소스 서버(즉, 소셜 서비스들)에서 사용자 정보를 가져온 상태에서 추가로 진행하고자 하는 기능을 명시할 수 있다.
 
