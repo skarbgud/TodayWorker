@@ -40,7 +40,7 @@ dependencies {
     compile 'org.elasticsearch.client:elasticsearch-rest-client:7.9.3'
     compile 'org.elasticsearch:elasticsearch:7.9.3'
 
-//    compile('org.springframework.boot:spring-boot-starter-oauth2-client') // 스프링 시큐리티 의존성
+    compile('org.springframework.boot:spring-boot-starter-oauth2-client') // 스프링 시큐리티 의존성
 
     compile('org.springframework.session:spring-session-jdbc') // JDBC
 
@@ -48,8 +48,7 @@ dependencies {
 
     compile ('com.google.code.gson:gson') // gson
 
-    // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
-    implementation 'commons-beanutils:commons-beanutils:1.9.3'
+    implementation 'commons-beanutils:commons-beanutils:1.9.3' //commons-beanutils
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation 'com.fasterxml.jackson.core:jackson-core:2.11.2'
