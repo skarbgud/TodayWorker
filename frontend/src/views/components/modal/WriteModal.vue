@@ -15,21 +15,24 @@
 
     <el-form :model="formData" :rules="rules" ref="formData">
       <!-- 모달 content  -->
-      <el-form-item required prop="categoriName">
-        <el-select
-          v-model="formData.categoriName"
-          placeholder="카테고리"
-          class="d-flex justify-content-between align-items-center"
-        >
-          <el-option
-            v-for="(categori, index) in boardCategori"
-            :key="index"
-            :label="categori.emoticon + ' ' + categori.title"
-            :value="categori.path"
+      <div class="input-control">
+        <el-form-item required prop="categoriName">
+          <el-select
+            v-model="formData.categoriName"
+            placeholder="카테고리"
+            class="d-flex justify-content-between align-items-center"
+            style="padding: 3px;"
           >
-          </el-option>
-        </el-select>
-      </el-form-item>
+            <el-option
+              v-for="(categori, index) in boardCategori"
+              :key="index"
+              :label="categori.emoticon + ' ' + categori.title"
+              :value="categori.path"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </div>
 
       <div class="input-control">
         <!-- 제목 입력 -->
