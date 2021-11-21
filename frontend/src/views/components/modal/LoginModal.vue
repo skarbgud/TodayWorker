@@ -81,11 +81,11 @@
         or
       </div>
 
-      <a href="http://localhost:8080/oauth2/authorization/naver" role="button">
+      <a @click="clickNaverLogin" role="button">
         <social-login-button :icon="naver"></social-login-button>
       </a>
       <social-login-button :icon="facebook"></social-login-button>
-      <a href="http://localhost:8080/oauth2/authorization/google" role="button">
+      <a @click="clickGoogleLogin" role="button">
         <social-login-button :icon="google"></social-login-button>
       </a>
 
@@ -118,15 +118,13 @@ export default {
     };
   },
   methods: {
-    naverlogin() {
-      var url =
-        'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
-        this.client_id +
-        '&redirect_uri=' +
-        this.callbackUrl +
-        '&state=' +
-          window.location.rep
-        this.statelace(url);
+    clickNaverLogin() {
+      const url = 'http://localhost:8080/oauth2/authorization/naver';
+      this.statelace(url);
+    },
+    clickGoogleLogin() {
+      const url = 'http://localhost:8080/oauth2/authorization/google';
+      this.statelace(url);
     },
     submitForm(formName) {
       console.log(this.dynamicValidateForm.email);
