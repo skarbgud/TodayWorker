@@ -119,12 +119,10 @@ export default {
   },
   methods: {
     clickNaverLogin() {
-      const url = 'http://localhost:8080/oauth2/authorization/naver';
-      this.statelace(url);
+      location.href='http://localhost:8080/oauth2/authorization/naver';
     },
     clickGoogleLogin() {
-      const url = 'http://localhost:8080/oauth2/authorization/google';
-      this.statelace(url);
+      location.href='http://localhost:8080/oauth2/authorization/google';
     },
     submitForm(formName) {
       console.log(this.dynamicValidateForm.email);

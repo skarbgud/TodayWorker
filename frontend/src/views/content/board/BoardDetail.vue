@@ -55,7 +55,7 @@
               <hr />
               <div class="mt-4 mb-4">{{ post.content }}</div>
               <div class="info-bottom">
-                <a href="#"><i class="far fa-thumbs-up mx-1 mr-1" />505</a>
+                <a href="#"><i class="far fa-thumbs-up mx-1 mr-1" />0</a>
                 <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />{{ replyCount }}</a>
                 <a href="">
                   <img
