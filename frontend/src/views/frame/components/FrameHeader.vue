@@ -39,11 +39,11 @@
             <search-form></search-form>
           </b-nav-form>
           <!-- 회원가입 / 로그인 -->
-          <span v-if="userName === null">
+          <span v-if="userEmail === null">
             <login-button></login-button>
           </span>
           <span v-else>
-            {{ userName }} 님 환영합니다.
+            {{ userEmail }} 님 환영합니다.
             <el-button @click="logout()">Logout</el-button>
           </span>
         </b-navbar-nav>
@@ -97,14 +97,14 @@ export default {
       search: '',
       boardCategori,
       functionMenu,
-      userName: null,
+      userEmail: null,
     };
   },
   created() {
     userApi.getUserInfo()
         .then((response) => {
           if (response.data.success) {
-            this.userName = response.data.data;
+            this.userEmail = response.data.data.email;
           }
         })
         .catch(function (error) {
@@ -117,14 +117,13 @@ export default {
     logout() {
       userApi.getUserLogOut()
           .then((response) => {
-            if (response.data.success) {
-              this.userName = response.data.data;
-            }
+            console.log(response);
           })
           .catch(function (error) {
             console.log(error);
           })
           .finally(() => {
+            this.$router.go();
           });
     },
     handleSelect(activeIndex) {

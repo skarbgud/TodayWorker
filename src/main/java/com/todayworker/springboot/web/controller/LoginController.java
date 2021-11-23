@@ -25,7 +25,7 @@ public class LoginController {
         ResultVO result = new ResultVO(false, null);
 
         try {
-            result.setData(user.getName());
+            result.setData(user);
             result.setSuccess(true);
         } catch (Exception e) {
             LOG.error("[Login] Login : " + e.getMessage(), e);
