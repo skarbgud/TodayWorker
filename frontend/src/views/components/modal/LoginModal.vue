@@ -105,6 +105,7 @@ export default {
   name: 'LoginModal',
   data() {
     return {
+      userName: '',
       projectTitle,
       dynamicValidateForm: {
         email: '',
@@ -112,9 +113,6 @@ export default {
       naver: 'naver',
       facebook: 'facebook',
       google: 'google',
-      client_id: 'G2E83phs8ORaJ0BxJWKx',
-      callbackUrl: 'http://192.168.1.100:8080/todayworker/login/naver-login.do',
-      state: 123,
     };
   },
   methods: {
@@ -123,6 +121,7 @@ export default {
     },
     clickGoogleLogin() {
       location.href='http://localhost:8080/oauth2/authorization/google';
+
     },
     submitForm(formName) {
       console.log(this.dynamicValidateForm.email);

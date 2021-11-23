@@ -77,6 +77,7 @@ import functionMenu from '@/constant/function-menu';
 import LoginButton from '@/views/components/button/LoginButton';
 import MainCarousel from '@/views/components/carousel/MainCarousel';
 import WriteButton from '@/views/components/button/WriteButton';
+import userApi from "@/api/user";
 
 export default {
   name: 'FrameHeader',
@@ -90,9 +91,21 @@ export default {
       search: '',
       boardCategori,
       functionMenu,
+      userName: '',
     };
   },
-
+  created() {
+    userApi.getUserInfo()
+        .then((response) => {
+          if (response.data.success) {
+            this.userName = response.data.data;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        })
+        .finally(() => {});
+  },
   methods: {
     handleSelect(activeIndex) {
       this.activeIndex = activeIndex;
