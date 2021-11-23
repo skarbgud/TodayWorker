@@ -11,19 +11,19 @@
         <!-- 중앙 메뉴 -->
         <b-navbar-nav class="ml-auto">
           <el-menu
-            :default-active="activeIndex"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
+              :default-active="activeIndex"
+              class="el-menu-demo"
+              mode="horizontal"
+              @select="handleSelect"
           >
             <el-menu-item index="board" v-b-hover="hoverBoardTab">
               📌게시판
             </el-menu-item>
             <el-menu-item
-              v-for="(menu, index) in functionMenu"
-              :index="menu.index"
-              :key="index"
-              v-b-hover="disableHoverTab"
+                v-for="(menu, index) in functionMenu"
+                :index="menu.index"
+                :key="index"
+                v-b-hover="disableHoverTab"
             >
               {{ menu.name }}
             </el-menu-item>
@@ -39,7 +39,13 @@
             <search-form></search-form>
           </b-nav-form>
           <!-- 회원가입 / 로그인 -->
-          <login-button></login-button>
+          <span v-if="userName === null">
+            <login-button></login-button>
+          </span>
+          <span v-else>
+            {{ userName }} 님 환영합니다.
+            <el-button @click="logout()">Logout</el-button>
+          </span>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -48,16 +54,16 @@
     <b-card v-b-hover="hoverMenuBar" v-show="isHoveredMenu || isHoveredTab">
       <b-card-group>
         <b-list-group
-          class="mr-4 mt-1"
-          v-for="(categori, index) in boardCategori"
-          :key="index"
+            class="mr-4 mt-1"
+            v-for="(categori, index) in boardCategori"
+            :key="index"
         >
           <b-list-group-item
-            @click="goMenu(index)"
-            class="flex-column align-items-start"
+              @click="goMenu(index)"
+              class="flex-column align-items-start"
           >
             <small class="text-muted"
-              >{{ categori.emoticon }} {{ categori.title }}</small
+            >{{ categori.emoticon }} {{ categori.title }}</small
             >
           </b-list-group-item>
         </b-list-group>
@@ -81,7 +87,7 @@ import userApi from "@/api/user";
 
 export default {
   name: 'FrameHeader',
-  components: { SearchForm, LoginButton, MainCarousel, WriteButton },
+  components: {SearchForm, LoginButton, MainCarousel, WriteButton},
   data() {
     return {
       projectTitle,
@@ -91,7 +97,7 @@ export default {
       search: '',
       boardCategori,
       functionMenu,
-      userName: '',
+      userName: null,
     };
   },
   created() {
@@ -101,12 +107,26 @@ export default {
             this.userName = response.data.data;
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         })
-        .finally(() => {});
+        .finally(() => {
+        });
   },
   methods: {
+    logout() {
+      userApi.getUserLogOut()
+          .then((response) => {
+            if (response.data.success) {
+              this.userName = response.data.data;
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(() => {
+          });
+    },
     handleSelect(activeIndex) {
       this.activeIndex = activeIndex;
     },
