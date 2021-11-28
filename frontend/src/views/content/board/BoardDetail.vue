@@ -27,7 +27,7 @@
               <div class="post-info mt-1">
                 <i class="far fa-clock mx-1" />{{ post.regDate | moment('YYYY-MM-DD HH:mm:ss') }}
                 <i class="fas fa-eye mx-1"></i> {{ post.cnt }}
-                <b-icon class="mx-1 ml-2" icon="chat" />{{ post.recomment }}
+                <b-icon class="mx-1 ml-2" icon="chat" />{{ replyCount }}
                 <div class="info-right">
                   <a href="#"><b-icon class="mx-1 ml-3" icon="bookmark"/></a>
                   <!-- <a href="#" v-b-popover.click.html="popoverMethod" ><b-icon class="mx-1 ml-3" icon="three-dots"/></a> -->

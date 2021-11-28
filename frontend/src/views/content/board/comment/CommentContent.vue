@@ -13,7 +13,7 @@
               item.regDate | moment('from', 'now')
             }}
             <a href="#"><i class="far fa-thumbs-up mx-1 ml-1"></i>좋아요</a>
-            <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />1</a>
+            <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />0</a>
           </div>
         </b-col>
         <b-col cols="4" style="text-align: right;">
