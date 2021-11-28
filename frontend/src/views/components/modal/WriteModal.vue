@@ -128,6 +128,7 @@ import HashTag from '../item/HashTag.vue';
 import VotingWrite from './components/VotingWrite';
 import boardApi from '@/api/board/index';
 // import LocationModal from './components/LocationModal';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'WriteModal',
@@ -157,6 +158,7 @@ export default {
         files: [],
         voteList: [],
         tagList: [],
+        user: '',
       },
       rules: {
         categoriName: [
@@ -199,6 +201,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['getEmail']),
     // formData() {
     //   const params = {
     //     bno: this.bno,
@@ -240,6 +243,7 @@ export default {
       this.updateFlag = true;
     },
     insertBoardApi(formName) {
+      this.formData.user = this.getEmail;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.updateFlag) {
