@@ -1,14 +1,14 @@
 <template>
   <div>
     <b-row class="mb-4">
-      <swiper class="swiper" :options="swiperOption">
+      <swiper id="swiper" class="swiper" :options="swiperOption">
         <div class="swiper-pagination" slot="pagination" />
         <swiper-slide
           v-for="(title, index) in boardCategori"
           :key="index"
           class="item"
         >
-          <a @click="golive(index)">
+          <a @click="goCategori(index)">
               {{ boardCategori[index].title }}
               {{boardCategori[index].emoticon}}
             </a>
@@ -44,9 +44,9 @@ export default {
     };
   },
   methods: {
-    golive(index) {
-      const a = document.getElementById("class")
-      a.classList.add
+    goCategori(index) {
+      const id = document.getElementById("swiper")
+      id.classList.add
       this.$router.push(this.boardCategori[index].path).catch(() => {});
     },
   },
