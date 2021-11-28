@@ -12,7 +12,7 @@
                 <div class="user-info  mr-2">
                   {{ user.do }}
                   {{ user.si }} |
-                  {{ post.writer }}
+                  {{ post.user }}
                   {{ user.company }}
                 </div>
                 <div>

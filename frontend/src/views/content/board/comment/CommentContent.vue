@@ -2,7 +2,7 @@
   <div :class="{ isRecomment: item.isRecomment === true }">
     <div class="mt-2 comment-user">
       <!-- {{ item.company }} | {{ item.userId }} -->
-      {{ item.writer }}
+      {{ item.user }}
     </div>
     <div v-if="!isEdit" :ref="index">
       <div class="mt-2">{{ item.content }}</div>
@@ -100,7 +100,7 @@ export default {
         bno: this.item.bno,
         rno: this.item.rno,
         content: this.item.content,
-        writer: this.item.writer,
+        user: this.item.user,
       };
       return params;
     },

@@ -117,7 +117,7 @@ public class BoardServiceTest {
             boardVO.put("title", "테스트제목" + i);
             boardVO.put("content", "테스트내용" + i);
             boardVO.put("cnt", i);
-            boardVO.put("writer", "testUser" + i);
+            boardVO.put("", "testUser" + i);
             boardVO.put("registDate", DateUtils.getDatetimeString(new Date()));
             boardVO.put("registDate", new Date());
 

@@ -14,7 +14,7 @@
       <!--유저 정보-->
       <div class="user-info">
         <a href="#" class="card-link">새회사</a>
-        <b-link href="#" class="card-link">{{post.writer}}</b-link><br/>
+        <b-link href="#" class="card-link">{{post.user}}</b-link><br/>
       </div>
 
       <!-- 조회수, 좋아요, 댓글 갯수-->
