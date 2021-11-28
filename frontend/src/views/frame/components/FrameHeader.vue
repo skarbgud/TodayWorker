@@ -119,8 +119,8 @@ export default {
   methods: {
     logout() {
       userApi.getUserLogOut()
-          .then((response) => {
-            console.log(response);
+          .then(() => {
+            this.$store.dispatch("LOGOUT")
           })
           .catch(function (error) {
             console.log(error);
