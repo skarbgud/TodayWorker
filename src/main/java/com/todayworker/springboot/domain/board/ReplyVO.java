@@ -9,7 +9,7 @@ public class ReplyVO {
 	private String bno;
 	private String rno;
 	private String content;
-	private String writer;
+	private String user;
 	private String regDate;
 	private Boolean isRecomment;
 

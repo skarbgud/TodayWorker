@@ -10,6 +10,7 @@ import '@fortawesome/fontawesome-free/js/all.js'
 import InfiniteLoading from 'vue-infinite-loading';
 import vueMoment from 'vue-moment'
 import moment from 'moment'
+import store from './store'
 
 // import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 
@@ -30,5 +31,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

@@ -104,7 +104,10 @@ export default {
     userApi.getUserInfo()
         .then((response) => {
           if (response.data.success) {
+            console.log(response.data.data);
             this.userEmail = response.data.data.email;
+            const userInfo = response.data.data;
+            this.$store.dispatch("LOGIN", { userInfo })
           }
         })
         .catch(function (error) {

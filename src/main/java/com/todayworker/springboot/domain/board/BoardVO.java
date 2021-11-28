@@ -12,7 +12,7 @@ public class BoardVO {
 	private String title;
 	private String content;
 	private int cnt;
-	private String writer;
+	private String user;
 	private String regDate;
 	
 	// 투표 항목

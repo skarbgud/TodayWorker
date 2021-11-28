@@ -14,7 +14,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 @Data
 public class ElasticsearchConnect{
 
-	private String host = "192.168.1.105";
+	private String host = "192.168.56.101";
 	private Integer port = 9200;
 	private String userId = "elastic";
 	private String password = "password123";
