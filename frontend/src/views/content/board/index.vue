@@ -52,6 +52,7 @@ export default {
       const params = {
         fromIndex: 0,
         pageSize: 10,
+        categories: this.$route.params.board,
       };
       return params;
     },
