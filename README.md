@@ -1,6 +1,7 @@
 <h1><strong>프로젝트명 : Only(오늘도 직장인[오직])</strong></h1>
 
-![image](https://user-images.githubusercontent.com/54926902/132117682-97e75942-45e4-4638-9ac2-6e93595389e7.png)
+![demo](https://user-images.githubusercontent.com/54926902/148981787-80d0d5c4-38f4-4297-8b8e-1902785031c4.gif)
+
 
 # 프로젝트 기간
 2021/08/16 ~ 
