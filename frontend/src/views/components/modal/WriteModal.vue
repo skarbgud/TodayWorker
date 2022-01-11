@@ -229,15 +229,16 @@ export default {
     },
     loadEditData(post) {
       console.log(post);
-      this.bno = post.bno;
-      this.categoriName = post.categoriName;
-      this.title = post.title;
+      this.formData = post;
       this.updateContent = post.content;
-      // TODO. FILE바인딩
-      // this.files = post.files;
-      this.voteList = post.voteList;
-      this.tagList = post.tagList;
-      this.regDate = post.regDate;
+      // this.bno = post.bno;
+      // this.categoriName = post.categoriName;
+      // this.title = post.title;
+      // // TODO. FILE바인딩
+      // // this.files = post.files;
+      // this.voteList = post.voteList;
+      // this.tagList = post.tagList;
+      // this.regDate = post.regDate;
 
       // updateFlag => 수정창인지 구분위해
       this.updateFlag = true;
