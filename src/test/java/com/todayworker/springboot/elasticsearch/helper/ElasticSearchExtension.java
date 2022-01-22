@@ -40,7 +40,8 @@ public class ElasticSearchExtension implements BeforeAllCallback, AfterAllCallba
 
         elasticSearchContainer.start();
 
-        System.setProperty("spring.elasticsearch.uris", String.format("http://localhost:%d",elasticSearchContainer.getFirstMappedPort()));
+        System.setProperty("spring.elasticsearch.rest.uris", String.format("http://localhost:%d",elasticSearchContainer.getFirstMappedPort()));
+        System.setProperty("elasticsearch.test.container.host.port", elasticSearchContainer.getFirstMappedPort().toString());
 
         // board 인덱스가 있는지 확인후 없으면 생성
         for(String indexName : INDEX_NAMES) {
@@ -54,8 +55,8 @@ public class ElasticSearchExtension implements BeforeAllCallback, AfterAllCallba
     }
 
     private void isExistIndex(String indexName) {
-        System.out.println("TEST ELASTIC SEARCH HOST : " + System.getProperty("spring.elasticsearch.uris"));
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create(System.getProperty("spring.elasticsearch.uris"))));
+        System.out.println("TEST ELASTIC SEARCH HOST : " + System.getProperty("spring.elasticsearch.rest.uris"));
+        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create(System.getProperty("spring.elasticsearch.rest.uris"))));
         // 이 값에서 존재하는 인덱스를 삭제 할 것인지를 판단
         Boolean deleteFlag = false;
 
