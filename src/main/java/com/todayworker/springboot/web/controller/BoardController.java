@@ -5,6 +5,7 @@ import com.todayworker.springboot.domain.board.ReplyVO;
 import com.todayworker.springboot.domain.config.ElasticSearchVO;
 import com.todayworker.springboot.domain.config.ResultVO;
 import com.todayworker.springboot.web.service.BoardService;
+import com.todayworker.springboot.web.service.BoardServiceIF;
 import com.todayworker.springboot.web.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ public class BoardController implements BoardControllerIF {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
 
-	private final BoardService service;
+	private final BoardServiceIF service; // spring의 DI를 활용하려면 Type을 인터페이스로 두어야 합니다.
 
 	private final ReplyService replyService;
 

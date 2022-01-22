@@ -6,7 +6,7 @@ import com.todayworker.springboot.domain.config.ElasticSearchVO;
 import com.todayworker.springboot.domain.config.ResultVO;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+// TODO : 컨트롤러 인터페이스(BoardControllerIF)를 정의한 이유가 있을까요?
 public interface BoardControllerIF {
 
 	public ResultVO getBoardList(@RequestBody ElasticSearchVO vo);

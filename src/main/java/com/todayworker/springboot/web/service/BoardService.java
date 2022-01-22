@@ -1,19 +1,14 @@
 package com.todayworker.springboot.web.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todayworker.springboot.domain.board.BoardVO;
 import com.todayworker.springboot.domain.config.ElasticSearchVO;
-import com.todayworker.springboot.utils.ConvertUtils;
+import com.todayworker.springboot.elasticsearch.document.BoardDocument;
+import com.todayworker.springboot.elasticsearch.repository.BoardElasticSearchRepository;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.ElasticsearchConnect;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -27,9 +22,14 @@ import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 @Service
@@ -43,6 +43,9 @@ public class BoardService implements BoardServiceIF {
 
 	// 인덱스 name
 	private final String indexName = "board";
+
+	@Autowired
+	private BoardElasticSearchRepository boardElasticSearchRepository;
 
 	public List<Map<String, Object>> getBoardList(ElasticSearchVO vo) throws Exception {
 		List<Map<String, Object>> boardList = new ArrayList<Map<String, Object>>();
@@ -108,13 +111,16 @@ public class BoardService implements BoardServiceIF {
 		// 현재 날짜
 		boardVO.setRegDate(DateUtils.getDatetimeString());
 
-		Map<String, Object> boardMap = ConvertUtils.convertToMap(boardVO);
+//		Map<String, Object> boardMap = ConvertUtils.convertToMap(boardVO);
+//
+//		// id는 인덱스 + bno로 unique
+//		IndexRequest request = new IndexRequest(indexName).id(indexName + boardVO.getBno()).source(boardMap, XContentType.JSON);
+//
+//		client.index(request, RequestOptions.DEFAULT);
 
-		// id는 인덱스 + bno로 unique
-		IndexRequest request = new IndexRequest(indexName).id(indexName + boardVO.getBno()).source(boardMap, XContentType.JSON);
+		// Spring ElasticSearch Repository로  board 저장 로직 구현
+		boardElasticSearchRepository.save(BoardDocument.from(boardVO));
 
-		client.index(request, RequestOptions.DEFAULT);
-		
 		// vue 라우터 이동을 위한 urlpath(boardType/bno)
 		String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno(); 
 		
