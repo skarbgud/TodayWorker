@@ -1,20 +1,27 @@
-buildscript {
-    ext {
-        springBootVersion = '2.1.9.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+//buildscript {
+//    ext {
+//        springBootVersion = '2.1.9.RELEASE'
+//    }
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//    }
+//}
+
+plugins {
+    id 'org.springframework.boot' version '2.5.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+//ext['log4j2.version'] = '2.17.3'
+
+//apply plugin: 'java'
+//apply plugin: 'eclipse'
+//apply plugin: 'org.springframework.boot'
+//apply plugin: 'io.spring.dependency-management'
 
 group 'com.todayworker.springboot'
 version '1.0.0-SNAPSHOT' + new Date().format("yyyyMMddHHmmss")
@@ -22,39 +29,54 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    jcenter()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.apache.logging.log4j') {
+            details.useVersion '2.17.1'
+        }
+    }
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-
-    compile('org.projectlombok:lombok') // Lombok
-
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')    // 스프링 부트용 Spring Data Jpa 추상화 라이브러리
-
-    compile('com.h2database:h2')    // 인메모리 관계형 DB
-
-    // elasticsearch
-    compile 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-    compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.9.1'
-    compile 'org.elasticsearch.client:elasticsearch-rest-client:7.9.3'
-    compile 'org.elasticsearch:elasticsearch:7.9.3'
-
-    compile('org.springframework.boot:spring-boot-starter-oauth2-client') // 스프링 시큐리티 의존성
-
-    compile('org.springframework.session:spring-session-jdbc') // JDBC
-
-    compile('org.mariadb.jdbc:mariadb-java-client') // mariadb
-
-    compile ('com.google.code.gson:gson') // gson
-
+    implementation(platform("org.apache.logging.log4j:log4j-bom:2.17.1"))
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'com.google.code.gson:gson' // gson
     implementation 'commons-beanutils:commons-beanutils:1.9.3' //commons-beanutils
-
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation 'com.fasterxml.jackson.core:jackson-core:2.11.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.2'
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile("org.springframework.security:spring-security-test")
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.h2database:h2'    // 인메모리 관계형 DB
+    testImplementation "org.testcontainers:elasticsearch:1.15.3"
+    testImplementation "org.testcontainers:junit-jupiter:1.15.3"
+
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // com.todayworker.springboot.elasticsearch
+//    implementation 'org.springframework.boot:spring-boot-starter-data-com.todayworker.springboot.elasticsearch'
+//    implementation 'org.com.todayworker.springboot.elasticsearch.client:com.todayworker.springboot.elasticsearch-rest-high-level-client:7.9.1'
+//    implementation 'org.com.todayworker.springboot.elasticsearch.client:com.todayworker.springboot.elasticsearch-rest-client:7.9.3'
+//    implementation 'org.com.todayworker.springboot.elasticsearch:com.todayworker.springboot.elasticsearch:7.9.3'
+}
+
+test {
+    useJUnitPlatform()
 }

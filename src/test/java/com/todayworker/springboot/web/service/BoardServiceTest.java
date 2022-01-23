@@ -1,10 +1,11 @@
-package service;
+package com.todayworker.springboot.web.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.todayworker.springboot.domain.board.BoardVO;
+import com.todayworker.springboot.elasticsearch.helper.ElasticSearchExtension;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.ElasticsearchConnect;
 import org.apache.commons.beanutils.BeanUtils;
@@ -24,27 +25,42 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+@ExtendWith(ElasticSearchExtension.class)
+@ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext
 public class BoardServiceTest {
 
     private Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().serializeNulls().create();
 
-    private ElasticsearchConnect connect = new ElasticsearchConnect();
-
+    private ElasticsearchConnect connect = new ElasticsearchConnect("localhost",Integer.valueOf(System.getProperty("elasticsearch.test.container.host.port")));
     private final RestHighLevelClient client = connect.getConnection();
 
     // 인덱스 name
     String indexName = "board";
 
+
     @Test
+    @Order(3)
     public void getBoardList() {
 
         List<Map<String, Object>> boardList = new ArrayList<Map<String, Object>>();
@@ -72,9 +88,10 @@ public class BoardServiceTest {
     }
 
     @Test
+    @Order(4)
     public void getBoardDetail() {
         BoardVO boardVO = new BoardVO();
-        boardVO.setBno("a937f17b9ee54dcf84931b0f0cd856fe");
+        boardVO.setBno("a937f17b9ee54dcf84931b0f0cd856fe"); // 이 UUID로는 조회가 안될 것 같습니다.
         Map<String, Object> board = new HashMap<String, Object>();
 
         // bno
@@ -107,7 +124,8 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void insertBoard() {
+    @Order(2)
+    public void insertBoard() throws IOException{
 
         Map<String, Object> boardVO = new HashMap<String, Object>();
 
@@ -117,9 +135,9 @@ public class BoardServiceTest {
             boardVO.put("title", "테스트제목" + i);
             boardVO.put("content", "테스트내용" + i);
             boardVO.put("cnt", i);
-            boardVO.put("", "testUser" + i);
+            boardVO.put("", "testUser" + i); // 요 이름없는 Key 값 때문에 삽입시 에러 발생될 듯요
             boardVO.put("registDate", DateUtils.getDatetimeString(new Date()));
-            boardVO.put("registDate", new Date());
+            boardVO.put("registDate", new Date()); // KEY 중복???
 
             try {
                 IndexRequest request = new IndexRequest(indexName).id(indexName + i).source(boardVO);
@@ -129,11 +147,13 @@ public class BoardServiceTest {
             } catch (Exception e) {
                 // TODO: handle exception
                 e.printStackTrace();
+                throw e; // 처음에 이거 throw 하는게 없어서 예외 떨어져도 테스트는 통과 했을 것 같네요
             }
         }
     }
 
     @Test
+    @Order(1)
     public void insertBoardUUID() {
         BoardVO boardVO = new BoardVO();
         boardVO.setTitle("UUID제목테스트");
@@ -180,10 +200,11 @@ public class BoardServiceTest {
         }
     }
 
-    @Test
+    @Test // TODO : 테스트 실패! [board/7qShCFpcQY20V9VfZT6kFg][[board][0]] ElasticsearchStatusException[Elasticsearch exception [type=document_missing_exception, reason=[_doc][board230e97293bbc4332932c71fee00b25d6]: document missing]]
+    @Order(5)
     public void updateBoard() {
         BoardVO boardVO = new BoardVO();
-        boardVO.setBno("230e97293bbc4332932c71fee00b25d6");
+        boardVO.setBno("230e97293bbc4332932c71fee00b25d6"); // ES에 해당 UUID값이 있다는 보장이 없어서...
         boardVO.setTitle("변경된 제목입니다10/29 with tagList");
         boardVO.setContent("변경된 내용입니다10/29 with tagList");
         String [] tagList = {"변경태그1", "변경태그2"};
@@ -219,6 +240,7 @@ public class BoardServiceTest {
     }
 
     @Test
+    @Order(6)
     public void deleteBoard() {
         String bno = "1c90ad87728c45eeb44a1a5b9c0e7802";
 
@@ -239,7 +261,5 @@ public class BoardServiceTest {
             // TODO: handle exception
         }
     }
-
-
 
 }

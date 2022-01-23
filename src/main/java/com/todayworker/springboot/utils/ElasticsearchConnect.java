@@ -10,11 +10,12 @@ import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Value;
 
 @Data
 public class ElasticsearchConnect{
 
-	private String host = "192.168.56.101";
+	private String host =  "localhost";
 	private Integer port = 9200;
 	private String userId = "elastic";
 	private String password = "password123";

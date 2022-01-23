@@ -5,6 +5,7 @@ import com.todayworker.springboot.domain.board.ReplyVO;
 import com.todayworker.springboot.domain.config.ElasticSearchVO;
 import com.todayworker.springboot.domain.config.ResultVO;
 import com.todayworker.springboot.web.service.BoardService;
+import com.todayworker.springboot.web.service.BoardServiceIF;
 import com.todayworker.springboot.web.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor // 생성자 주입 어노테이션 => final 필드 변수
 @RestController
 @RequestMapping("board/")
-public class BoardController implements BoardControllerIF {
+public class BoardController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
 
-	private final BoardService service;
+	private final BoardServiceIF service; // spring의 DI를 활용하려면 Type을 인터페이스로 두어야 합니다.
 
 	private final ReplyService replyService;
 
@@ -91,7 +92,6 @@ public class BoardController implements BoardControllerIF {
 
 	}
 
-	@Override
 	@ResponseBody
 	@RequestMapping(value = "delete-board.do", method = RequestMethod.POST)
 	public ResultVO deleteBoard(@RequestBody BoardVO vo) {
@@ -108,7 +108,6 @@ public class BoardController implements BoardControllerIF {
 		return result;
 	}
 
-	@Override
 	@ResponseBody
 	@RequestMapping(value = "regist-reply.do", method = RequestMethod.POST)
 	public ResultVO registReply(@RequestBody ReplyVO vo) {
@@ -125,7 +124,6 @@ public class BoardController implements BoardControllerIF {
 		return result;
 	}
 
-	@Override
 	@ResponseBody
 	@RequestMapping(value = "update-reply.do", method = RequestMethod.POST)
 	public ResultVO updateReply(@RequestBody ReplyVO vo) {
@@ -142,7 +140,6 @@ public class BoardController implements BoardControllerIF {
 		return result;
 	}
 
-	@Override
 	@ResponseBody
 	@RequestMapping(value = "delete-reply.do", method = RequestMethod.POST)
 	public ResultVO deleteReply(@RequestBody ReplyVO vo) {
