@@ -14,7 +14,7 @@ services:
       - cluster.initial_master_nodes=elasticsearch
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # mac OS 에서 ES 컨테이너가 다운되는 경우 힙사이즈를 256 이하로 낮춰 주세요(macbook pro 2018년형 기준...)
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
     ulimits:
       memlock:
         soft: -1

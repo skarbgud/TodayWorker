@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-// TODO : TestContainer를 이용해서 ElasticSearch 인스턴스를 띄워서 테스트를 진행할 수 있습니다. 이 부분에 설명이 필요하다면 서버 담당자분들께 따로 시간될 때 따로 설명드리겠습니다.
 // 참고 : https://honeyinfo7.tistory.com/301
 public class ElasticSearchExtension implements BeforeAllCallback, AfterAllCallback {
 

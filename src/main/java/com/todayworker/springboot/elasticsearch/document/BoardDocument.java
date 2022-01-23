@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Document(indexName = "board_t") // 기존 구현 방식과의 충돌을 방지하기 위해 IndexName을 다르게 mapping
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class BoardDocument {

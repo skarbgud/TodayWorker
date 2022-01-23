@@ -43,12 +43,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// TODO : 이름은 BoardServiceTest인데 BoardService를 테스트 하지 않네요
 @SpringBootTest
 @ExtendWith(ElasticSearchExtension.class)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext // 테스트 시간을 잡아먹는 주범...
+@DirtiesContext
 public class BoardServiceTest {
 
     private Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().serializeNulls().create();
@@ -119,19 +118,17 @@ public class BoardServiceTest {
 
         } catch (Exception e) {
             // TODO: handle exception
-            // TODO : 지금 테스트들이 catch문에서 Exception을 먹어 버려서 정작, 로직 수행중에 에러가 발생되도 테스트 케이스는 성공하는경우가 있네요.
             e.printStackTrace();
         }
         System.out.println(gson.toJson(board));
     }
 
-    @Test // TODO : 테스트 실패! ElasticsearchException[Elasticsearch exception [type=illegal_argument_exception, reason=field name cannot be an empty string]];
+    @Test
     @Order(2)
     public void insertBoard() throws IOException{
 
         Map<String, Object> boardVO = new HashMap<String, Object>();
 
-        // TODO : 이 테스트가 로컬 es에 테스트 데이터 적재 하기 위한 목적일까요?
         for (int i = 0; i < 1000; i++) {
             boardVO.put("bno", i);
             boardVO.put("boardType", "live" + i);
