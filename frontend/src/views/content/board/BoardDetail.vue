@@ -217,7 +217,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             // 삭제시 메인페이지로
-            if (response.data.data) {
+            if (response.data) {
               this.$router.push('/');
             }
           } else {
