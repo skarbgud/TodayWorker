@@ -2,18 +2,20 @@ package com.todayworker.springboot.web.service;
 
 import com.todayworker.springboot.domain.board.es.document.BoardDocument;
 import com.todayworker.springboot.domain.board.es.repository.BoardElasticSearchRepository;
+import com.todayworker.springboot.domain.board.exception.BoardErrorCode;
+import com.todayworker.springboot.domain.board.exception.BoardException;
 import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
 import com.todayworker.springboot.domain.board.jpa.repository.BoardJpaRepository;
-import com.todayworker.springboot.domain.board.vo.BoardDetailVO;
 import com.todayworker.springboot.domain.board.vo.BoardVO;
-import com.todayworker.springboot.domain.common.PageableRequest;
+import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.utils.DateUtils;
+import com.todayworker.springboot.utils.UuidUtils;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +35,6 @@ public class BoardService implements BoardServiceIF {
     @Transactional(readOnly = true)
     @Override
     public List<BoardVO> getBoardList(PageableRequest request) {
-        // 최신 글 부터 페이징해서 가져오기
-        // DB에서 Board만 쿼리한다.
         return boardJpaRepository.findBoardEntityByOrderByRegDateDesc(
                 PageRequest.of(request.getFromIndex(), request.getPageSize())
             )
@@ -44,54 +44,54 @@ public class BoardService implements BoardServiceIF {
     }
 
     @Override
-    public BoardDetailVO getBoardDetail(BoardVO boardVO) {
-        // TODO : 게시글 단건 조회 인가요? 일단 빈 객체만 리턴하도록하고 정확한 요건이 파악이되면 구현하겠습니다.
+    public BoardVO getBoard(BoardVO boardVO) {
+        if (boardVO.getBno() == null || boardVO.getBno().isEmpty()) {
+            throw new BoardException(
+                BoardErrorCode.of(HttpStatus.BAD_REQUEST, BoardErrorCode.INVALID_BOARD,
+                    "게시글 ID(bno)가 Null 일 수는 없습니다."));
+        }
 
-        return new BoardDetailVO(); // NOTHING
+        return boardJpaRepository
+            .findBoardEntityByBno(boardVO.getBno())
+            .orElseThrow(() -> new BoardException(
+                BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_BOARD,
+                    "[bno : " + boardVO.getBno() + "]")))
+            .convertToBoardVO();
     }
 
     @Override
-    public String insertBoard(BoardVO boardVO) {
+    public BoardVO insertBoard(BoardVO boardVO) {
 
-        String uuidWithoutDash = UUID.randomUUID().toString().replace("-", "");
-
-        boardVO.setBno(uuidWithoutDash);
+        boardVO.setBno(UuidUtils.generateNoDashUUID());
         boardVO.setRegDate(DateUtils.getDatetimeString());
 
-        boardJpaRepository.save(BoardEntity.fromBoardVO(boardVO));
+        BoardEntity savedBoardEntity = boardJpaRepository.save(BoardEntity.fromBoardVO(boardVO));
 
-        // TODO : 나중에 DomainEvent 처리로 수정예정
-        boardElasticSearchRepository.save(BoardDocument.from(boardVO));
+        boardElasticSearchRepository.save(BoardDocument.from(boardVO, boardIndexName));
 
-        // vue 라우터 이동을 위한 urlpath(boardType/bno)
-        String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno();
-
-        return urlPath;
+        return savedBoardEntity.convertToBoardVO();
     }
 
     @Override
-    public String updateBoard(BoardVO boardVO) {
-        // TODO : FE에서 서버 예외에 대한 처리를 다시 봐줘야 될거 같습니다. 기존처럼 되어 있으면 트랜잭션을 커버 할 수 없어요
-        // bno
-        String bno = boardVO.getBno();
-        // id (인덱스 이름 + bno) // TODO : Update와 delete시 기존 id를 바꾸는 로직이 있는데 어떤 이유에서 일까요?
-//		String id = boardIndexName + bno;
-
-        if (boardVO.getBoardId() == null) {
-            throw new IllegalArgumentException("유효하지 않은 게시글 ID :[NULL]");
+    public BoardVO updateBoard(BoardVO boardVO) {
+        if (boardVO.getBno() == null || boardVO.getBno().isEmpty()) {
+            throw new BoardException(
+                BoardErrorCode.of(HttpStatus.BAD_REQUEST, BoardErrorCode.INVALID_BOARD,
+                    "게시글 ID(bno)가 Null 일 수는 없습니다."));
         }
 
         try {
-            BoardEntity updateEntity = boardJpaRepository.findById(boardVO.getBoardId()).get();
+            BoardEntity updateEntity = boardJpaRepository.findBoardEntityByBno(boardVO.getBno())
+                .orElseThrow(() -> new BoardException(
+                    BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_BOARD,
+                        "[bno : " + boardVO.getBno() + "]")));
             updateEntity.updateFromBoardVO(boardVO);
-            boardJpaRepository.save(updateEntity);
-            boardElasticSearchRepository.save(BoardDocument.from(boardVO));
-            // vue 라우터 이동을 위한 urlpath(boardType/bno)
-            String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno();
-            return urlPath;
+            BoardEntity updatedEntity = boardJpaRepository.save(updateEntity);
+            boardElasticSearchRepository.save(BoardDocument.from(boardVO, boardIndexName));
+            return updatedEntity.convertToBoardVO();
         } catch (Exception ex) {
-            // 지금은 일단 try catch로 감싸줬는데,
-            throw ex; // ExceptionHandler에게 위임할 예정입니다.
+            throw new BoardException(BoardErrorCode.of(HttpStatus.INTERNAL_SERVER_ERROR,
+                BoardErrorCode.BOARD_TRANSACTION_PROCESSING_ERROR), ex);
         }
     }
 
@@ -101,11 +101,12 @@ public class BoardService implements BoardServiceIF {
 
         try {
             boardJpaRepository.deleteById(vo.getBoardId());
-            boardElasticSearchRepository.deleteById(BoardDocument.from(vo).getBoardId());
+            boardElasticSearchRepository.deleteById(
+                BoardDocument.from(vo, boardIndexName).getBoardId());
             return true;
         } catch (Exception ex) {
-            // 지금은 일단 try catch로 감싸줬는데,
-            throw ex; // ExceptionHandler에게 위임할 예정입니다.
+            throw new BoardException(BoardErrorCode.of(HttpStatus.INTERNAL_SERVER_ERROR,
+                BoardErrorCode.BOARD_TRANSACTION_PROCESSING_ERROR), ex);
         }
     }
 

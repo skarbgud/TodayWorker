@@ -33,7 +33,7 @@ public class CommentServiceTest {
     CommentJpaRepository commentJpaRepository;
 
     @Autowired
-    ReplyService replyService;
+    CommentService replyService;
 
     private static final BoardVO testBoard = new BoardVO(
         null,

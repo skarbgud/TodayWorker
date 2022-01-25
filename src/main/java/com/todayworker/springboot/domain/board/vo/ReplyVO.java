@@ -13,6 +13,6 @@ public class ReplyVO {
     private String content;
     private String user;
     private String regDate;
-    private Boolean isRecomment;
+    private Boolean isRecomment; // TODO : 이건 무슨 필드 일까요?
 
 }

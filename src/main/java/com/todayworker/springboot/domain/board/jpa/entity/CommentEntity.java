@@ -1,6 +1,8 @@
 package com.todayworker.springboot.domain.board.jpa.entity;
 
 import com.todayworker.springboot.domain.BaseTimeEntity;
+import com.todayworker.springboot.domain.board.exception.BoardErrorCode;
+import com.todayworker.springboot.domain.board.exception.BoardException;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @Entity
 @Table(name = "comments")
@@ -53,7 +56,9 @@ public class CommentEntity extends BaseTimeEntity {
 
     public void modifyComment(ReplyVO replyVO) {
         if (!replyVO.getUser().equals(this.user)) {
-            throw new RuntimeException("글 작성자만 수정이 가능합니다.");
+            throw new BoardException(
+                BoardErrorCode.of(HttpStatus.FORBIDDEN, BoardErrorCode.INVALID_WRITER,
+                    "글 작성자만 수정 가능합니다."));
         }
 
         this.content = replyVO.getContent();

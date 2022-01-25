@@ -2,109 +2,75 @@ package com.todayworker.springboot.web.controller;
 
 import com.todayworker.springboot.domain.board.vo.BoardVO;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
-import com.todayworker.springboot.domain.common.PageableRequest;
-import com.todayworker.springboot.domain.config.ResultVO;
+import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.web.service.BoardServiceIF;
-import com.todayworker.springboot.web.service.ReplyServiceIF;
+import com.todayworker.springboot.web.service.CommentServiceIF;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RequiredArgsConstructor // 생성자 주입 어노테이션 => final 필드 변수
 @RestController
-@RequestMapping("board/")
+@RequestMapping("board")
 public class BoardController {
 
     private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
 
-    private final BoardServiceIF service;
+    private final BoardServiceIF boardService;
 
-    private final ReplyServiceIF replyService;
+    private final CommentServiceIF commentService;
 
-    @ResponseBody
-    @RequestMapping(value = "get-board-list.do", method = RequestMethod.POST)
-    public ResultVO getBoardList(@RequestBody PageableRequest request) throws Exception {
+    @PostMapping(value = "/get-board-list.do")
+    public List<BoardVO> getBoardList(@RequestBody PageableRequest request) {
         LOG.info("GetBoardList");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(service.getBoardList(request));
-        return result;
+        return boardService.getBoardList(request);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "get-board-detail.do", method = RequestMethod.POST)
-    public ResultVO getBoardDetail(@RequestBody BoardVO vo) throws Exception {
+    @PostMapping(value = "/get-board-detail.do")
+    public BoardVO getBoardDetail(@RequestBody BoardVO vo) {
         LOG.info("GetBoardDetail");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(service.getBoardDetail(vo));
-        result.setSuccess(true);
-        return result;
+        return boardService.getBoard(vo);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "insert-board.do", method = RequestMethod.POST)
-    public ResultVO insertBoard(@RequestBody BoardVO vo) throws Exception {
+    @PostMapping(value = "insert-board.do")
+    public BoardVO insertBoard(@RequestBody BoardVO vo) {
         LOG.info("InsertBoard");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(service.insertBoard(vo));
-        result.setSuccess(true);
-        return result;
-
+        return boardService.insertBoard(vo);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "update-board.do", method = RequestMethod.POST)
-    public ResultVO updateBoard(@RequestBody BoardVO vo) throws Exception {
+    @PostMapping(value = "update-board.do")
+    public BoardVO updateBoard(@RequestBody BoardVO vo) {
         LOG.info("UpdateBoard");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(service.updateBoard(vo));
-        result.setSuccess(true);
-        return result;
-
+        return boardService.updateBoard(vo);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "delete-board.do", method = RequestMethod.POST)
-    public ResultVO deleteBoard(@RequestBody BoardVO vo) throws Exception {
+    @PostMapping(value = "delete-board.do")
+    public boolean deleteBoard(@RequestBody BoardVO vo) {
         LOG.info("DeleteBoard");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(service.deleteBoard(vo));
-        result.setSuccess(true);
-        return result;
+        return boardService.deleteBoard(vo);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "regist-reply.do", method = RequestMethod.POST)
-    public ResultVO registReply(@RequestBody ReplyVO vo) throws Exception {
+    @PostMapping(value = "regist-reply.do")
+    public boolean registReply(@RequestBody ReplyVO vo) throws Exception {
         LOG.info("registReply");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(replyService.registerReply(vo));
-        result.setSuccess(true);
-        return result;
+        return commentService.registerReply(vo);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "update-reply.do", method = RequestMethod.POST)
-    public ResultVO updateReply(@RequestBody ReplyVO vo) throws Exception {
+    @PostMapping(value = "update-reply.do")
+    public boolean updateReply(@RequestBody ReplyVO vo) throws Exception {
         LOG.info("updateReply");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(replyService.updateReply(vo));
-        result.setSuccess(true);
-        return result;
+        return commentService.updateReply(vo);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "delete-reply.do", method = RequestMethod.POST)
-    public ResultVO deleteReply(@RequestBody ReplyVO vo) throws Exception {
+    @PostMapping(value = "delete-reply.do")
+    public boolean deleteReply(@RequestBody ReplyVO vo) throws Exception {
         LOG.info("deleteReply");
-        ResultVO result = new ResultVO(false, null);
-        result.setData(replyService.deleteReply(vo));
-        result.setSuccess(true);
-        return result;
+        return commentService.deleteReply(vo);
     }
 }

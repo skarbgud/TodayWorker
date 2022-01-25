@@ -12,7 +12,7 @@ import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
 import com.todayworker.springboot.domain.board.jpa.repository.BoardJpaRepository;
 import com.todayworker.springboot.domain.board.vo.BoardVO;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
-import com.todayworker.springboot.domain.common.PageableRequest;
+import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.elasticsearch.helper.ElasticSearchExtension;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.UuidUtils;
@@ -27,6 +27,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,9 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles("test")
 @ExtendWith(ElasticSearchExtension.class)
 public class BoardServiceTest {
+
+    @Value("${todayworker.elasticsearch.index.board}")
+    private String boardIndexName;
 
     @Autowired
     BoardService boardService;
@@ -151,7 +155,8 @@ public class BoardServiceTest {
         assertFalse(boardJpaRepository.findById(deleteBoard.getBoardId()).isPresent());
         assertFalse(
             // ElasticSearch와 동기화 되었는지 확인.
-            boardElasticSearchRepository.findById(BoardDocument.from(deleteBoard).getBoardId())
+            boardElasticSearchRepository.findById(
+                    BoardDocument.from(deleteBoard, boardIndexName).getBoardId())
                 .isPresent());
     }
 
