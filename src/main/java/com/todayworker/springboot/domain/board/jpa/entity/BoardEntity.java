@@ -74,8 +74,8 @@ public class BoardEntity extends BaseTimeEntity {
         this.content = boardVO.getContent();
 
         // 댓글이 있다면 댓글도 엎여 쳐준다.
-        if (boardVO.getReply() != null) {
-            this.commentEntities = boardVO.getReply().stream()
+        if (boardVO.getCommentList() != null) {
+            this.commentEntities = boardVO.getCommentList().stream()
                 .map(it -> CommentEntity.fromReplyVO(it, this)).collect(
                     Collectors.toList());
         }
@@ -107,6 +107,7 @@ public class BoardEntity extends BaseTimeEntity {
             );
         }
 
+        // 댓글이 존재하는 경우 댓글 까지 List로 리턴.
         return new BoardVO(
             this.id,
             this.bno,

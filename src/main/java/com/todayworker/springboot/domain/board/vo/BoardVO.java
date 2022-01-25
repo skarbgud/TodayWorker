@@ -21,16 +21,18 @@ public class BoardVO {
     // TODO : 투표 / 해시태그 설명이 필요할 듯 합니다.
     // 투표 항목
     List<String> voteList;
+
     // 해시태그 목록
     List<String> tagList;
-    List<ReplyVO> reply;
+
+    List<ReplyVO> commentList;
 
     public List<ReplyVO> saveNewComment(ReplyVO replyVO) {
-        if (reply == null || reply.isEmpty()) {
-            this.reply = new ArrayList<>();
+        if (commentList == null) {
+            this.commentList = new ArrayList<>();
         }
 
-        this.reply.add(replyVO);
-        return this.reply;
+        this.commentList.add(replyVO);
+        return this.commentList;
     }
 }
