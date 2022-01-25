@@ -1,183 +1,112 @@
 package com.todayworker.springboot.web.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.todayworker.springboot.domain.board.BoardVO;
-import com.todayworker.springboot.domain.config.ElasticSearchVO;
-import com.todayworker.springboot.elasticsearch.document.BoardDocument;
-import com.todayworker.springboot.elasticsearch.repository.BoardElasticSearchRepository;
+import com.todayworker.springboot.domain.board.es.document.BoardDocument;
+import com.todayworker.springboot.domain.board.es.repository.BoardElasticSearchRepository;
+import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
+import com.todayworker.springboot.domain.board.jpa.repository.BoardJpaRepository;
+import com.todayworker.springboot.domain.board.vo.BoardDetailVO;
+import com.todayworker.springboot.domain.board.vo.BoardVO;
+import com.todayworker.springboot.domain.common.PageableRequest;
 import com.todayworker.springboot.utils.DateUtils;
-import com.todayworker.springboot.utils.ElasticsearchConnect;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.rest.RestStatus;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+@Transactional
 @Service
+@RequiredArgsConstructor
 public class BoardService implements BoardServiceIF {
-	
-	// es연결 정보
-	ElasticsearchConnect connect = new ElasticsearchConnect();
 
-	// Rest connection 설정
-	private final RestHighLevelClient client = connect.getConnection();
+    @Value("${todayworker.elasticsearch.index.board}")
+    private String boardIndexName;
 
-	// 인덱스 name
-	private final String indexName = "board";
+    private final BoardJpaRepository boardJpaRepository;
+    private final BoardElasticSearchRepository boardElasticSearchRepository;
 
-	@Autowired
-	private BoardElasticSearchRepository boardElasticSearchRepository;
 
-	public List<Map<String, Object>> getBoardList(ElasticSearchVO vo) throws Exception {
-		List<Map<String, Object>> boardList = new ArrayList<Map<String, Object>>();
+    @Transactional(readOnly = true)
+    @Override
+    public List<BoardVO> getBoardList(PageableRequest request) {
+        // 최신 글 부터 페이징해서 가져오기
+        // DB에서 Board만 쿼리한다.
+        return boardJpaRepository.findBoardEntityByOrderByRegDateDesc(
+                PageRequest.of(request.getFromIndex(), request.getPageSize())
+            )
+            .stream()
+            .map(BoardEntity::convertToBoardVO)
+            .collect(Collectors.toList());
+    }
 
-		// 쿼리문
-		SearchRequest searchRequest = new SearchRequest(indexName);
-		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-		// 시작위치
-		sourceBuilder.from(vo.getFromIndex());
-		// 가져오는 데이터양
-		sourceBuilder.size(vo.getPageSize());
-		// 최신글로 정렬하여 가져오기
-		sourceBuilder.sort("regDate", SortOrder.DESC);
-		searchRequest.source(sourceBuilder);
+    @Override
+    public BoardDetailVO getBoardDetail(BoardVO boardVO) {
+        // TODO : 게시글 단건 조회 인가요? 일단 빈 객체만 리턴하도록하고 정확한 요건이 파악이되면 구현하겠습니다.
 
-		SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+        return new BoardDetailVO(); // NOTHING
+    }
 
-		for (SearchHit hit : searchResponse.getHits().getHits()) {
-			Map<String, Object> sourceMap = hit.getSourceAsMap();
-			boardList.add(sourceMap);
-		}
+    @Override
+    public String insertBoard(BoardVO boardVO) {
 
-		return boardList;
-	}
+        String uuidWithoutDash = UUID.randomUUID().toString().replace("-", "");
 
-	@Override
-	public Map<String, Object> getBoardDetail(BoardVO boardVO) throws Exception {
-		Map<String, Object> board = new HashMap<String, Object>();
+        boardVO.setBno(uuidWithoutDash);
+        boardVO.setRegDate(DateUtils.getDatetimeString());
 
-		// bno
-		String boardNumer = boardVO.getBno();
-		// id (인덱스이름 + bno)
-		String id = indexName + boardNumer;
+        boardJpaRepository.save(BoardEntity.fromBoardVO(boardVO));
 
-		// 쿼리문
-		SearchRequest searchRequest = new SearchRequest(indexName);
-		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-		boolQueryBuilder.must(QueryBuilders.termQuery("_id", id));
-		sourceBuilder.query(boolQueryBuilder);
+        // TODO : 나중에 DomainEvent 처리로 수정예정
+        boardElasticSearchRepository.save(BoardDocument.from(boardVO));
 
-		searchRequest.source(sourceBuilder);
+        // vue 라우터 이동을 위한 urlpath(boardType/bno)
+        String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno();
 
-		SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+        return urlPath;
+    }
 
-		for (SearchHit hit : searchResponse.getHits().getHits()) {
-			board = hit.getSourceAsMap();
-		}
+    @Override
+    public String updateBoard(BoardVO boardVO) {
+        // TODO : FE에서 서버 예외에 대한 처리를 다시 봐줘야 될거 같습니다. 기존처럼 되어 있으면 트랜잭션을 커버 할 수 없어요
+        // bno
+        String bno = boardVO.getBno();
+        // id (인덱스 이름 + bno) // TODO : Update와 delete시 기존 id를 바꾸는 로직이 있는데 어떤 이유에서 일까요?
+//		String id = boardIndexName + bno;
 
-		return board;
-	}
+        if (boardVO.getBoardId() == null) {
+            throw new IllegalArgumentException("유효하지 않은 게시글 ID :[NULL]");
+        }
 
-	@Override
-	public String insertBoard(BoardVO boardVO) throws Exception {
+        try {
+            BoardEntity updateEntity = boardJpaRepository.findById(boardVO.getBoardId()).get();
+            updateEntity.updateFromBoardVO(boardVO);
+            boardJpaRepository.save(updateEntity);
+            boardElasticSearchRepository.save(BoardDocument.from(boardVO));
+            // vue 라우터 이동을 위한 urlpath(boardType/bno)
+            String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno();
+            return urlPath;
+        } catch (Exception ex) {
+            // 지금은 일단 try catch로 감싸줬는데,
+            throw ex; // ExceptionHandler에게 위임할 예정입니다.
+        }
+    }
 
-		String uuid = UUID.randomUUID().toString();
-		uuid = uuid.replace("-", "");
+    @Override
+    public boolean deleteBoard(BoardVO vo) {
+        // TODO : FE에서 서버 예외에 대한 처리를 다시 봐줘야 될거 같습니다. 기존처럼 되어 있으면 트랜잭션을 커버 할 수 없어요
 
-		// bno는 uuid로 고유화
-		boardVO.setBno(uuid);
-		// 조회수는 기본값 0
-		boardVO.setCnt(0);
-		// 현재 날짜
-		boardVO.setRegDate(DateUtils.getDatetimeString());
-
-//		Map<String, Object> boardMap = ConvertUtils.convertToMap(boardVO);
-//
-//		// id는 인덱스 + bno로 unique
-//		IndexRequest request = new IndexRequest(indexName).id(indexName + boardVO.getBno()).source(boardMap, XContentType.JSON);
-//
-//		client.index(request, RequestOptions.DEFAULT);
-
-		// Spring ElasticSearch Repository로  board 저장 로직 구현
-		boardElasticSearchRepository.save(BoardDocument.from(boardVO));
-
-		// vue 라우터 이동을 위한 urlpath(boardType/bno)
-		String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno(); 
-		
-		return urlPath;
-	}
- 
-	@Override
-	public String updateBoard(BoardVO boardVO) throws Exception {
-
-		// bno
-		String bno = boardVO.getBno();
-		// id (인덱스 이름 + bno)
-		String id = indexName + bno;
-
-		String json = null;
-		json = new ObjectMapper().writeValueAsString(boardVO);
-
-		UpdateRequest request = new UpdateRequest(indexName, id).doc(json, XContentType.JSON);
-
-		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
-		
-		RestStatus status = response.status();
-		
-		if (status == RestStatus.OK)
-		{
-			// vue 라우터 이동을 위한 urlpath(boardType/bno)
-			String urlPath = boardVO.getCategoriName() + "/" + boardVO.getBno();
-			return urlPath;
-		}
-		else
-		{
-			return "/";
-		}
-	}
-
-	@Override
-	public boolean deleteBoard(BoardVO vo) throws Exception {
-		
-		// bno
-		String bno = vo.getBno();
-		// id (인덱스 이름 + bno)
-		String id = indexName + bno;
-		
-		DeleteRequest request = new DeleteRequest(indexName, id);
-		
-		DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
-		
-		RestStatus status = response.status();
-		
-		if (status == RestStatus.OK)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+        try {
+            boardJpaRepository.deleteById(vo.getBoardId());
+            boardElasticSearchRepository.deleteById(BoardDocument.from(vo).getBoardId());
+            return true;
+        } catch (Exception ex) {
+            // 지금은 일단 try catch로 감싸줬는데,
+            throw ex; // ExceptionHandler에게 위임할 예정입니다.
+        }
+    }
 
 }

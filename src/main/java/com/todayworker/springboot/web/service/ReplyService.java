@@ -1,116 +1,70 @@
 package com.todayworker.springboot.web.service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import com.todayworker.springboot.domain.board.ReplyVO;
-import com.todayworker.springboot.utils.ConvertUtils;
-import com.todayworker.springboot.utils.DateUtils;
-import com.todayworker.springboot.utils.ElasticsearchConnect;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.rest.RestStatus;
-import org.elasticsearch.script.Script;
-import org.elasticsearch.script.ScriptType;
+import com.todayworker.springboot.domain.board.jpa.entity.CommentEntity;
+import com.todayworker.springboot.domain.board.jpa.repository.BoardJpaRepository;
+import com.todayworker.springboot.domain.board.jpa.repository.CommentJpaRepository;
+import com.todayworker.springboot.domain.board.vo.ReplyVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
-
+@Transactional
 @Service
+@RequiredArgsConstructor
 public class ReplyService implements ReplyServiceIF {
+    // TODO : 댓글은 ES가 아닌 DB에서만 관리하도록 하겠습니다.
+    // TODO : 서비스 레이어에서는 로직이 실패하면 Exception을 Throw 하도록 하고, FE에 내려주는 에러 응답에 대해서는 ExceptionHandler를 통해서 처리하도록 하고자 합니다.
 
-	// es연결 정보
-	ElasticsearchConnect connect = new ElasticsearchConnect();
+    private final BoardJpaRepository boardJpaRepository;
+    private final CommentJpaRepository commentJpaRepository;
 
-	// Rest connection 설정
-	private final RestHighLevelClient client = connect.getConnection();
+    @Override
+    @Transactional(readOnly = true)
+    public boolean registerReply(ReplyVO vo) {
+        if (vo.getBno() == null) {
+            throw new IllegalArgumentException("유효하지 않은 댓글 등록 요청 [bno=null]");
+        }
 
-	// 인덱스 name
-	private String indexName = "board";
+        boardJpaRepository.findBoardEntityByBno(vo.getBno()).ifPresent(it -> {
+            it.modifyCommentEntitiesFromReply(vo);
+            boardJpaRepository.save(it);
+        });
 
-	@Override
-	public boolean registReply(ReplyVO vo) throws Exception {
-		// bno
-		String bno = vo.getBno();
+        return true;
+    }
 
-		// rno 고유 키 생성
-		String uuid = UUID.randomUUID().toString();
-		uuid = uuid.replace("-", "");
-		vo.setRno(uuid);
+    @Override
+    public boolean updateReply(ReplyVO vo) {
+        if (vo.getBno() == null) {
+            throw new IllegalArgumentException("유효하지 않은 댓글 수정 요청 [bno=null]");
+        }
 
-		// 등록일
-		vo.setRegDate(DateUtils.getDatetimeString());
-		vo.setIsRecomment(false);
+        if (vo.getRno() == null) {
+            throw new IllegalArgumentException("유효하지 않은 댓글 수정 요청 [rno=null]");
+        }
 
-		// VO -> Map
-		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
+        CommentEntity updateComment = commentJpaRepository.findCommentEntityByRno(vo.getRno())
+            .get();
+        updateComment.modifyComment(vo);
+        commentJpaRepository.save(updateComment);
 
-		// singtoneMap 정의
-		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
+        return true;
+    }
 
-		UpdateRequest request = new UpdateRequest(indexName,indexName + bno).script(new Script(ScriptType.INLINE,
-				"painless", "if (ctx._source.reply == null) {ctx._source.reply=[]} ctx._source.reply.add(params.reply)",
-				singletonMap));
+    @Override
+    public boolean deleteReply(ReplyVO vo) {
+        if (vo.getBno() == null) {
+            throw new IllegalArgumentException("유효하지 않은 댓글 삭제 요청 [bno=null]");
+        }
 
-		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
+        if (vo.getRno() == null) {
+            throw new IllegalArgumentException("유효하지 않은 댓글 삭제 요청 [rno=null]");
+        }
 
-		RestStatus status = response.status();
-
-		return status == RestStatus.OK ? true : false;
-	}
-
-	@Override
-	public boolean updateReply(ReplyVO vo) throws Exception {
-		// bno
-		String bno = vo.getBno();
-		vo.setRegDate(DateUtils.getDatetimeString());
-		vo.setIsRecomment(false);
-
-		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
-
-		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
-
-		// reply중에서 rno이 같은 reply의 내용을 수정
-		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
-				.script(new Script(ScriptType.INLINE, "painless",
-						"for(int i = 0; i< ctx._source.reply.size(); i++) {"
-								+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
-								+ "ctx._source.reply[i]=params.reply }}",
-								singletonMap));
-
-		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
-
-		RestStatus status = response.status();
-
-		return status == RestStatus.OK ? true : false;
-	}
-
-	@Override
-	public boolean deleteReply(ReplyVO vo) throws Exception {
-		// bno
-		String bno = vo.getBno();
-
-		Map<String, Object> replyMap = ConvertUtils.convertToMap(vo);
-
-		Map<String, Object> singletonMap = Collections.singletonMap("reply", replyMap);
-
-		// reply중에서 rno이 같은 reply를 삭제
-		UpdateRequest request = new UpdateRequest(indexName, indexName + bno)
-				.script(new Script(ScriptType.INLINE, "painless",
-						"for (int i = 0; i < ctx._source.reply.size(); i++) {"
-								+ "if (ctx._source.reply[i].rno == params.reply.rno) {"
-								+ "ctx._source.reply.remove(i) }}",
-						singletonMap));
-
-		UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
-
-		RestStatus status = response.status();
-
-		return status == RestStatus.OK ? true : false;
-	}
+//		commentJpaRepository.findCommentEntityByRno(vo.getRno());
+        commentJpaRepository.deleteCommentEntityByRno(vo.getRno());
+        return true;
+    }
 
 }

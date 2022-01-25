@@ -1,8 +1,12 @@
-package com.todayworker.springboot.elasticsearch.helper;
+package com.todayworker.springboot.domain.board.es;
 
-import com.todayworker.springboot.elasticsearch.document.BoardDocument;
-import com.todayworker.springboot.elasticsearch.repository.BoardElasticSearchRepository;
+import com.todayworker.springboot.domain.board.es.document.BoardDocument;
+import com.todayworker.springboot.domain.board.es.repository.BoardElasticSearchRepository;
 import com.todayworker.springboot.utils.DateUtils;
+import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,11 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.shaded.org.apache.commons.lang.math.RandomUtils;
-
-import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 // Local에 Board 더미 데이터 생성을 위한 실행 코드
 @SpringBootTest
