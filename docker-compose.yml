@@ -30,8 +30,8 @@ services:
       ELASTICSEARCH_URL: "http://elasticsearch:9200" #컨테이너 간 같은 네트워크로 묶여 있을 때 9200 포트로 붙을 것 같습니다.
     ports:
       - "5601:5601"
-    networks:
-      - elk
+    depends_on:
+      - elasticsearch
 
   maria-db:
     image: mariadb
@@ -50,12 +50,6 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - maria-dbdata:/var/lib/mariadb
-    networks:
-      - elk
-
-networks:
-  elk:
-    driver: bridge
 
 volumes:
   elasticsearch:
