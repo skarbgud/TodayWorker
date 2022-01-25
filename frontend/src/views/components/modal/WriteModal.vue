@@ -251,38 +251,38 @@ export default {
             boardApi
               .insertBoard(this.formData)
               .then((response) => {
-                if (response.data.success) {
+                if (response.status === 200) {
                   alert('등록되었습니다.');
                   this.close();
                   // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
-                  const url = response.data.data;
+                  const url = `${response.data.categoriName}/${response.data.bno}`;
                   this.$router.push(`/${url}`);
                   this.$router.go();
                 } else {
                   console.log('등록 실패하였습니다.');
                 }
               })
-              .catch(function(error) {
-                console.log(error);
-              });
+              .catch((error) => {
+                this.$message.error(error.response.data.errorMessage);
+              })
           } else {
             boardApi
               .updateBoard(this.formData)
               .then((response) => {
-                if (response.data.success) {
+                if (response.status === 200) {
                   alert('수정되었습니다.');
                   this.close();
                   // 성공하게 된다면 해당 작성된 글의 상세보기로 이동
-                  const url = response.data.data;
+                  const url = `${response.data.categoriName}/${response.data.bno}`;
                   this.$router.push(`/${url}`);
                   this.$router.go();
                 } else {
                   console.log('등록 실패하였습니다.');
                 }
               })
-              .catch(function(error) {
-                console.log(error);
-              });
+              .catch((error) => {
+                this.$message.error(error.response.data.errorMessage);
+              })
           }
         }
       });

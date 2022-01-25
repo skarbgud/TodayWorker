@@ -52,6 +52,7 @@ export default {
       const params = {
         fromIndex: 0,
         pageSize: 10,
+        // category_name: this.$route.params.board,
         categories: this.$route.params.board,
       };
       return params;
@@ -80,20 +81,20 @@ export default {
       boardApi
         .getBoardList(this.setParams)
         .then((response) => {
-          if (response.data.success) {
-            this.post = this.post.concat(response.data.data);
+          if (response.status === 200) {
+            this.post = this.post.concat(response.data);
             $state.loaded();
             this.setParams.fromIndex += 10;
-            if (response.data.data.length == 0) {
+            if (response.data.length == 0) {
               $state.complete();
             }
           } else {
             $state.complete();
-            console.log('무한스크롤 실패');
+            this.$message(response.statusText);  
           }
         })
-        .catch(function(error) {
-          console.log(error);
+        .catch((error) => {
+          this.$message.error(error.response.data.errorMessage);
         })
         .finally(() => {});
     },
