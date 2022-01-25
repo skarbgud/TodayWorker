@@ -1,4 +1,4 @@
-package com.todayworker.springboot.domain.common;
+package com.todayworker.springboot.domain.common.dto;
 
 import java.util.Date;
 import lombok.Data;

@@ -33,8 +33,8 @@ public class BoardDocument {
     @Field(type = FieldType.Text)
     private String regDate;
 
-    public static BoardDocument from(BoardVO vo) {
-        return new BoardDocument("board" + vo.getBno(),
+    public static BoardDocument from(BoardVO vo, String indexName) {
+        return new BoardDocument(indexName + vo.getBno(),
             vo.getBno(),
             vo.getCategoriName(),
             vo.getTitle(),

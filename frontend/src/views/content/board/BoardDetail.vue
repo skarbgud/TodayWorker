@@ -215,7 +215,7 @@ export default {
       boardApi
         .deleteBoard(this.setParams)
         .then((response) => {
-          if (response.data.success) {
+          if (response.status === 200) {
             // 삭제시 메인페이지로
             if (response.data.data) {
               this.$router.push('/');
@@ -224,9 +224,9 @@ export default {
             console.log('데이터 불러오기 실패');
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch((error) => {
+          this.$message.error(error.response.data.errorMessage);
+        })
     },
     uploadImage(files) {
       console.log(files);
@@ -268,9 +268,9 @@ export default {
             console.log('댓글 등록 실패');
           }
         })
-        .catch(function(error) {
-          console.log(error);
-        });
+        .catch((error) => {
+          this.$message.error(error.response.data.errorMessage);
+        })
     },
   },
 };
