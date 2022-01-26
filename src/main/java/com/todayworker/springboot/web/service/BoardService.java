@@ -36,7 +36,7 @@ public class BoardService implements BoardServiceIF {
     @Override
     public List<BoardVO> getBoardList(PageableRequest request) {
         return boardJpaRepository.findBoardEntityByOrderByRegDateDesc(
-                PageRequest.of(request.getFromIndex(), request.getPageSize())
+                PageRequest.of(request.parseFromIndexToPageOffset(), request.getPageSize())
             )
             .stream()
             .map(BoardEntity::convertToBoardVO)
