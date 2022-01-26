@@ -100,9 +100,9 @@ public class BoardService implements BoardServiceIF {
         // TODO : FE에서 서버 예외에 대한 처리를 다시 봐줘야 될거 같습니다. 기존처럼 되어 있으면 트랜잭션을 커버 할 수 없어요
 
         try {
-            boardJpaRepository.deleteById(vo.getBoardId());
+            boardJpaRepository.deleteBoardEntityByBno(vo.getBno());
             boardElasticSearchRepository.deleteById(
-                BoardDocument.from(vo, boardIndexName).getBoardId());
+                BoardDocument.from(vo, boardIndexName).getBno());
             return true;
         } catch (Exception ex) {
             throw new BoardException(BoardErrorCode.of(HttpStatus.INTERNAL_SERVER_ERROR,
