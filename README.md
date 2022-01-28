@@ -37,7 +37,17 @@
 
 > **```docker ps```**
 
+**Windows**
+
 ![](./image/docker-ps-windows.jpg)
+
+**MacOS**
+
+![](./image/mac-docker-ps.png)
+
+* 메모리 이슈로 Container 구동이 제대로 되지 않는다면 docker-desktop 설정에서 memory 할당치를 늘려주세요
+* 
+![](./image/macos-docker-desktop-config.png)
 
 ## Swagger-UI
 
