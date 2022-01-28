@@ -1,0 +1,80 @@
+version: '3.2'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: elasticsearch
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    environment:
+      - node.name=elasticsearch
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65535
+        hard: 65535
+    networks:
+      - elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch:9200" #컨테이너 간 같은 네트워크로 묶여 있을 때 9200 포트로 붙을 것 같습니다.
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+
+  maria-db:
+    image: mariadb
+    restart: always
+    container_name: maria-db
+    ports:
+      - "13360:3306"
+    environment:
+      - MYSQL_DATABASE=todayworkerdb
+      - MYSQL_USER=todayworker
+      - MYSQL_PASSWORD=worker
+      - MYSQL_ROOT_PASSWORD=1234
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - maria-dbdata:/var/lib/mariadb
+    networks:
+      - elk
+
+  todayworker-app:
+    image: docker.io/lib/todayworker-app:latest
+    restart: on-failure
+    container_name: toayworker-web
+    ports:
+      - 8080:8080
+    depends_on:
+      - maria-db
+      - elasticsearch
+    environment:
+      JAVA_OPTS: "
+        -Dspring.datasource.url=jdbc:mariadb://maria-db:3306/todayworkerdb
+        -Dspring.elasticsearch.rest.uris=http://elasticsearch:9200"
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elasticsearch:
+  maria-dbdata:
