@@ -12,6 +12,8 @@ public class BoardErrorCode implements BaseErrorCodeIF {
     public static final String NON_EXIST_BOARD = "게시글이 존재하지 않습니다. ";
     public static final String BOARD_TRANSACTION_PROCESSING_ERROR = "게시글 처리 중 에러가 발생하였습니다.";
 
+    public static final String BOARD_UPDATE_ERROR_FOR_COUNTER = "게시글 Counter update 실패";
+
     private HttpStatus errorStatus;
     private String errorMessage;
 
