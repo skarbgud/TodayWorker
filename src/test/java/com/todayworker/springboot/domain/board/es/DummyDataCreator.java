@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ import org.springframework.test.context.ActiveProfiles;
 // Local에 Board 더미 데이터 생성을 위한 실행 코드
 @SpringBootTest
 @ActiveProfiles("local")
-//@Disabled // 1회성으로 사용시 disabled를 풀어주고 사용합니다.
-public class BulkElasticDataCreator {
+@Disabled // 1회성으로 사용시 disabled를 풀어주고 사용합니다.
+public class DummyDataCreator {
 
     private static final int MAX_TEST_RECORDS = 1_000;
 
