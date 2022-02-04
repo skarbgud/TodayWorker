@@ -1,5 +1,6 @@
 package com.todayworker.springboot.web.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.todayworker.springboot.domain.board.es.document.BoardDocument;
 import com.todayworker.springboot.domain.board.es.repository.BoardElasticSearchRepository;
 import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
+import com.todayworker.springboot.domain.board.jpa.entity.CommentEntity;
 import com.todayworker.springboot.domain.board.jpa.repository.BoardJpaRepository;
+import com.todayworker.springboot.domain.board.jpa.repository.CommentJpaRepository;
 import com.todayworker.springboot.domain.board.vo.BoardVO;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
 import com.todayworker.springboot.domain.common.dto.PageableRequest;
@@ -56,6 +59,9 @@ public class BoardServiceTest {
     BoardJpaRepository boardJpaRepository;
 
     @Autowired
+    CommentJpaRepository commentJpaRepository;
+
+    @Autowired
     BoardElasticSearchRepository boardElasticSearchRepository;
 
     @PersistenceContext
@@ -76,12 +82,14 @@ public class BoardServiceTest {
     );
 
     private static final ReplyVO testReply = new ReplyVO(
+        1L,
         testBoard.getBno(),
         UuidUtils.generateNoDashUUID(),
         "댓굴",
         "user111",
         DateUtils.getDatetimeString(),
-        true
+        0L,
+        null
     );
 
     @BeforeEach
@@ -150,6 +158,60 @@ public class BoardServiceTest {
 
         assertEquals(testBoard.getTitle(), retrievedBoard.getTitle());
         assertEquals(1L, retrievedBoard.getCnt());
+
+        // TODO : ElasticSearch와 동기화 되었는지 확인코드 작성 필요
+    }
+
+    @Test
+    @DisplayName("게시글 단건 조회는 성공해야 하고, 대댓글 까지 즉시 조회가 되어야 한다.")
+    @Transactional
+    public void findOneBoard2_success() {
+        BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
+        CommentEntity rootComment = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴",
+                "user111",
+                DateUtils.getDatetimeString(),
+                0L,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity savedRootComment = commentJpaRepository.save(rootComment);
+
+        CommentEntity nestedComment = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴",
+                "user111",
+                DateUtils.getDatetimeString(),
+                savedRootComment.getCommentId(),
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity savedNestedComment = commentJpaRepository.save(nestedComment);
+
+        BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
+
+        BoardVO boardResult = boardService.getBoard(searchedBoardVO);
+
+        assertAll(
+            () -> assertEquals(testBoard.getTitle(), boardResult.getTitle()),
+            () -> assertEquals(1L, boardResult.getCnt()),
+            () -> assertEquals(savedRootComment.getCommentId(),
+                boardResult.getCommentList().get(0).getCommentId()),
+            () -> assertEquals(savedNestedComment.getCommentId(),
+                boardResult.getCommentList().get(0).getNestedReplies().get(0).getCommentId())
+        );
+        ;
 
         // TODO : ElasticSearch와 동기화 되었는지 확인코드 작성 필요
     }

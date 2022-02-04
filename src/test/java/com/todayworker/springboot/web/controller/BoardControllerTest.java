@@ -241,28 +241,34 @@ public class BoardControllerTest {
                     null,
                     Arrays.asList(
                         new ReplyVO(
+                            1L,
                             testBoard.getBno(),
                             UuidUtils.generateNoDashUUID(),
                             "content",
                             "user22",
                             DateUtils.getDatetimeString(),
-                            false
+                            0L,
+                            null
                         ),
                         new ReplyVO(
+                            2L,
                             testBoard.getBno(),
                             UuidUtils.generateNoDashUUID(),
                             "content111",
                             "user22",
                             DateUtils.getDatetimeString(),
-                            true
+                            0L,
+                            null
                         ),
                         new ReplyVO(
+                            3L,
                             testBoard.getBno(),
                             UuidUtils.generateNoDashUUID(),
                             "content222",
                             "user22",
                             DateUtils.getDatetimeString(),
-                            false
+                            0L,
+                            null
                         )
                     )
                 )
@@ -399,12 +405,14 @@ public class BoardControllerTest {
     public void registerCommentSuccess() throws Exception {
 
         ReplyVO testReplyVo = new ReplyVO(
+            1L,
             UuidUtils.generateNoDashUUID(),
             UuidUtils.generateNoDashUUID(),
             "content1",
             "user1",
             DateUtils.getDatetimeString(),
-            true
+            0L,
+            null
         );
 
         when(commentService.registerReply(any()))
@@ -427,12 +435,14 @@ public class BoardControllerTest {
     public void modifyCommentSuccess() throws Exception {
 
         ReplyVO testReplyVo = new ReplyVO(
+            1L,
             UuidUtils.generateNoDashUUID(),
             UuidUtils.generateNoDashUUID(),
             "content1",
             "user1",
             DateUtils.getDatetimeString(),
-            true
+            0L,
+            null
         );
 
         when(commentService.updateReply(any()))
@@ -455,12 +465,14 @@ public class BoardControllerTest {
     public void deleteCommentSuccess() throws Exception {
 
         ReplyVO testReplyVo = new ReplyVO(
+            1L,
             UuidUtils.generateNoDashUUID(),
             UuidUtils.generateNoDashUUID(),
             "content1",
             "user1",
             DateUtils.getDatetimeString(),
-            true
+            0L,
+            null
         );
 
         when(commentService.deleteReply(any()))

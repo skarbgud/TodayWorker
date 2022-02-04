@@ -2,6 +2,7 @@ package com.todayworker.springboot.domain.board.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,6 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 @ApiModel(description = "댓글과 관련된 요청 및 응답정보 처리 Dto(Data Transfer Object) 클래스")
 public class ReplyVO {
+
+    @ApiModelProperty(name = "댓글(Comment)의 DB PK", dataType = "Long")
+    private Long commentId;
 
     @ApiModelProperty(name = "Board UUID without dash (for business)", dataType = "String")
     private String bno;
@@ -25,7 +29,8 @@ public class ReplyVO {
     @ApiModelProperty(name = "문자열로 정규화된 Date", dataType = "String")
     private String regDate;
 
-    @ApiModelProperty(name = "이건 무슨 필드 일까요?", dataType = "Boolean")
-    private Boolean isRecomment;
+    @ApiModelProperty(name = "Parent Comment Id", dataType = "Long")
+    private Long parentCommentId;
 
+    private List<ReplyVO> nestedReplies;
 }

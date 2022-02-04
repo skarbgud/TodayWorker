@@ -32,6 +32,9 @@ public class CommentEntity extends BaseTimeEntity {
     private String rno;
 
     @Column
+    private Long parentCommentId;
+
+    @Column
     private String content;
 
     @Column
@@ -47,6 +50,7 @@ public class CommentEntity extends BaseTimeEntity {
         return new CommentEntity(
             null,
             replyVO.getRno(),
+            replyVO.getParentCommentId(),
             replyVO.getContent(),
             replyVO.getUser(),
             replyVO.getRegDate(),
@@ -66,12 +70,14 @@ public class CommentEntity extends BaseTimeEntity {
 
     public ReplyVO convertToReplyVO() {
         return new ReplyVO(
+            this.commentId,
             this.board.getBno(),
             this.rno,
             this.content,
             this.user,
             this.regDate,
-            true
+            this.parentCommentId,
+            null
         );
     }
 }

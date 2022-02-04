@@ -66,7 +66,8 @@ public class BoardService implements BoardServiceIF {
             .orElseThrow(() -> new BoardException(
                 BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_BOARD,
                     "[bno : " + boardVO.getBno() + "]")))
-            .convertToBoardVO();
+            .convertToBoardVO()
+            .arrangeCommentList();
     }
 
     @Override
