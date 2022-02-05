@@ -2,17 +2,14 @@ package com.todayworker.springboot.domain.board.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.*;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "게시글과 관련된 요청 및 응답정보 처리 Dto(Data Transfer Object) 클래스")
 public class BoardVO {
