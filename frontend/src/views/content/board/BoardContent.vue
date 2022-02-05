@@ -74,9 +74,9 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.post = response.data;
-            if (response.data.data.reply != null)
+            if (response.data.commentList != null)
             {
-              this.comments = response.data.data.reply;
+              this.comments = response.data.commentList;
             }
           } else {
             console.log('데이터 불러오기 실패');
