@@ -6,6 +6,9 @@ import com.todayworker.springboot.domain.board.jpa.entity.CommentEntity;
 import com.todayworker.springboot.domain.board.jpa.repository.BoardJpaRepository;
 import com.todayworker.springboot.domain.board.jpa.repository.CommentJpaRepository;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
+import com.todayworker.springboot.utils.DateUtils;
+import com.todayworker.springboot.utils.UuidUtils;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,8 @@ public class CommentService implements CommentServiceIF {
                 BoardErrorCode.of(HttpStatus.BAD_REQUEST, BoardErrorCode.INVALID_BOARD,
                     "게시글 ID(bno)가 Null 일 수는 없습니다."));
         }
+        vo.setRno(UuidUtils.generateNoDashUUID());
+        vo.setRegDate(DateUtils.getDatetimeString());
 
         boardJpaRepository.findBoardEntityByBno(vo.getBno()).ifPresent(it -> {
             it.modifyCommentEntitiesFromReply(vo);
