@@ -1,27 +1,32 @@
-import Vue from "vue"
-import VueRouter from "vue-router"
+import Vue from "vue";
+import VueRouter from "vue-router";
 import FrameSection from "../views/frame/components/FrameSection";
-import BoardList from '../views/content/board';
-import BoardContent from '../views/content/board/BoardContent';
+import BoardList from "../views/content/board";
+import BoardContent from "../views/content/board/BoardContent";
+import EatContent from "../views/content/board/eat/EatContent";
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-
   mode: "history",
-  routes: [{
-      path: "/",
-      component: FrameSection
+  routes: [
+    {
+      path: "/eat",
+      component: EatContent,
     },
     {
-      path: '/:board',
+      path: "/",
+      component: FrameSection,
+    },
+    {
+      path: "/:board",
       component: BoardList,
     },
     {
-      path: '/:board/:index',
+      path: "/:board/:index",
       component: BoardContent,
-    }
+    },
   ],
-})
+});
 
-export default router
+export default router;
