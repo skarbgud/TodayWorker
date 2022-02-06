@@ -40,11 +40,6 @@ public class CommentEntity extends BaseTimeEntity {
 
     @ManyToOne
     private BoardEntity board;
-    
-    @PrePersist
-    public void prePersist() {
-        this.parentCommentId = this.parentCommentId == null ? 0L : this.parentCommentId;
-    }
 
     public static CommentEntity fromReplyVO(ReplyVO replyVO, BoardEntity board) {
         return new CommentEntity(

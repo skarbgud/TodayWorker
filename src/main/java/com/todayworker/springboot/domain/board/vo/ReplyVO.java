@@ -36,4 +36,8 @@ public class ReplyVO {
     private Long parentCommentId;
 
     private List<ReplyVO> nestedReplies;
+
+    public void prePersist() {
+        this.parentCommentId = this.parentCommentId == null ? 0L : this.parentCommentId;
+    }
 }

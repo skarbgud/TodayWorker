@@ -31,6 +31,7 @@ public class CommentService implements CommentServiceIF {
                 BoardErrorCode.of(HttpStatus.BAD_REQUEST, BoardErrorCode.INVALID_BOARD,
                     "게시글 ID(bno)가 Null 일 수는 없습니다."));
         }
+        vo.prePersist();  //parentId 초기화
         vo.setRno(UuidUtils.generateNoDashUUID());
         vo.setRegDate(DateUtils.getDatetimeString());
 
