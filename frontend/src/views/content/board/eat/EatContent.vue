@@ -1,10 +1,45 @@
 <template>
-  <div class="rouletter">
-    <div class="rouletter-bg"><div class="rouletter-wacu"></div></div>
-    <div class="rouletter-arrow"></div>
-    <button class="rouletter-btn" ref="btn" @click="startBtn()">
-      start
-    </button>
+  <div>
+    <div class="container">
+      <div class="arrow"></div>
+      <div class="eq8" id="roullete">
+        <div class="panel panel_1" style="background: red;">
+          <strong class="txt">1</strong>
+        </div>
+        <div class="panel panel_2" style="background: #F2CB61;">
+          <strong class="txt">2</strong>
+        </div>
+        <div class="panel panel_3" style="background: #FAECC5;">
+          <strong class="txt">3</strong>
+        </div>
+        <div class="panel panel_4" style="background: #665C00;">
+          <strong class="txt">4</strong>
+        </div>
+        <div class="panel panel_5" style="background: #476600;">
+          <strong class="txt">5</strong>
+        </div>
+        <div class="panel panel_6" style="background: #2F9D27;">
+          <strong class="txt">6</strong>
+        </div>
+        <div class="panel panel_7" style="background: #003399;">
+          <strong class="txt">7</strong>
+        </div>
+        <div class="panel panel_8" style="background: #6B66FF;">
+          <strong class="txt">8</strong>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="rouletter">
+      <div class="rouletter-bg"><div class="rouletter-wacu"></div></div>
+      <div class="rouletter-arrow"></div>
+      <button class="rouletter-btn" ref="btn" @click="startBtn()">
+        start
+      </button>
+    </div> -->
+    <b-form-input
+      v-model="inputText"
+      placeholder="메뉴를 추가하세요"
+    ></b-form-input>
   </div>
 </template>
 <script>
@@ -14,9 +49,12 @@
       return {
         rolLength: 6,
         setNum: 0,
+        inputText: "",
       };
     },
-    mounted() {},
+    mounted() {
+      this.setRoulettePanel();
+    },
     methods: {
       getRandomNum() {
         const min = Math.ceil(0);
@@ -69,10 +107,92 @@
         this.rotate();
         this.rReset();
       },
+      setRoulettePanel() {
+        const panelArr = document.querySelectorAll(".panel");
+        const panelArrSize = panelArr.length;
+        const rotate = 360 / panelArrSize;
+
+        let i = 0;
+        let panelRotate = 0;
+        const panelInfoTbody = [];
+        while (i < panelArrSize) {
+          panelRotate = panelRotate + rotate;
+          panelArr[i].style.transform = "rotate(" + panelRotate + "deg)";
+          i = i + 1;
+          panelInfoTbody.push(
+            '<tr><td id="panelInfo' +
+              i +
+              '" style="background:' +
+              panelArr[i - 1].style.background +
+              "; color:" +
+              panelArr[i - 1].style.color +
+              '">' +
+              panelArr[i - 1].innerText +
+              "</td>"
+          );
+          panelInfoTbody.push(
+            "<td><button onclick=\"openUpdatePop('" +
+              i +
+              "');\">수정</button></td></tr>"
+          );
+        }
+        panelInfoTbody.push(
+          '<tr><td colspan="2"><button class="addBtn" onclick="openAddPop(\'add\');">ADD</button></td></tr>'
+        );
+        document.getElementById(
+          "panelInfoTbody"
+        ).innerHTML = panelInfoTbody.join("");
+      },
     },
   };
 </script>
 <style lang="scss" scoped>
+  #roullete {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid black;
+    position: relative;
+  }
+  .container {
+    display: grid;
+    min-height: 100%;
+    align-content: center;
+    justify-content: center;
+  }
+  .arrow {
+    left: 50%;
+    position: sticky;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    border-top: 30px solid purple; /* 화살표 */
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+  }
+  .txt {
+    font-size: 24px;
+    width: 260px;
+    height: 260px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    text-align: center;
+    transform: rotate(-67deg);
+  }
+
+  .panel {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    -webkit-clip-path: polygon(0% 0%, 50% 50%, 0% 50%, 0% 0%) !important;
+    clip-path: polygon(0% 0%, 50% 50%, 0% 50%, 0% 0%) !important;
+  }
+
+  // @@@@
+
   .rouletter {
     position: relative;
     width: 400px;
