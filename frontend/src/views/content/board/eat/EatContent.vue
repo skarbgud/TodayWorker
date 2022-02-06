@@ -2,7 +2,9 @@
   <div class="rouletter">
     <div class="rouletter-bg"><div class="rouletter-wacu"></div></div>
     <div class="rouletter-arrow"></div>
-    <button class="rouletter-btn" @click="startBtn()">start</button>
+    <button class="rouletter-btn" ref="btn" @click="startBtn()">
+      start
+    </button>
   </div>
 </template>
 <script>
@@ -14,46 +16,36 @@
         setNum: 0,
       };
     },
-    mounted() {
-      createHiddenInput();
-    },
+    mounted() {},
     methods: {
-      rRandom() {
+      getRandomNum() {
         const min = Math.ceil(0);
         const max = Math.floor(this.rolLength - 1);
         return Math.floor(Math.random() * (max - min)) + min;
       },
-      rRotate() {
-        const panel = document.getElementsByClassName("rouletter-wacu")[0];
-        const btn = document.getElementsByClassName("rouletter-btn")[0];
+      rotate() {
+        const panel = document.querySelector(".rouletter-wacu");
         const deg = [];
         for (let i = 1, len = this.rolLength; i <= len; i++) {
           deg.push((360 / len) * i);
         }
 
         let num = 0;
-        const hiddenInput = document.getElementsByClassName("hidden-input");
-        document.body.append(hiddenInput);
-        this.setNum = hiddenInput.value = this.rRandom();
-        const ani = setInterval(() => {
+        this.setNum = this.getRandomNum();
+        const animate = setInterval(() => {
           num++;
           panel.style.transform = "rotate(" + 0.1 * num + "turn)";
 
-          btn.disabled = true;
-          btn.style.pointerEvents = "none";
+          this.$refs.btn.disabled = true;
 
           if (num === 50) {
-            clearInterval(ani);
+            clearInterval(animate);
             panel.style.transform = "rotate(" + deg[this.setNum] + "deg)";
           }
         }, 100);
       },
-      createHiddenInput() {
-        const hiddenInput = document.createElement("input");
-        hiddenInput.className = "hidden-input";
-      },
       rLayerPopup() {
-        switch (num) {
+        switch (this.setNum) {
           case 1:
             alert("당첨!! 스타벅스 아메리카노");
             break;
@@ -68,17 +60,13 @@
         }
       },
       rReset() {
-        const hiddenInput = document.createElement("input");
-        const btnElement = document.getElementsByClassName("rouletter-btn");
         setTimeout(() => {
-          btnElement.disabled = false;
-          btnElement.style.pointerEvents = "auto";
-          rLayerPopup(this.setNum);
-          hiddenInput.remove();
+          this.$refs.btn.disabled = false;
+          this.rLayerPopup(this.setNum);
         }, 5500);
       },
       startBtn() {
-        this.rRotate();
+        this.rotate();
         this.rReset();
       },
     },
