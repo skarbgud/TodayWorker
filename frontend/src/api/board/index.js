@@ -20,6 +20,6 @@ export default {
   },
   // 게시판 > 삭제
   deleteBoard(params) {
-    return axios.post(`${baseUrl}/board/delete-board.do`, params);
+    return axios.delete(`${baseUrl}/board/delete-board.do/${params}`);
   }
 }

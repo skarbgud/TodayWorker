@@ -54,10 +54,10 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 삭제(delete)")
-    @PostMapping(value = "delete-board.do")
-    public boolean deleteBoard(@RequestBody BoardVO vo) {
+    @DeleteMapping(value = "delete-board.do/{bno}")
+    public boolean deleteBoard(@PathVariable String bno) {
         LOG.info("DeleteBoard");
-        return boardService.deleteBoard(vo);
+        return boardService.deleteBoard(bno);
     }
 
     @ApiOperation(value = "댓글 등록(create)")

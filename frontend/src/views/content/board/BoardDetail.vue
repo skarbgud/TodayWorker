@@ -25,7 +25,9 @@
                 </div>
               </div>
               <div class="post-info mt-1">
-                <i class="far fa-clock mx-1" />{{ post.regDate | moment('YYYY-MM-DD HH:mm:ss') }}
+                <i class="far fa-clock mx-1" />{{
+                  post.regDate | moment('YYYY-MM-DD HH:mm:ss')
+                }}
                 <i class="fas fa-eye mx-1"></i> {{ post.cnt }}
                 <b-icon class="mx-1 ml-2" icon="chat" />{{ replyCount }}
                 <div class="info-right">
@@ -56,7 +58,9 @@
               <div class="mt-4 mb-4">{{ post.content }}</div>
               <div class="info-bottom">
                 <a href="#"><i class="far fa-thumbs-up mx-1 mr-1" />0</a>
-                <a href="#"><b-icon class="mx-1 ml-2" icon="chat" />{{ replyCount }}</a>
+                <a href="#"
+                  ><b-icon class="mx-1 ml-2" icon="chat" />{{ replyCount }}</a
+                >
                 <a href="">
                   <img
                     src="https://storage.googleapis.com/storage.chris-chris.ai/images/facebook.gif"
@@ -193,7 +197,7 @@ export default {
         // writer: this.replyWriter,
       };
       return params;
-    }
+    },
   },
   methods: {
     popoverMethod() {
@@ -212,8 +216,10 @@ export default {
       this.$refs.modal.open();
     },
     clickDeleteBoard() {
+      const bno = this.$route.params.index;
+
       boardApi
-        .deleteBoard(this.setParams)
+        .deleteBoard(bno)
         .then((response) => {
           if (response.status === 200) {
             // 삭제시 메인페이지로
@@ -259,11 +265,9 @@ export default {
       registApi
         .registReply(this.setReplyParams)
         .then((response) => {
-          if (response.data.success) {
-            // 성공시 페이지리로드
-            if (response.data.data) {
-              this.$router.go();
-            }
+          // 성공시 페이지리로드
+          if (response.data) {
+            this.$router.go();
           } else {
             console.log('댓글 등록 실패');
           }

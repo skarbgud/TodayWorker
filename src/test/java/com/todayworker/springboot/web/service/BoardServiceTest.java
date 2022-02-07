@@ -263,12 +263,11 @@ public class BoardServiceTest {
     public void deleteBoard() {
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         BoardVO deleteBoard = savedBoard.convertToBoardVO();
-        assertDoesNotThrow(() -> assertTrue(boardService.deleteBoard(deleteBoard)));
+        assertDoesNotThrow(() -> assertTrue(boardService.deleteBoard(deleteBoard.getBno())));
         assertFalse(boardJpaRepository.findById(deleteBoard.getBoardId()).isPresent());
         assertFalse(
             // ElasticSearch와 동기화 되었는지 확인.
-            boardElasticSearchRepository.findById(
-                    BoardDocument.from(deleteBoard, boardIndexName).getBoardId())
+            boardElasticSearchRepository.findById(deleteBoard.getBno())
                 .isPresent());
     }
 
