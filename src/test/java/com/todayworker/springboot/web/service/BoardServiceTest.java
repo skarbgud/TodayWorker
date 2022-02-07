@@ -1,12 +1,5 @@
 package com.todayworker.springboot.web.service;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.todayworker.springboot.domain.board.es.document.BoardDocument;
 import com.todayworker.springboot.domain.board.es.repository.BoardElasticSearchRepository;
 import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
@@ -19,16 +12,6 @@ import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.elasticsearch.helper.ElasticSearchExtension;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.UuidUtils;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,6 +24,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -153,7 +149,7 @@ public class BoardServiceTest {
     public void findOneBoard_success() {
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
-        assertDoesNotThrow(() -> boardService.getBoard(searchedBoardVO));
+        assertDoesNotThrow(() -> boardService.getBoard(searchedBoardVO.getBno()));
         BoardEntity retrievedBoard = boardJpaRepository.findById(savedBoard.getId()).get();
 
         assertEquals(testBoard.getTitle(), retrievedBoard.getTitle());
@@ -201,7 +197,7 @@ public class BoardServiceTest {
 
         BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
 
-        BoardVO boardResult = boardService.getBoard(searchedBoardVO);
+        BoardVO boardResult = boardService.getBoard(searchedBoardVO.getBno());
 
         assertAll(
             () -> assertEquals(testBoard.getTitle(), boardResult.getTitle()),
@@ -225,7 +221,7 @@ public class BoardServiceTest {
 
         IntStream.range(1, 10).forEach((it) -> {
             System.out.println("====> current Read count : " + it);
-            BoardVO searchedVO = boardService.getBoard(searchedBoardVO);
+            BoardVO searchedVO = boardService.getBoard(searchedBoardVO.getBno());
             assertEquals(it, searchedVO.getCnt()); // 조회한 횟 수 만큼 cnt도 증가가 되어 있어야 한다.
         });
     }

@@ -66,11 +66,10 @@ export default {
   methods: {
     getBoardDetailApi() {
       //상세 페이지 조회시 게시글 bno로 조회
-      const params = {
-        bno: this.$route.params.index,
-      };
+      const bno = this.$route.params.index;
+
       boardApi
-        .getBoardDetail(params)
+        .getBoardDetail(bno)
         .then((response) => {
           if (response.status === 200) {
             this.post = response.data;

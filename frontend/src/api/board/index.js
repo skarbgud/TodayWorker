@@ -12,7 +12,7 @@ export default {
   },
   // 게시판 > 게시글 상세보기
   getBoardDetail(params) {
-    return axios.post(`${baseUrl}/board/get-board-detail.do`, params);
+    return axios.get(`${baseUrl}/board/get-board-detail.do/${params}`);
   },
   // 게시판 > 게시글 업데이트
   updateBoard(params) {
