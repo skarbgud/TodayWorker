@@ -3,10 +3,15 @@
     <div class="container">
       <div class="arrow"></div>
       <div class="eq8" id="roullete">
-        <div class="panel panel_1" style="background: red;">
-          <strong class="txt">1</strong>
+        <div
+          v-for="(item, index) in pannalList"
+          :key="index"
+          class="panel panel_1"
+          :style="`background: ${colorList[index]};`"
+        >
+          <strong class="txt">{{ item }}</strong>
         </div>
-        <div class="panel panel_2" style="background: #F2CB61;">
+        <!-- <div class="panel panel_2" style="background: #F2CB61;">
           <strong class="txt">2</strong>
         </div>
         <div class="panel panel_3" style="background: #FAECC5;">
@@ -26,7 +31,7 @@
         </div>
         <div class="panel panel_8" style="background: #6B66FF;">
           <strong class="txt">8</strong>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- <div class="rouletter">
@@ -39,6 +44,7 @@
     <b-form-input
       v-model="inputText"
       placeholder="메뉴를 추가하세요"
+      @keyup.enter="addItem()"
     ></b-form-input>
   </div>
 </template>
@@ -50,6 +56,26 @@
         rolLength: 6,
         setNum: 0,
         inputText: "",
+        pannalList: ["1번"],
+        colorList: [
+          "#F2CB61",
+          "#FAECC5",
+          "#665C00",
+          "#476600",
+          "#2F9D27",
+          "#003399",
+          "#6B66FF",
+          "#F2CB61",
+        ],
+        clipPathList: [
+          "",
+          "50% -83%, 105% 50%, 50% 50%, -6% 50%",
+          "102% -40%, 50% 50%, 0% 50%, 0% 0%",
+          "50% -30%, 50% 50%, 0% 50%, 0% 0%",
+          "28% -22%, 50% 50%, 0% 50%, 0% 0%",
+          "12% -20%, 50% 50%, 0% 50%, 0% 0%",
+          "0% -18%, 50% 50%, 0% 50%, 0% 0%",
+        ],
       };
     },
     mounted() {
@@ -82,66 +108,43 @@
           }
         }, 100);
       },
-      rLayerPopup() {
-        switch (this.setNum) {
-          case 1:
-            alert("당첨!! 스타벅스 아메리카노");
-            break;
-          case 3:
-            alert("당첨!! 햄버거 세트 교환권");
-            break;
-          case 5:
-            alert("당첨!! CU 3,000원 상품권");
-            break;
-          default:
-            alert("꽝! 다음기회에");
-        }
-      },
       rReset() {
         setTimeout(() => {
           this.$refs.btn.disabled = false;
-          this.rLayerPopup(this.setNum);
         }, 5500);
       },
       startBtn() {
         this.rotate();
         this.rReset();
       },
+      addItem() {
+        if (!this.inputText) return;
+        this.pannalList.push(this.inputText);
+        this.inputText = "";
+        this.$nextTick(() => {
+          this.setRoulettePanel();
+        });
+      },
       setRoulettePanel() {
         const panelArr = document.querySelectorAll(".panel");
+        const txtEl = document.querySelectorAll(".txt");
         const panelArrSize = panelArr.length;
         const rotate = 360 / panelArrSize;
 
-        let i = 0;
-        let panelRotate = 0;
-        const panelInfoTbody = [];
-        while (i < panelArrSize) {
-          panelRotate = panelRotate + rotate;
-          panelArr[i].style.transform = "rotate(" + panelRotate + "deg)";
-          i = i + 1;
-          panelInfoTbody.push(
-            '<tr><td id="panelInfo' +
-              i +
-              '" style="background:' +
-              panelArr[i - 1].style.background +
-              "; color:" +
-              panelArr[i - 1].style.color +
-              '">' +
-              panelArr[i - 1].innerText +
-              "</td>"
-          );
-          panelInfoTbody.push(
-            "<td><button onclick=\"openUpdatePop('" +
-              i +
-              "');\">수정</button></td></tr>"
-          );
+        console.log(panelArr.length);
+
+        for (const item of txtEl) {
+          item.style.transform = `rotate(${-rotate}deg)`;
         }
-        panelInfoTbody.push(
-          '<tr><td colspan="2"><button class="addBtn" onclick="openAddPop(\'add\');">ADD</button></td></tr>'
-        );
-        document.getElementById(
-          "panelInfoTbody"
-        ).innerHTML = panelInfoTbody.join("");
+
+        let sumDeg = 0;
+        for (let i = 0; i < panelArrSize; i++) {
+          panelArr[i].style.clipPath = `polygon(${
+            this.clipPathList[panelArrSize - 1]
+          })`;
+          panelArr[i].style.transform = `rotate(${sumDeg}deg)`;
+          sumDeg += rotate;
+        }
       },
     },
   };
@@ -179,7 +182,7 @@
     top: 30px;
     left: 30px;
     text-align: center;
-    transform: rotate(-67deg);
+    transform: rotate(-58deg);
   }
 
   .panel {
@@ -187,8 +190,6 @@
     width: 400px;
     height: 400px;
     border-radius: 50%;
-    -webkit-clip-path: polygon(0% 0%, 50% 50%, 0% 50%, 0% 0%) !important;
-    clip-path: polygon(0% 0%, 50% 50%, 0% 50%, 0% 0%) !important;
   }
 
   // @@@@
