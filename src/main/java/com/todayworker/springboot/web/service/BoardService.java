@@ -13,6 +13,7 @@ import com.todayworker.springboot.utils.UuidUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService implements BoardServiceIF {
 
     @Value("${todayworker.elasticsearch.index.board}")
@@ -51,12 +53,21 @@ public class BoardService implements BoardServiceIF {
                     "게시글 ID(bno)가 Null 일 수는 없습니다."));
         }
 
+        // 조회수를 먼저 Update를 시도
+        // update 처리 중 예외가 발생했다 하더라도, 조회는 정상적으로 수행되어야 한다.
+        try {
+            updateBoardCounter(boardVO.getBno());
+        } catch (RuntimeException ex) {
+            log.warn("board counter update failed ", ex);
+        }
+
         return boardJpaRepository
             .findBoardEntityByBno(boardVO.getBno())
             .orElseThrow(() -> new BoardException(
                 BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_BOARD,
                     "[bno : " + boardVO.getBno() + "]")))
-            .convertToBoardVO();
+            .convertToBoardVO()
+            .arrangeCommentList();
     }
 
     @Override
@@ -107,6 +118,16 @@ public class BoardService implements BoardServiceIF {
         } catch (Exception ex) {
             throw new BoardException(BoardErrorCode.of(HttpStatus.INTERNAL_SERVER_ERROR,
                 BoardErrorCode.BOARD_TRANSACTION_PROCESSING_ERROR), ex);
+        }
+    }
+
+    private void updateBoardCounter(String bno) {
+        if (boardJpaRepository
+            .updateBoardEntityCounterForVisit(bno) != 1) {
+            throw new BoardException(
+                BoardErrorCode.of(HttpStatus.INTERNAL_SERVER_ERROR,
+                    BoardErrorCode.BOARD_UPDATE_ERROR_FOR_COUNTER)
+            );
         }
     }
 

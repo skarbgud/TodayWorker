@@ -4,18 +4,13 @@ import com.todayworker.springboot.domain.BaseTimeEntity;
 import com.todayworker.springboot.domain.board.exception.BoardErrorCode;
 import com.todayworker.springboot.domain.board.exception.BoardException;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "comments")
@@ -30,6 +25,9 @@ public class CommentEntity extends BaseTimeEntity {
 
     @Column(unique = true)
     private String rno;
+
+    @Column
+    private Long parentCommentId;
 
     @Column
     private String content;
@@ -47,6 +45,7 @@ public class CommentEntity extends BaseTimeEntity {
         return new CommentEntity(
             null,
             replyVO.getRno(),
+            replyVO.getParentCommentId(),
             replyVO.getContent(),
             replyVO.getUser(),
             replyVO.getRegDate(),
@@ -66,12 +65,14 @@ public class CommentEntity extends BaseTimeEntity {
 
     public ReplyVO convertToReplyVO() {
         return new ReplyVO(
+            this.commentId,
             this.board.getBno(),
             this.rno,
             this.content,
             this.user,
             this.regDate,
-            true
+            this.parentCommentId,
+            null
         );
     }
 }

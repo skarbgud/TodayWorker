@@ -55,12 +55,14 @@ public class CommentServiceTest {
     public void registerComment() {
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         ReplyVO testReply = new ReplyVO(
+            1L,
             savedBoard.getBno(),
             UuidUtils.generateNoDashUUID(),
             "댓글",
             "댓글러",
             DateUtils.getDatetimeString(),
-            true
+            0L,
+            null
         );
 
         replyService.registerReply(testReply);
@@ -72,12 +74,14 @@ public class CommentServiceTest {
         String modifiedContent = "수정된 댓글";
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         ReplyVO testReply = new ReplyVO(
+            1L,
             savedBoard.getBno(),
             UuidUtils.generateNoDashUUID(),
             "댓글",
             "댓글러",
             DateUtils.getDatetimeString(),
-            true
+            0L,
+            null
         );
         savedBoard.modifyCommentEntitiesFromReply(testReply);
         boardJpaRepository.save(savedBoard);
@@ -95,12 +99,14 @@ public class CommentServiceTest {
     public void deleteComment() {
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         ReplyVO testReply = new ReplyVO(
+            1L,
             savedBoard.getBno(),
             UuidUtils.generateNoDashUUID(),
             "댓글",
             "댓글러",
             DateUtils.getDatetimeString(),
-            true
+            0L,
+            null
         );
         savedBoard.modifyCommentEntitiesFromReply(testReply);
         boardJpaRepository.save(savedBoard);

@@ -2,12 +2,14 @@ package com.todayworker.springboot.domain.board.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.*;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "게시글과 관련된 요청 및 응답정보 처리 Dto(Data Transfer Object) 클래스")
 public class BoardVO {
@@ -52,5 +54,61 @@ public class BoardVO {
 
         this.commentList.add(replyVO);
         return this.commentList;
+    }
+
+    public BoardVO arrangeCommentList() {
+
+        Map<Long, Boolean> tmpMap = new HashMap<>();
+        this.commentList.sort(Comparator.comparing(ReplyVO::getParentCommentId));
+        List<ReplyVO> newList = new LinkedList<>();
+
+        for (ReplyVO currentVo : this.commentList) {
+            if (currentVo.getParentCommentId() == 0L) {
+                currentVo.setNestedReplies(new LinkedList<>());
+                newList.add(currentVo); // ROOT
+                tmpMap.put(currentVo.getCommentId(), true);
+            } else if (currentVo.getParentCommentId() > 0L) {
+                ReplyVO parent = currentVo;
+                Stack<ReplyVO> stack = new Stack<>();
+
+                while (true) {
+                    for (ReplyVO vo : this.commentList) {
+                        if (vo.getCommentId().equals(parent.getParentCommentId())) {
+                            parent = vo;
+                        }
+                    }
+
+                    stack.add(parent);
+
+                    if (parent.getParentCommentId() == 0L) {
+                        break;
+                    }
+                }
+
+                List<ReplyVO> iterable = newList;
+                ReplyVO target = null;
+                while (!stack.isEmpty()) {
+                    ReplyVO inStack = stack.pop();
+                    for (ReplyVO vo : iterable) {
+                        target = vo;
+                        if (target.getCommentId().equals(inStack.getCommentId())) {
+                            iterable = vo.getNestedReplies();
+                            break;
+                        }
+                    }
+                }
+
+                if (target != null) {
+                    if (target.getNestedReplies() == null) {
+                        target.setNestedReplies(new LinkedList<>());
+                    }
+
+                    target.getNestedReplies().add(currentVo);
+                }
+            }
+        }
+
+        this.commentList = newList;
+        return this;
     }
 }
