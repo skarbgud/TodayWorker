@@ -2,11 +2,10 @@ package com.todayworker.springboot.domain.board.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -35,9 +34,21 @@ public class ReplyVO {
     @ApiModelProperty(name = "Parent Comment Id", dataType = "Long")
     private Long parentCommentId;
 
+    @ApiModelProperty(name = "댓글 삭제 여부(필수)", dataType = "Boolean", required = true)
+    private Boolean isDeleted;
+
     private List<ReplyVO> nestedReplies;
 
     public void prePersist() {
+        this.isDeleted = this.isDeleted != null && this.isDeleted; // 임시 추가 로직.
         this.parentCommentId = this.parentCommentId == null ? 0L : this.parentCommentId;
+    }
+
+    public ReplyVO convertDeletedReply() {
+        if (this.getIsDeleted()) {
+            this.setUser("***");
+            this.setContent("삭제된 댓글 입니다.");
+        }
+        return this;
     }
 }

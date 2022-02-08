@@ -8,7 +8,6 @@ import com.todayworker.springboot.domain.board.jpa.repository.CommentJpaReposito
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.UuidUtils;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,14 @@ public class CommentService implements CommentServiceIF {
     private final CommentJpaRepository commentJpaRepository;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public boolean registerReply(ReplyVO vo) {
         if (vo.getBno() == null) {
             throw new BoardException(
                 BoardErrorCode.of(HttpStatus.BAD_REQUEST, BoardErrorCode.INVALID_BOARD,
                     "게시글 ID(bno)가 Null 일 수는 없습니다."));
         }
+
         vo.prePersist();  //parentId 초기화
         vo.setRno(UuidUtils.generateNoDashUUID());
         vo.setRegDate(DateUtils.getDatetimeString());
@@ -75,8 +75,14 @@ public class CommentService implements CommentServiceIF {
             throw new IllegalArgumentException("유효하지 않은 댓글 삭제 요청 [rno=null]");
         }
 
-//		commentJpaRepository.findCommentEntityByRno(vo.getRno());
-        commentJpaRepository.deleteCommentEntityByRno(vo.getRno());
+        CommentEntity comment = commentJpaRepository.findCommentEntityByRno(vo.getRno())
+            .orElseThrow(() -> new BoardException(
+                BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_REPLY,
+                    vo.getRno())));
+        
+        comment.changeStatusToDeleted();
+
+        commentJpaRepository.save(comment);
         return true;
     }
 

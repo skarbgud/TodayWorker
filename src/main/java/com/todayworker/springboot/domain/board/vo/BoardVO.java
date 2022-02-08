@@ -2,11 +2,15 @@ package com.todayworker.springboot.domain.board.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -56,59 +60,34 @@ public class BoardVO {
         return this.commentList;
     }
 
+    public BoardVO filterDeletedCommentList() {
+        this.commentList.forEach(ReplyVO::convertDeletedReply);
+        return this;
+    }
+
     public BoardVO arrangeCommentList() {
 
-        Map<Long, Boolean> tmpMap = new HashMap<>();
         this.commentList.sort(Comparator.comparing(ReplyVO::getParentCommentId));
-        List<ReplyVO> newList = new LinkedList<>();
+        Map<Long, ReplyVO> newMap = new HashMap<>();
+        Map<Long, List<ReplyVO>> subCommentList = new HashMap<>();
 
         for (ReplyVO currentVo : this.commentList) {
             if (currentVo.getParentCommentId() == 0L) {
                 currentVo.setNestedReplies(new LinkedList<>());
-                newList.add(currentVo); // ROOT
-                tmpMap.put(currentVo.getCommentId(), true);
+                newMap.put(currentVo.getCommentId(), currentVo); // ROOT
+
             } else if (currentVo.getParentCommentId() > 0L) {
-                ReplyVO parent = currentVo;
-                Stack<ReplyVO> stack = new Stack<>();
-
-                while (true) {
-                    for (ReplyVO vo : this.commentList) {
-                        if (vo.getCommentId().equals(parent.getParentCommentId())) {
-                            parent = vo;
-                        }
-                    }
-
-                    stack.add(parent);
-
-                    if (parent.getParentCommentId() == 0L) {
-                        break;
-                    }
-                }
-
-                List<ReplyVO> iterable = newList;
-                ReplyVO target = null;
-                while (!stack.isEmpty()) {
-                    ReplyVO inStack = stack.pop();
-                    for (ReplyVO vo : iterable) {
-                        target = vo;
-                        if (target.getCommentId().equals(inStack.getCommentId())) {
-                            iterable = vo.getNestedReplies();
-                            break;
-                        }
-                    }
-                }
-
-                if (target != null) {
-                    if (target.getNestedReplies() == null) {
-                        target.setNestedReplies(new LinkedList<>());
-                    }
-
-                    target.getNestedReplies().add(currentVo);
-                }
+                subCommentList.computeIfAbsent(currentVo.getParentCommentId(),
+                    k -> new LinkedList<>());
+                subCommentList.get(currentVo.getParentCommentId()).add(currentVo);
             }
+
+            newMap.forEach((key, value) -> {
+                value.setNestedReplies(subCommentList.get(key));
+            });
         }
 
-        this.commentList = newList;
+        this.commentList = new ArrayList<>(newMap.values());
         return this;
     }
 }
