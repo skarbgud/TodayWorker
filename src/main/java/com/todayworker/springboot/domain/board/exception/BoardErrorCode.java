@@ -10,7 +10,9 @@ public class BoardErrorCode implements BaseErrorCodeIF {
     public static final String INVALID_WRITER = "올바르지 않은 작성자 ";
     public static final String INVALID_BOARD = "유효하지 않은 게시글 ";
     public static final String NON_EXIST_BOARD = "게시글이 존재하지 않습니다. ";
+    public static final String NON_EXIST_REPLY = "댓글이 존재하지 않습니다. ";
     public static final String BOARD_TRANSACTION_PROCESSING_ERROR = "게시글 처리 중 에러가 발생하였습니다.";
+    public static final String COMMENT_ALREADY_DELETED = "이미 삭제 처리된 댓글입니다.";
 
     public static final String BOARD_UPDATE_ERROR_FOR_COUNTER = "게시글 Counter update 실패";
 

@@ -8,11 +8,11 @@ public interface BoardServiceIF {
 
     List<BoardVO> getBoardList(PageableRequest request);
 
-    BoardVO getBoard(BoardVO vo);
+    BoardVO getBoard(String bno);
 
     BoardVO insertBoard(BoardVO vo);
 
     BoardVO updateBoard(BoardVO vo);
 
-    boolean deleteBoard(BoardVO vo);
+    boolean deleteBoard(String bno);
 }

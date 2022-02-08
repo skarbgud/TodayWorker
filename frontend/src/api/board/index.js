@@ -11,15 +11,15 @@ export default {
     return axios.post(`${baseUrl}/board/insert-board.do`, params);
   },
   // 게시판 > 게시글 상세보기
-  getBoardDetail(params) {
-    return axios.post(`${baseUrl}/board/get-board-detail.do`, params);
+  getBoardDetail(bno) {
+    return axios.get(`${baseUrl}/board/get-board-detail.do/${bno}`);
   },
   // 게시판 > 게시글 업데이트
   updateBoard(params) {
     return axios.post(`${baseUrl}/board/update-board.do`, params);
   },
   // 게시판 > 삭제
-  deleteBoard(params) {
-    return axios.post(`${baseUrl}/board/delete-board.do`, params);
+  deleteBoard(bno) {
+    return axios.delete(`${baseUrl}/board/delete-board.do/${bno}`);
   }
 }

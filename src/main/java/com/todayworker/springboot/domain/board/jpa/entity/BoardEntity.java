@@ -3,27 +3,25 @@ package com.todayworker.springboot.domain.board.jpa.entity;
 import com.todayworker.springboot.domain.BaseTimeEntity;
 import com.todayworker.springboot.domain.board.vo.BoardVO;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "boards")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
+@DynamicUpdate
 public class BoardEntity extends BaseTimeEntity {
 
     @Id // javax.persistence.Id
@@ -51,7 +49,7 @@ public class BoardEntity extends BaseTimeEntity {
     @Column
     private String regDate;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<CommentEntity> commentEntities;
 
     public static BoardEntity fromBoardVO(BoardVO boardVO) {

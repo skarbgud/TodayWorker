@@ -10,8 +10,6 @@ import com.todayworker.springboot.domain.board.vo.BoardVO;
 import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.UuidUtils;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Transactional
@@ -46,8 +47,8 @@ public class BoardService implements BoardServiceIF {
     }
 
     @Override
-    public BoardVO getBoard(BoardVO boardVO) {
-        if (boardVO.getBno() == null || boardVO.getBno().isEmpty()) {
+    public BoardVO getBoard(String bno) {
+        if (bno == null) {
             throw new BoardException(
                 BoardErrorCode.of(HttpStatus.BAD_REQUEST, BoardErrorCode.INVALID_BOARD,
                     "게시글 ID(bno)가 Null 일 수는 없습니다."));
@@ -56,17 +57,18 @@ public class BoardService implements BoardServiceIF {
         // 조회수를 먼저 Update를 시도
         // update 처리 중 예외가 발생했다 하더라도, 조회는 정상적으로 수행되어야 한다.
         try {
-            updateBoardCounter(boardVO.getBno());
+            updateBoardCounter(bno);
         } catch (RuntimeException ex) {
             log.warn("board counter update failed ", ex);
         }
 
         return boardJpaRepository
-            .findBoardEntityByBno(boardVO.getBno())
+            .findBoardEntityByBno(bno)
             .orElseThrow(() -> new BoardException(
                 BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_BOARD,
-                    "[bno : " + boardVO.getBno() + "]")))
+                    "[bno : " + bno + "]")))
             .convertToBoardVO()
+            .filterDeletedCommentList()
             .arrangeCommentList();
     }
 
@@ -107,13 +109,12 @@ public class BoardService implements BoardServiceIF {
     }
 
     @Override
-    public boolean deleteBoard(BoardVO vo) {
+    public boolean deleteBoard(String bno) {
         // TODO : FE에서 서버 예외에 대한 처리를 다시 봐줘야 될거 같습니다. 기존처럼 되어 있으면 트랜잭션을 커버 할 수 없어요
 
         try {
-            boardJpaRepository.deleteBoardEntityByBno(vo.getBno());
-            boardElasticSearchRepository.deleteById(
-                BoardDocument.from(vo, boardIndexName).getBno());
+            boardJpaRepository.deleteBoardEntityByBno(bno);
+            boardElasticSearchRepository.deleteById(bno);
             return true;
         } catch (Exception ex) {
             throw new BoardException(BoardErrorCode.of(HttpStatus.INTERNAL_SERVER_ERROR,

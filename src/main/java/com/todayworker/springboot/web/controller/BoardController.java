@@ -6,14 +6,12 @@ import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.web.service.BoardServiceIF;
 import com.todayworker.springboot.web.service.CommentServiceIF;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor // 생성자 주입 어노테이션 => final 필드 변수
@@ -35,10 +33,10 @@ public class BoardController {
     }
 
     @ApiOperation(value = "단일 게시글 조회(bno base)")
-    @PostMapping(value = "/get-board-detail.do")
-    public BoardVO getBoardDetail(@RequestBody BoardVO vo) {
+    @GetMapping(value = "/get-board-detail.do/{bno}")
+    public BoardVO getBoardDetail(@PathVariable String bno) {
         LOG.info("GetBoardDetail");
-        return boardService.getBoard(vo);
+        return boardService.getBoard(bno);
     }
 
     @ApiOperation(value = "게시글 등록(create)")
@@ -56,10 +54,10 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 삭제(delete)")
-    @PostMapping(value = "delete-board.do")
-    public boolean deleteBoard(@RequestBody BoardVO vo) {
+    @DeleteMapping(value = "delete-board.do/{bno}")
+    public boolean deleteBoard(@PathVariable String bno) {
         LOG.info("DeleteBoard");
-        return boardService.deleteBoard(vo);
+        return boardService.deleteBoard(bno);
     }
 
     @ApiOperation(value = "댓글 등록(create)")

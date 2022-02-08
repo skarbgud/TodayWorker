@@ -1,7 +1,9 @@
 package com.todayworker.springboot.web.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
 import com.todayworker.springboot.domain.board.jpa.entity.CommentEntity;
@@ -62,10 +64,16 @@ public class CommentServiceTest {
             "댓글러",
             DateUtils.getDatetimeString(),
             0L,
+            false,
             null
         );
 
         replyService.registerReply(testReply);
+        assertAll(
+            () -> assertTrue(
+                commentJpaRepository.findCommentEntityByRno(testReply.getRno()).isPresent()),
+            () -> assertFalse(commentJpaRepository.findCommentEntityByRno(testReply.getRno()).get()
+                .getIsDeleted()));
     }
 
     @Test
@@ -81,6 +89,7 @@ public class CommentServiceTest {
             "댓글러",
             DateUtils.getDatetimeString(),
             0L,
+            false,
             null
         );
         savedBoard.modifyCommentEntitiesFromReply(testReply);
@@ -106,12 +115,17 @@ public class CommentServiceTest {
             "댓글러",
             DateUtils.getDatetimeString(),
             0L,
+            false,
             null
         );
         savedBoard.modifyCommentEntitiesFromReply(testReply);
         boardJpaRepository.save(savedBoard);
 
         replyService.deleteReply(testReply);
-        assertFalse(commentJpaRepository.findCommentEntityByRno(testReply.getRno()).isPresent());
+        assertAll(
+            () -> assertTrue(
+                commentJpaRepository.findCommentEntityByRno(testReply.getRno()).isPresent()),
+            () -> assertTrue(commentJpaRepository.findCommentEntityByRno(testReply.getRno()).get()
+                .getIsDeleted()));
     }
 }

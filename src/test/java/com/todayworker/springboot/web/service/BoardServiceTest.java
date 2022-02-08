@@ -1,12 +1,5 @@
 package com.todayworker.springboot.web.service;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.todayworker.springboot.domain.board.es.document.BoardDocument;
 import com.todayworker.springboot.domain.board.es.repository.BoardElasticSearchRepository;
 import com.todayworker.springboot.domain.board.jpa.entity.BoardEntity;
@@ -19,16 +12,6 @@ import com.todayworker.springboot.domain.common.dto.PageableRequest;
 import com.todayworker.springboot.elasticsearch.helper.ElasticSearchExtension;
 import com.todayworker.springboot.utils.DateUtils;
 import com.todayworker.springboot.utils.UuidUtils;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,6 +24,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -89,6 +85,7 @@ public class BoardServiceTest {
         "user111",
         DateUtils.getDatetimeString(),
         0L,
+        false,
         null
     );
 
@@ -153,7 +150,7 @@ public class BoardServiceTest {
     public void findOneBoard_success() {
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
-        assertDoesNotThrow(() -> boardService.getBoard(searchedBoardVO));
+        assertDoesNotThrow(() -> boardService.getBoard(searchedBoardVO.getBno()));
         BoardEntity retrievedBoard = boardJpaRepository.findById(savedBoard.getId()).get();
 
         assertEquals(testBoard.getTitle(), retrievedBoard.getTitle());
@@ -176,6 +173,7 @@ public class BoardServiceTest {
                 "user111",
                 DateUtils.getDatetimeString(),
                 0L,
+                false,
                 null
             ),
             savedBoard
@@ -192,6 +190,7 @@ public class BoardServiceTest {
                 "user111",
                 DateUtils.getDatetimeString(),
                 savedRootComment.getCommentId(),
+                false,
                 null
             ),
             savedBoard
@@ -201,6 +200,83 @@ public class BoardServiceTest {
 
         BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
 
+        BoardVO boardResult = boardService.getBoard(searchedBoardVO.getBno());
+
+        assertAll(
+            () -> assertEquals(testBoard.getTitle(), boardResult.getTitle()),
+            () -> assertEquals(1L, boardResult.getCnt()),
+            () -> assertEquals(savedRootComment.getCommentId(),
+                boardResult.getCommentList().get(0).getCommentId()),
+            () -> assertEquals(savedNestedComment.getCommentId(),
+                boardResult.getCommentList().get(0).getNestedReplies().get(0).getCommentId())
+        );
+        ;
+
+        // TODO : ElasticSearch와 동기화 되었는지 확인코드 작성 필요
+    }
+
+    @Test
+    @DisplayName("게시글 단건 조회는 성공해야 하고, 삭제 된 댓글 및 대댓글도 정상 처리 되어야 한다.")
+    @Transactional
+    public void findOneBoard3_success() {
+        BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
+        CommentEntity rootComment1 = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴",
+                "user111",
+                DateUtils.getDatetimeString(),
+                0L,
+                false,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity rootComment2 = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴2",
+                "user111",
+                DateUtils.getDatetimeString(),
+                0L,
+                false,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity savedRootComment = commentJpaRepository.save(rootComment1);
+        commentJpaRepository.save(rootComment2);
+
+        CommentEntity nestedComment = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴",
+                "user111",
+                DateUtils.getDatetimeString(),
+                savedRootComment.getCommentId(),
+                false,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity savedNestedComment = commentJpaRepository.save(nestedComment);
+
+        BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
+
+        // 대댓글 있는 Root댓글 삭제처리
+        rootComment1.changeStatusToDeleted();
+
+        commentJpaRepository.save(rootComment1);
+
         BoardVO boardResult = boardService.getBoard(searchedBoardVO);
 
         assertAll(
@@ -208,6 +284,8 @@ public class BoardServiceTest {
             () -> assertEquals(1L, boardResult.getCnt()),
             () -> assertEquals(savedRootComment.getCommentId(),
                 boardResult.getCommentList().get(0).getCommentId()),
+            () -> assertTrue(boardResult.getCommentList().get(0).getIsDeleted()),
+            () -> assertEquals("삭제된 댓글 입니다.", boardResult.getCommentList().get(0).getContent()),
             () -> assertEquals(savedNestedComment.getCommentId(),
                 boardResult.getCommentList().get(0).getNestedReplies().get(0).getCommentId())
         );
@@ -225,7 +303,7 @@ public class BoardServiceTest {
 
         IntStream.range(1, 10).forEach((it) -> {
             System.out.println("====> current Read count : " + it);
-            BoardVO searchedVO = boardService.getBoard(searchedBoardVO);
+            BoardVO searchedVO = boardService.getBoard(searchedBoardVO.getBno());
             assertEquals(it, searchedVO.getCnt()); // 조회한 횟 수 만큼 cnt도 증가가 되어 있어야 한다.
         });
     }
@@ -267,12 +345,11 @@ public class BoardServiceTest {
     public void deleteBoard() {
         BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
         BoardVO deleteBoard = savedBoard.convertToBoardVO();
-        assertDoesNotThrow(() -> assertTrue(boardService.deleteBoard(deleteBoard)));
+        assertDoesNotThrow(() -> assertTrue(boardService.deleteBoard(deleteBoard.getBno())));
         assertFalse(boardJpaRepository.findById(deleteBoard.getBoardId()).isPresent());
         assertFalse(
             // ElasticSearch와 동기화 되었는지 확인.
-            boardElasticSearchRepository.findById(
-                    BoardDocument.from(deleteBoard, boardIndexName).getBoardId())
+            boardElasticSearchRepository.findById(deleteBoard.getBno())
                 .isPresent());
     }
 
