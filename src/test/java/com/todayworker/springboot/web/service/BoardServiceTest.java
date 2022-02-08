@@ -89,6 +89,7 @@ public class BoardServiceTest {
         "user111",
         DateUtils.getDatetimeString(),
         0L,
+        false,
         null
     );
 
@@ -176,6 +177,7 @@ public class BoardServiceTest {
                 "user111",
                 DateUtils.getDatetimeString(),
                 0L,
+                false,
                 null
             ),
             savedBoard
@@ -192,6 +194,7 @@ public class BoardServiceTest {
                 "user111",
                 DateUtils.getDatetimeString(),
                 savedRootComment.getCommentId(),
+                false,
                 null
             ),
             savedBoard
@@ -208,6 +211,85 @@ public class BoardServiceTest {
             () -> assertEquals(1L, boardResult.getCnt()),
             () -> assertEquals(savedRootComment.getCommentId(),
                 boardResult.getCommentList().get(0).getCommentId()),
+            () -> assertEquals(savedNestedComment.getCommentId(),
+                boardResult.getCommentList().get(0).getNestedReplies().get(0).getCommentId())
+        );
+        ;
+
+        // TODO : ElasticSearch와 동기화 되었는지 확인코드 작성 필요
+    }
+
+    @Test
+    @DisplayName("게시글 단건 조회는 성공해야 하고, 삭제 된 댓글 및 대댓글도 정상 처리 되어야 한다.")
+    @Transactional
+    public void findOneBoard3_success() {
+        BoardEntity savedBoard = boardJpaRepository.save(BoardEntity.fromBoardVO(testBoard));
+        CommentEntity rootComment1 = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴",
+                "user111",
+                DateUtils.getDatetimeString(),
+                0L,
+                false,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity rootComment2 = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴2",
+                "user111",
+                DateUtils.getDatetimeString(),
+                0L,
+                false,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity savedRootComment = commentJpaRepository.save(rootComment1);
+        commentJpaRepository.save(rootComment2);
+
+        CommentEntity nestedComment = CommentEntity.fromReplyVO(
+            new ReplyVO(
+                null,
+                testBoard.getBno(),
+                UuidUtils.generateNoDashUUID(),
+                "댓굴",
+                "user111",
+                DateUtils.getDatetimeString(),
+                savedRootComment.getCommentId(),
+                false,
+                null
+            ),
+            savedBoard
+        );
+
+        CommentEntity savedNestedComment = commentJpaRepository.save(nestedComment);
+
+        BoardVO searchedBoardVO = savedBoard.convertToBoardVO();
+
+        // 대댓글 있는 Root댓글 삭제처리
+        rootComment1.changeStatusToDeleted();
+
+        commentJpaRepository.save(rootComment1);
+
+        BoardVO boardResult = boardService.getBoard(searchedBoardVO);
+
+        assertAll(
+            () -> assertEquals(testBoard.getTitle(), boardResult.getTitle()),
+            () -> assertEquals(1L, boardResult.getCnt()),
+            () -> assertEquals(savedRootComment.getCommentId(),
+                boardResult.getCommentList().get(0).getCommentId()),
+            () -> assertTrue(boardResult.getCommentList().get(0).getIsDeleted()),
+            () -> assertEquals("삭제된 댓글 입니다.", boardResult.getCommentList().get(0).getContent()),
             () -> assertEquals(savedNestedComment.getCommentId(),
                 boardResult.getCommentList().get(0).getNestedReplies().get(0).getCommentId())
         );
