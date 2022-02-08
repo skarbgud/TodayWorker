@@ -68,6 +68,7 @@ public class BoardService implements BoardServiceIF {
                 BoardErrorCode.of(HttpStatus.NOT_FOUND, BoardErrorCode.NON_EXIST_BOARD,
                     "[bno : " + bno + "]")))
             .convertToBoardVO()
+            .filterDeletedCommentList()
             .arrangeCommentList();
     }
 

@@ -248,6 +248,7 @@ public class BoardControllerTest {
                             "user22",
                             DateUtils.getDatetimeString(),
                             0L,
+                            false,
                             null
                         ),
                         new ReplyVO(
@@ -258,6 +259,7 @@ public class BoardControllerTest {
                             "user22",
                             DateUtils.getDatetimeString(),
                             0L,
+                            false,
                             null
                         ),
                         new ReplyVO(
@@ -268,6 +270,7 @@ public class BoardControllerTest {
                             "user22",
                             DateUtils.getDatetimeString(),
                             0L,
+                            false,
                             null
                         )
                     )
@@ -412,6 +415,7 @@ public class BoardControllerTest {
             "user1",
             DateUtils.getDatetimeString(),
             0L,
+            false,
             null
         );
 
@@ -442,6 +446,7 @@ public class BoardControllerTest {
             "user1",
             DateUtils.getDatetimeString(),
             0L,
+            false,
             null
         );
 
@@ -472,6 +477,7 @@ public class BoardControllerTest {
             "user1",
             DateUtils.getDatetimeString(),
             0L,
+            false,
             null
         );
 

@@ -102,6 +102,7 @@ public class DummyDataCreator {
                 "user111",
                 DateUtils.getDatetimeString(),
                 0L,
+                false,
                 null
             ))
             .limit(5)
@@ -122,6 +123,7 @@ public class DummyDataCreator {
                     "user111",
                     DateUtils.getDatetimeString(),
                     testRootCommentList.stream().findFirst().get().getCommentId(),
+                    false,
                     null
                 ))
                 .limit(1)
@@ -146,6 +148,7 @@ public class DummyDataCreator {
                     "user111",
                     DateUtils.getDatetimeString(),
                     nestedCommentId,
+                    false,
                     null
                 ))
                 .limit(1)
