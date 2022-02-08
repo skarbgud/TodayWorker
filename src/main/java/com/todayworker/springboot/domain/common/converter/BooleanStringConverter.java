@@ -1,9 +1,9 @@
 package com.todayworker.springboot.domain.common.converter;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Convert;
+import javax.persistence.Converter;
 
-@Convert
+@Converter
 public class BooleanStringConverter implements AttributeConverter<Boolean, String> {
 
     @Override
