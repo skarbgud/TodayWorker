@@ -6,6 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface BoardElasticSearchRepository extends
-        ElasticsearchRepository<BoardDocument, String> {
+    ElasticsearchRepository<BoardDocument, String> {
+
     Page<BoardDocument> findAllByOrderByRegDateDesc(Pageable pageable);
+
+    Page<BoardDocument> findBoardDocumentByContentContains(String content, Pageable pageable);
+
+    Page<BoardDocument> findByContentIgnoreCase(String content, Pageable pageable);
 }

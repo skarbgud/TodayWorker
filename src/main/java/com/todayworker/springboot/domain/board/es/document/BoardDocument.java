@@ -26,8 +26,8 @@ public class BoardDocument {
     private String title;
     @Field(type = FieldType.Text)
     private String content;
-    @Field(type = FieldType.Integer)
-    private long cnt;
+    @Field(type = FieldType.Long)
+    private Long cnt;
     @Field(type = FieldType.Text)
     private String user;
     @Field(type = FieldType.Text)
@@ -42,6 +42,28 @@ public class BoardDocument {
             vo.getCnt(),
             vo.getUser(),
             vo.getRegDate()
+        );
+    }
+
+    public static BoardDocument of(
+        String boardId,
+        String bno,
+        String categoryName,
+        String title,
+        String content,
+        Long cnt,
+        String user,
+        String regDate
+    ) {
+        return new BoardDocument(
+            boardId,
+            bno,
+            categoryName,
+            title,
+            content,
+            cnt,
+            user,
+            regDate
         );
     }
 }
