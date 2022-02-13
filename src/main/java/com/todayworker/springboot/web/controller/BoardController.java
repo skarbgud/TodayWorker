@@ -1,12 +1,14 @@
 package com.todayworker.springboot.web.controller;
 
+import com.todayworker.springboot.domain.board.es.document.BoardDocument;
+import com.todayworker.springboot.domain.board.vo.BoardSearchRequest;
 import com.todayworker.springboot.domain.board.vo.BoardVO;
 import com.todayworker.springboot.domain.board.vo.ReplyVO;
 import com.todayworker.springboot.domain.common.dto.PageableRequest;
+import com.todayworker.springboot.web.service.BoardSearchServiceIF;
 import com.todayworker.springboot.web.service.BoardServiceIF;
 import com.todayworker.springboot.web.service.CommentServiceIF;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor // 생성자 주입 어노테이션 => final 필드 변수
@@ -24,6 +28,8 @@ public class BoardController {
     private static final Logger LOG = LoggerFactory.getLogger(BoardController.class);
 
     private final BoardServiceIF boardService;
+
+    private final BoardSearchServiceIF boardSearchService;
 
     private final CommentServiceIF commentService;
 
@@ -60,6 +66,13 @@ public class BoardController {
     public boolean deleteBoard(@RequestBody BoardVO vo) {
         LOG.info("DeleteBoard");
         return boardService.deleteBoard(vo);
+    }
+
+    @ApiOperation(value = "게시글 검색(search)")
+    @PostMapping(value = "search-board.do")
+    public List<BoardDocument> searchBoard(@RequestBody BoardSearchRequest request) {
+        LOG.info("SearchBoard");
+        return boardSearchService.searchBoardWithContent(request.getContent(), request.getPaging());
     }
 
     @ApiOperation(value = "댓글 등록(create)")

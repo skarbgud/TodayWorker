@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import boardApi from '@/api/board/index';
+
 export default {
   name: 'SearchForm',
   data() {
@@ -24,9 +26,34 @@ export default {
       search: '',
     };
   },
+  computed: {
+    setParams() {
+      const params = {
+        content: '',
+        paging: {
+          fromIndex: 0,
+          pageSize: 10,
+        },
+      };
+      return params;
+    },
+  },
   methods: {
     submit(search) {
-      console.log(`${search}검색`);
+      this.setParams.content = search;
+      boardApi
+        .searchBoard(this.setParams)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            this.$store.dispatch("POST", response.data)
+          } else {
+            console.log('데이터 불러오기 실패');
+          }
+        })
+        .catch((error) => {
+          this.$message.error(error.response.data.errorMessage);
+        });
     },
     reset() {
       //검색 초기화 버튼(claerable)

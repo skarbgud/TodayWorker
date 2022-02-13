@@ -44,7 +44,7 @@ export default {
     return {
       loading: false,
       boardPath: '',
-      post: [],
+      // post: [],
     };
   },
   computed: {
@@ -56,6 +56,9 @@ export default {
         categories: this.$route.params.board,
       };
       return params;
+    },
+    post() {
+      return this.$store.state.post;
     },
   },
   methods: {
@@ -83,6 +86,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.post = this.post.concat(response.data);
+            this.$store.dispatch("POST", post);
             $state.loaded();
             this.setParams.fromIndex += 10;
             if (response.data.length == 0) {

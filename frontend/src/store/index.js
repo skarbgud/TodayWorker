@@ -8,6 +8,7 @@ export default new Vuex.Store({
         email: '',
         name: '',
         picture: '',
+        post: [],
     },
     getters: {
         getEmail(state) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
         },
         getPicture(state) {
             return state.picture;
+        },
+        getPost(state) {
+            return state.post;
         }
     },
     mutations: {
@@ -30,6 +34,9 @@ export default new Vuex.Store({
             state.email = null;
             state.name = null;
             state.picture = null;
+        },
+        POST(state, postData) {
+            state.post = postData;
         }
     },
     actions: {
@@ -38,6 +45,9 @@ export default new Vuex.Store({
         },
         LOGOUT({commit}) {
             commit("LOGOUT")
+        },
+        POST({commit}, postData) {
+            commit("POST", postData);
         },
     }
 })

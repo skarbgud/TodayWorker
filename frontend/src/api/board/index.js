@@ -21,5 +21,9 @@ export default {
   // 게시판 > 삭제
   deleteBoard(params) {
     return axios.post(`${baseUrl}/board/delete-board.do`, params);
+  },
+  // 게시판 > 검색
+  searchBoard(params) {
+    return axios.post(`${baseUrl}/board/search-board.do`, params);
   }
 }
