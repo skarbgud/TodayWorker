@@ -45,8 +45,7 @@ export default {
         .searchBoard(this.setParams)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
-            this.$store.dispatch("POST", response.data)
+            this.$store.dispatch("POST", response.data);
           } else {
             console.log('데이터 불러오기 실패');
           }

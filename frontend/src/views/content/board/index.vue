@@ -13,7 +13,7 @@
         >
           <b-col class="pr-0 pl-0" v-for="(title, index) in getPost" :key="index">
             <card-list
-              :post="post[index]"
+              :post="getPost[index]"
               @click="goDetailRouter(index)"
             ></card-list>
           </b-col>
