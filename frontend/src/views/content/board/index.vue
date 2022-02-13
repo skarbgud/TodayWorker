@@ -11,7 +11,7 @@
           cols-md="2"
           cols-lg="2"
         >
-          <b-col class="pr-0 pl-0" v-for="(title, index) in post" :key="index">
+          <b-col class="pr-0 pl-0" v-for="(title, index) in getPost" :key="index">
             <card-list
               :post="post[index]"
               @click="goDetailRouter(index)"
@@ -44,7 +44,7 @@ export default {
     return {
       loading: false,
       boardPath: '',
-      // post: [],
+      post: [],
     };
   },
   computed: {
@@ -57,7 +57,7 @@ export default {
       };
       return params;
     },
-    post() {
+    getPost() {
       return this.$store.state.post;
     },
   },
@@ -86,7 +86,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.post = this.post.concat(response.data);
-            this.$store.dispatch("POST", post);
+            this.$store.dispatch("POST", this.post);
             $state.loaded();
             this.setParams.fromIndex += 10;
             if (response.data.length == 0) {
